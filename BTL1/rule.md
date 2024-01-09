@@ -1,0 +1,2 @@
+# Luật chơi
+### Thành phần
