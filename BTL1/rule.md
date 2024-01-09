@@ -32,7 +32,7 @@ Trước mỗi ván game, người chơi được quyền lựa chọn giữa c�
     - Giảm thời gian hiệu ứng của vật phẩm 3 còn 2.5 giây.
     - Giảm số điểm bị mất của vật phẩm 4 còn 300 điểm.
 
-# Cấp độ
+## Cấp độ
 
 - **Dễ:** Thời gian zombie xuất hiện dài, được sử dụng bất kỳ loại trang bị nào.
 - **Trung bình:** Thời gian zombie xuất hiện ngắn, được sử dụng bất kỳ loại trang bị nào.
