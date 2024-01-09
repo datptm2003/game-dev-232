@@ -30,7 +30,7 @@ Trước mỗi ván game, người chơi được quyền lựa chọn giữa c�
 - **Búa thép:** Như búa gỗ, nhưng có thể loại bỏ hiệu ứng bất lợi của zombie nổ nếu đập bằng chuột phải.
 - **Búa sấm sét:** Như búa thép, nhưng có thể giảm 50% hiệu ứng xấu từ bùa hại.
     - Giảm thời gian hiệu ứng của vật phẩm 3 còn 2.5 giây.
-    - Giảm số điểm bị mất còn 300 điểm.
+    - Giảm số điểm bị mất của vật phẩm 4 còn 300 điểm.
 
 # Cấp độ
 
