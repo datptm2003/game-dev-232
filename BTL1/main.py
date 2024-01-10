@@ -101,13 +101,13 @@ class GameContainer:
         
     def isHit(self, mousePosition):
         mouseX, mouseY = mousePosition
-        
+
         for i in range(len(self.zombieTimes)):
             if self.zombieTimes[i][0] != -1 and self.zombieTimes[i][1] == False:
                 if mouseY > 360 and mouseY < 510:
                     for j in range(5):
                         if  mouseX > self.holePosition[j][0] and \
-                            mouseX < (self.holePosition[j][0] + self.CHARACTER_WIDTH):
+                            mouseX < (self.holePosition[j][0] + self.CHARACTER_WIDTH) and i == j:
                             self.zombieTimes[i][1] = True
                             self.zombieTimes[i][0] = pygame.time.get_ticks()
                             self.score += 1
@@ -115,7 +115,7 @@ class GameContainer:
                 elif mouseY > 515 and mouseY < 665:
                     for j in range(5, 10):
                         if  mouseX > self.holePosition[j][0] and \
-                            mouseX < (self.holePosition[j][0] + self.CHARACTER_WIDTH):
+                            mouseX < (self.holePosition[j][0] + self.CHARACTER_WIDTH) and i == j:
                             self.zombieTimes[i][1] = True
                             self.zombieTimes[i][0] = pygame.time.get_ticks()
                             self.score += 1
