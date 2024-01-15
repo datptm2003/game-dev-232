@@ -216,6 +216,13 @@ class GameContainer:
         with open('score.json', 'w') as file:
             json.dump(self.score, file)
 
+    def loadScore(self):
+        try:
+            with open('score.json', 'r') as file:
+                score = json.load(file)
+        except FileNotFoundError:
+            return 0
+        return score
 
     def start(self):
         clock = pygame.time.Clock()
@@ -237,6 +244,7 @@ class GameContainer:
         play_box = pygame.Rect(450, 305, 380, 110)
 
         running = True
+        self.score += self.loadScore()
         
         # randomZombieThread = threading.Thread(target=self.randomZombie, args=(1,))
         # randomZombieThread.start()
