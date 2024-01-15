@@ -1,6 +1,8 @@
 # Example file showing a basic pygame "game loop"
 import pygame
 import random
+import json
+
 
 class BackGround:
     def __init__(self):
@@ -210,6 +212,11 @@ class GameContainer:
             self.SCREEN_WIDTH - 80, self.FONT_TOP_MARGIN * 5)
         self.screen.blit(missText, missTextPosition)
     
+    def saveScore(self):
+        with open('score.json', 'w') as file:
+            json.dump(self.score, file)
+
+
     def start(self):
         clock = pygame.time.Clock()
         
@@ -319,8 +326,10 @@ class GameContainer:
 
             # flip() the display to put your work on screen
             pygame.display.flip()
+            self.saveScore()
 
             clock.tick(60)  # limits FPS to 60
+
 
 
 # pygame setup
