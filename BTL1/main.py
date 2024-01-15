@@ -51,7 +51,7 @@ class GameContainer:
         self.font_coor = pygame.font.SysFont('comicsansms', 14)
         
         # Change mouse
-        self.mouseImage = pygame.image.load("./images/mouse1.png")
+        self.mouseImage = pygame.image.load("./images/steelHammer2.png")
         self.mouseImage_rect = self.mouseImage.get_rect()
         
         # Add effectively when hitting
