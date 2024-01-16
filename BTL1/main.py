@@ -1,6 +1,6 @@
 # Example file showing a basic pygame "game loop"
 import pygame
-import pygame_menu as pm
+# import pygame_menu as pm
 import random
 
 class Background:
@@ -52,11 +52,11 @@ class GameContainer:
         self.font_coor = pygame.font.SysFont('comicsansms', 14)
         
         # Change mouse
-        self.mouseImage = pygame.image.load("./BTL1/assets/mouse1.png")
+        self.mouseImage = pygame.image.load("./BTL1/assets/sprites/mouse1.png")
         self.mouseImage_rect = self.mouseImage.get_rect()
         
         # Add effectively when hitting
-        self.lazeImage = pygame.image.load("./BTL1/assets/laze1.png")
+        self.lazeImage = pygame.image.load("./BTL1/assets/sprites/laze1.png")
         self.lazeImage_rect = self.lazeImage.get_rect()
         
         self.speed = 1
