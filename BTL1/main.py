@@ -11,12 +11,12 @@ class BackGround:
 
 class Character:
     def __init__(self):
-        self.img_character_1 = pygame.image.load('./images/mole_11.png')
-        self.img_character_2 = pygame.image.load('./images/mole_12.png')
-        self.img_character_3 = pygame.image.load('./images/mole_1.png')
-        self.img_character_4 = pygame.image.load('./images/mole_2.png')
-        self.img_character_5 = pygame.image.load('./images/mole_21.png')
-        self.img_character_6 = pygame.image.load('./images/mole_22.png')
+        self.img_character_1 = pygame.image.load('./images/masterzum_11.png')
+        self.img_character_2 = pygame.image.load('./images/masterzum_12.png')
+        self.img_character_3 = pygame.image.load('./images/masterzum_1.png')
+        self.img_character_4 = pygame.image.load('./images/masterzum_2.png')
+        self.img_character_5 = pygame.image.load('./images/masterzum_21.png')
+        self.img_character_6 = pygame.image.load('./images/masterzum_22.png')
         self.data = []
         self.data.append(self.img_character_1.subsurface(0, 0, 80, 90))
         self.data.append(self.img_character_2.subsurface(0, 0, 80, 90))
