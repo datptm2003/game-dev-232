@@ -1,6 +1,7 @@
 import pygame, os
 from states.State import State
 from states.Playground import Playground
+from RWFile import HandleFile
 
 class OptionMenu(State):
     def __init__(self, game):
@@ -14,80 +15,117 @@ class OptionMenu(State):
         self.steel_cur_color = "White"
         self.thunder_cur_color = "White"
         
-        self.level = 1
-        self.hammer = 1
-
-    def update(self, delta_time, actions, mouse_pos):
-        if actions["left"] and self.confirm_button.checkForInput(mouse_pos):
-            new_state = Playground(self.game)
-            new_state.enter_state()
-        elif actions["left"] and self.easy_level_button.checkForInput(mouse_pos):
-            self.easy_cur_color = self.easy_level_button.hovering_color
-            self.medium_cur_color = "white"
-            self.hard_cur_color = "White"
-            self.level = 1
-        elif actions["left"] and self.medium_level_button.checkForInput(mouse_pos):
-            self.easy_cur_color = "White"
-            self.medium_cur_color = self.medium_level_button.hovering_color
-            self.hard_cur_color = "White"
-            self.level = 2
-        elif actions["left"] and self.hard_level_button.checkForInput(mouse_pos):
-            self.easy_cur_color = "White"
-            self.medium_cur_color = "White"
-            self.hard_cur_color = self.hard_level_button.hovering_color
-            self.level = 3
-
-        if actions["left"] and self.wood_hammer_button.checkForInput(mouse_pos):
-            self.wood_cur_color = self.wood_hammer_button.hovering_color
-            self.steel_cur_color = "white"
-            self.thunder_cur_color = "White"
-            self.hammer = 1
-        elif actions["left"] and self.steel_hammer_button.checkForInput(mouse_pos):
-            self.wood_cur_color = "White"
-            self.steel_cur_color = self.steel_hammer_button.hovering_color
-            self.thunder_cur_color = "White"
-            self.hammer = 2
-        elif actions["left"] and self.thunder_hammer_button.checkForInput(mouse_pos):
-            self.wood_cur_color = "White"
-            self.steel_cur_color = "white"
-            self.thunder_cur_color = self.thunder_hammer_button.hovering_color
-            self.hammer = 3
-        self.game.reset_keys()
+        self.level_easy_box = pygame.Rect(100, 150, 350, 100)
+        self.level_medium_box = pygame.Rect(100, 250, 350, 100)
+        self.level_hard_box = pygame.Rect(100, 350, 350, 100)
+        # self.level
         
+        self.weapon_wood_box = pygame.Rect(780, 150, 400, 100)
+        self.weapon_steel_box = pygame.Rect(780, 250, 400, 100)
+        self.weapon_thunder_box = pygame.Rect(780, 350, 400, 100)
+        
+        self.start_game_box = pygame.Rect(390, 550, 500, 100)
+        
+        self.back_box = pygame.Rect(125, 45, 200, 75)
+        
+        self.level_bg = 1
+        self.level_bg_hover = None
+        self.weapon_bg = 1
+        self.weapon_bg_hover = None
+        self.start_game_bg = False
+        self.back_bg = 1
+        
+        self.weapons = HandleFile.loadScore(self.game.assets_dir, "weapon.json")
+
+    def update(self, actions, screen):
+        if actions["start"] or actions["left"] and self.level_easy_box.collidepoint(pygame.mouse.get_pos()):
+            self.level_bg = 1
+        elif actions["start"] or actions["left"] and self.level_medium_box.collidepoint(pygame.mouse.get_pos()):
+            self.level_bg = 2
+        elif actions["start"] or actions["left"] and self.level_hard_box.collidepoint(pygame.mouse.get_pos()):
+            self.level_bg = 3
+        elif self.level_easy_box.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.level_bg_hover = 1
+        elif self.level_medium_box.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.level_bg_hover = 2
+        elif self.level_hard_box.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.level_bg_hover = 3
+        else:
+            self.level_bg_hover = None
+
+        if actions["start"] or actions["left"] and self.weapon_wood_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["wooden"] == 2:
+            self.weapon_bg = 1
+        elif actions["start"] or actions["left"] and self.weapon_steel_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["steel"] == 2:
+            self.weapon_bg = 2
+        elif actions["start"] or actions["left"] and self.weapon_thunder_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["thunder"] == 2:
+            self.weapon_bg = 3
+        elif self.weapon_wood_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["wooden"] == 2:
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.weapon_bg_hover = 1
+        elif self.weapon_steel_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["steel"] == 2:
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.weapon_bg_hover = 2
+        elif self.weapon_thunder_box.collidepoint(pygame.mouse.get_pos()) and self.weapons["thunder"] == 2:
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.weapon_bg_hover = 3
+        else:
+            self.weapon_bg_hover = None
+        
+        if actions["start"] or actions["left"] and self.start_game_box.collidepoint(pygame.mouse.get_pos()):
+            newState = Playground(self.game, self.level_bg, self.weapon_bg)
+            newState.enter_state()
+        elif self.start_game_box.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.start_game_bg = True
+        else:
+            self.start_game_bg = False
+            
+        if actions["start"] or actions["left"] and self.back_box.collidepoint(pygame.mouse.get_pos()):
+            self.exit_state()
+        elif self.back_box.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(pygame.cursors.broken_x)
+            self.back_bg = 2
+        else:
+            self.back_bg = 1
+        self.game.reset_keys()
+
     def render(self, display):
         if self.img_background is None:
-            self.img_background = pygame.image.load(os.path.join(self.game.background_dir, "backgroundStartGame.png"))
-        display.blit(self.img_background, (0,0))
-		
-        self.confirm_button = Button(image=None, pos=(650, 550), text_input="Confirm", font=self.game.medium_font, base_color="White", hovering_color="Orange")
-        self.confirm_button.changeColor(pygame.mouse.get_pos())
-        self.confirm_button.update(display)
-        
-        self.easy_level_button = Button(image=None, pos=(350, 270), text_input="Easy", font=self.game.medium_font, base_color=self.easy_cur_color, hovering_color="Green")
-        self.easy_level_button.changeColor(pygame.mouse.get_pos())
-        self.easy_level_button.update(display)
-		
-        self.medium_level_button = Button(image=None, pos=(350, 320), text_input="Medium", font=self.game.medium_font, base_color=self.medium_cur_color, hovering_color="Green")
-        self.medium_level_button.changeColor(pygame.mouse.get_pos())
-        self.medium_level_button.update(display)
-		
-        self.hard_level_button = Button(image=None, pos=(350, 370), text_input="Hard", font=self.game.medium_font, base_color=self.hard_cur_color, hovering_color="Green")
-        self.hard_level_button.changeColor(pygame.mouse.get_pos())
-        self.hard_level_button.update(display)
-		
-        self.wood_hammer_button = Button(image=None, pos=(950, 270), text_input="Wood", font=self.game.medium_font, base_color=self.wood_cur_color, hovering_color="Yellow")
-        self.wood_hammer_button.changeColor(pygame.mouse.get_pos())
-        self.wood_hammer_button.update(display)
-		
-        self.steel_hammer_button = Button(image=None, pos=(950, 320), text_input="Steel", font=self.game.medium_font, base_color=self.steel_cur_color, hovering_color="Blue")
-        self.steel_hammer_button.changeColor(pygame.mouse.get_pos())
-        self.steel_hammer_button.update(display)
-		
-        self.thunder_hammer_button = Button(image=None, pos=(950, 370), text_input="Thunder", font=self.game.medium_font, base_color=self.thunder_cur_color, hovering_color="Red")
-        self.thunder_hammer_button.changeColor(pygame.mouse.get_pos())
-        self.thunder_hammer_button.update(display)
-    
+            self.img_background = pygame.image.load(os.path.join(self.game.background_dir, "Menu.png"))
 
+        display.blit(self.img_background, (0,0))
+        if self.level_bg_hover is not None:
+            imageName = "Level_" + str(self.level_bg_hover) + "_2.png"
+            imagePos = (100, int(50 + self.level_bg_hover * 100))
+            level_image = pygame.image.load(os.path.join(self.game.background_dir, imageName))
+            display.blit(level_image, imagePos)
+        
+        if self.level_bg is not None:
+            imageName = "Level_" + str(self.level_bg) + "_2.png"
+            imagePos = (100, int(50 + self.level_bg * 100))
+            level_image = pygame.image.load(os.path.join(self.game.background_dir, imageName))
+            display.blit(level_image, imagePos)
+            
+        if self.weapon_bg_hover is not None:
+            imageName = "Weapon_" + str(self.weapon_bg_hover) + "_2.png"
+            imagePos = (780, int(50 + self.weapon_bg_hover * 100))
+            level_image = pygame.image.load(os.path.join(self.game.background_dir, imageName))
+            display.blit(level_image, imagePos)
+        
+        if self.weapon_bg is not None:
+            imageName = "Weapon_" + str(self.weapon_bg) + "_2.png"
+            imagePos = (780, int(50 + self.weapon_bg * 100))
+            level_image = pygame.image.load(os.path.join(self.game.background_dir, imageName))
+            display.blit(level_image, imagePos)
+            
+        if self.start_game_bg:
+            display.blit(pygame.image.load(os.path.join(self.game.background_dir, "StartGame2.png")), (390, 550))
+        
+        imageName = "Back_" + str(self.back_bg) + ".png"
+        display.blit(pygame.image.load(os.path.join(self.game.background_dir, imageName)), (125, 45))
 
 class Button:
 	def __init__(self, image, pos, text_input, font, base_color, hovering_color):

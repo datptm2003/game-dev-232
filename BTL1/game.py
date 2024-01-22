@@ -18,7 +18,7 @@ class Game():
 
         self.game_canvas = pygame.Surface((self.SCREEN_WIDTH,self.SCREEN_HEIGHT))
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH,self.SCREEN_HEIGHT))
-        
+
         self.running, self.playing = True, True
         self.actions = {"left": False, "right": False, "pause" : False, "start" : False}
         self.mouse_pos = (0,0)
@@ -68,7 +68,7 @@ class Game():
                 self.mouse_pos = (0,0)
 
     def update(self):
-        self.state_stack[-1].update(self.dt,self.actions,self.mouse_pos)
+        self.state_stack[-1].update(self.actions, self.screen)
 
     def render(self):
         self.state_stack[-1].render(self.game_canvas)
@@ -90,14 +90,15 @@ class Game():
 
     def load_assets(self):
         # Create pointers to directories 
-        self.assets_dir = os.path.join("BTL1\\assets")
+        self.assets_dir = os.path.join("./BTL1/assets")
         self.background_dir = os.path.join(self.assets_dir, "background")
         self.sprite_dir = os.path.join(self.assets_dir, "sprites")
         self.font_dir = os.path.join(self.assets_dir, "fonts")
         self.huge_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 70)
         self.large_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 50)
         self.medium_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 30)
-        self.small_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 10)
+        self.medium_rare_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 25)
+        self.small_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 15)
 
     def load_states(self):
         self.title_screen = Title(self)
@@ -106,7 +107,6 @@ class Game():
     def reset_keys(self):
         for action in self.actions:
             self.actions[action] = False
-
 
 if __name__ == "__main__":
     g = Game()

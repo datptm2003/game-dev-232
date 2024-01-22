@@ -297,12 +297,12 @@ class GameContainer:
                     self.inGame = True
                     self.startTime = pygame.time.get_ticks()
                     self.startTimeToAddNewZombie = pygame.time.get_ticks()
-                    
+
             else:
                 # Update
                 self.screen.blit(self.bg.img_background, (0, 0))
                 pygame.mouse.set_visible(False)
-                
+
                 # Lấy vị trí chuột
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
