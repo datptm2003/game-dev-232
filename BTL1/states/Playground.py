@@ -403,12 +403,12 @@ class Zombie:
             self.lose_point = 0
             self.explosion = False
             self.images = [
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_11.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_12.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_1.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_2.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_22.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "person_21.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_11.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_12.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_1.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_2.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_22.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "human_21.png")),
             ]
         else:
             self.num_hit = 0
