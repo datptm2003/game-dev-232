@@ -1,22 +1,23 @@
 # Example file showing a basic pygame "game loop"
 import pygame
+# import pygame_menu as pm
 import random
 
-class BackGround:
+class Background:
     def __init__(self):
-        self.img_background = pygame.image.load('./images/backgroundInit1.png')
+        self.img_background = pygame.image.load('./BTL1/assets/backgroundInit1.png')
 
     def start(self):
-        self.img_background = pygame.image.load('./images/backgroundStartGame.png')
+        self.img_background = pygame.image.load('./BTL1/assets/backgroundStartGame.png')
 
 class Character:
     def __init__(self):
-        self.img_character_1 = pygame.image.load('./images/mole_11.png')
-        self.img_character_2 = pygame.image.load('./images/mole_12.png')
-        self.img_character_3 = pygame.image.load('./images/mole_1.png')
-        self.img_character_4 = pygame.image.load('./images/mole_2.png')
-        self.img_character_5 = pygame.image.load('./images/mole_21.png')
-        self.img_character_6 = pygame.image.load('./images/mole_22.png')
+        self.img_character_1 = pygame.image.load('./BTL1/assets/mole_11.png')
+        self.img_character_2 = pygame.image.load('./BTL1/assets/mole_12.png')
+        self.img_character_3 = pygame.image.load('./BTL1/assets/mole_1.png')
+        self.img_character_4 = pygame.image.load('./BTL1/assets/mole_2.png')
+        self.img_character_5 = pygame.image.load('./BTL1/assets/mole_21.png')
+        self.img_character_6 = pygame.image.load('./BTL1/assets/mole_22.png')
         self.data = []
         self.data.append(self.img_character_1.subsurface(0, 0, 80, 90))
         self.data.append(self.img_character_2.subsurface(0, 0, 80, 90))
@@ -51,11 +52,11 @@ class GameContainer:
         self.font_coor = pygame.font.SysFont('comicsansms', 14)
         
         # Change mouse
-        self.mouseImage = pygame.image.load("./images/steelHammer2.png")
+        self.mouseImage = pygame.image.load("./BTL1/assets/sprites/mouse1.png")
         self.mouseImage_rect = self.mouseImage.get_rect()
         
         # Add effectively when hitting
-        self.lazeImage = pygame.image.load("./images/laze1.png")
+        self.lazeImage = pygame.image.load("./BTL1/assets/sprites/laze1.png")
         self.lazeImage_rect = self.lazeImage.get_rect()
         
         self.speed = 1
@@ -93,7 +94,7 @@ class GameContainer:
         pygame.display.set_caption(self.GAME_TITLE)
         
         # Background
-        self.bg = BackGround()
+        self.bg = Background()
         self.screen.blit(self.bg.img_background, (0, 0))
         
         # Character
@@ -129,7 +130,7 @@ class GameContainer:
                 self.zombieTimes[zombieRandom][0] = pygame.time.get_ticks()
                 
     def updateZombie(self):
-        self.screen.blit(pygame.image.load('./images/holes.png'), (0, 300))
+        self.screen.blit(pygame.image.load('./BTL1/assets/holes.png'), (0, 300))
         for index in range(len(self.zombieTimes)):
             if (self.zombieTimes[index][0] == -1): 
                 continue
@@ -178,7 +179,7 @@ class GameContainer:
                 self.screen.blit(self.lazeImage, (lazeIndexes[index][0], lazeIndexes[index][1]))
 
     def update(self):
-        self.screen.blit(pygame.image.load('./images/timeContainer.png'), (1080, 0))
+        self.screen.blit(pygame.image.load('./BTL1/assets/timeContainer.png'), (1080, 0))
         # Update time
         self.remainingTime = int(self.timing - (pygame.time.get_ticks() - self.startTime) / 1000)
         if (self.remainingTime >= 0):
@@ -265,20 +266,20 @@ class GameContainer:
                     if hover == 0:
                         pygame.mouse.set_cursor(pygame.cursors.broken_x)
                         self.bg.img_background = pygame.image.load(
-                            './images/backgroundInit2.png')
+                            './BTL1/assets/backgroundInit2.png')
                         self.screen.blit(self.bg.img_background, (0, 0))
                         hover = 1
                 else:
                     if hover == 1:
                         pygame.mouse.set_cursor(pygame.cursors.arrow)
                         self.bg.img_background = pygame.image.load(
-                            './images/backgroundInit1.png')
+                            './BTL1/assets/backgroundInit1.png')
                         self.screen.blit(self.bg.img_background, (0, 0))
                         hover = 0
             elif self.inGame == False:
                 self.bg.start()
                 self.screen.blit(self.bg.img_background, (0, 0))
-                
+
                 fontCountdown = pygame.font.SysFont('comicsansms', 72)
                 
                 self.countdownTime = int(self.countdown - (pygame.time.get_ticks() - self.startTime) / 1000)
@@ -296,12 +297,12 @@ class GameContainer:
                     self.inGame = True
                     self.startTime = pygame.time.get_ticks()
                     self.startTimeToAddNewZombie = pygame.time.get_ticks()
-                    
+
             else:
                 # Update
                 self.screen.blit(self.bg.img_background, (0, 0))
                 pygame.mouse.set_visible(False)
-                
+
                 # Lấy vị trí chuột
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
