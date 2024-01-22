@@ -364,12 +364,12 @@ class Zombie:
             self.lose_point = 10
             self.explosion = False
             self.images = [
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_11.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_12.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_1.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_2.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_21.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "mole_22.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_11.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_12.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_1.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_2.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_21.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_22.png")),
             ]
         elif zombie_type == "explosive":
             self.num_hit = 2
