@@ -6,6 +6,7 @@ import json
 # from states.PauseMenu import PauseMenu
 
 class Playground(State):
+    animationOfThunder = []
     def __init__(self, game, level, weapon):
         State.__init__(self,game)
         self.SCREEN_WIDTH = 1280
@@ -30,7 +31,6 @@ class Playground(State):
         self.lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "laze1.png"))
         self.lazeImage_rect = self.lazeImage.get_rect()
         
-        self.animationOfThunder = []
         
     def saveScore(self):
         with open('score.json', 'w') as file:
@@ -58,24 +58,22 @@ class Playground(State):
                 # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
                 self.lazeImage_rect.x = mouse_x - self.lazeImage_rect.width / 1.65
                 self.lazeImage_rect.y = mouse_y - self.lazeImage_rect.height 
-                self.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
+                # print(self.lazeImage_rect.width,', ',self.lazeImage_rect.height)
+                Playground.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
         
         if self.startGame:
             self.mapHoles.update(actions, mouse_pos)
             pygame.mouse.set_visible(False)
             self.animate()
             
-            
-            
-
         self.game.reset_keys()
         pass
 
     def displayLaze(self, display):
-        for index in range(len(self.animationOfThunder)):
-            currentTime = float((pygame.time.get_ticks() - self.animationOfThunder[index][2]) / 1000)
-            if (currentTime > 0 and currentTime < 1):
-                display.blit(self.lazeImage, (self.animationOfThunder[index][0], self.animationOfThunder[index][1]))
+        for index in range(len(Playground.animationOfThunder)):
+            currentTime = float((pygame.time.get_ticks() - Playground.animationOfThunder[index][2]) / 1000)
+            if (currentTime > 0 and currentTime < 0.5):
+                display.blit(self.lazeImage, (Playground.animationOfThunder[index][0], Playground.animationOfThunder[index][1]))
     
     def animate(self):
         currentTime = float((pygame.time.get_ticks() - self.startTimeToClick) / 1000)
@@ -153,6 +151,14 @@ class MapHoles:
         self.miss = 0
         self.time = 31
         self.remainingTime = self.time
+        self.delayStartTime = pygame.time.get_ticks()
+        if self.weapon == 2:
+            self.delayTime = 1
+        elif self.weapon == 3:
+            self.delayTime = 0.5
+        else:
+            self.delayTime = 2
+        self.needDelay = False
 
         self.startTime = pygame.time.get_ticks()
         self.startTimeToAddNewZombie = pygame.time.get_ticks()
@@ -272,6 +278,12 @@ class MapHoles:
         self.renderTimer(display)
         
         pass
+    
+    def randomProb(self,prob):
+        r = random.random()
+        if r <= prob:
+            return True
+        return False
 
     def createNewZombie(self):
         distTime = 1
@@ -287,31 +299,60 @@ class MapHoles:
                 if self.level == 1:
                     zombieType = random.randint(0, 9)
                     if zombieType >= 0 and zombieType <= 4:
-                        self.zombies[newIndex][1] = Zombie(self.game, "normal")
+                        self.zombies[newIndex][1] = Zombie(self.game, "normal", self.weapon)
                     else:
-                        self.zombies[newIndex][1] = Zombie(self.game, "explosive")
+                        self.zombies[newIndex][1] = Zombie(self.game, "explosive", self.weapon)
                 elif self.level == 2:
                     zombieType = random.randint(0, 9)
                     if zombieType >= 0 and zombieType <= 3:
-                        self.zombies[newIndex][1] = Zombie(self.game, "normal")
+                        self.zombies[newIndex][1] = Zombie(self.game, "normal", self.weapon)
                     elif zombieType >= 4 and zombieType <= 6:
-                        self.zombies[newIndex][1] = Zombie(self.game, "explosive")
+                        self.zombies[newIndex][1] = Zombie(self.game, "explosive", self.weapon)
                     else:
-                        self.zombies[newIndex][1] = Zombie(self.game, "tough")
+                        self.zombies[newIndex][1] = Zombie(self.game, "tough", self.weapon)
                 else:
                     zombieType = random.randint(0, 9)
                     if zombieType >= 0 and zombieType <= 2:
-                        self.zombies[newIndex][1] = Zombie(self.game, "normal")
+                        self.zombies[newIndex][1] = Zombie(self.game, "normal", self.weapon)
                     elif zombieType >= 3 and zombieType <= 4:
-                        self.zombies[newIndex][1] = Zombie(self.game, "explosive")
+                        self.zombies[newIndex][1] = Zombie(self.game, "explosive", self.weapon)
                     elif zombieType >= 5 and zombieType <= 6:
-                        self.zombies[newIndex][1] = Zombie(self.game, "tough")
+                        self.zombies[newIndex][1] = Zombie(self.game, "tough", self.weapon)
                     else:
-                        self.zombies[newIndex][1] = Zombie(self.game, "human")
-        
-    def isHit(self, mousePosition):
-        mouseX, mouseY = mousePosition
+                        self.zombies[newIndex][1] = Zombie(self.game, "human", self.weapon)
+    
+    def applyEffect(self, index):
+        criticalStrike = False
+        if self.weapon == 3:
+            criticalStrike = self.randomProb(0.65)
+        elif self.weapon == 2:
+            criticalStrike = self.randomProb(0.4)
+        if criticalStrike:
+            curX, curY = pygame.mouse.get_pos()
+            lazeRectX = curX - 145 / 1.65
+            lazeRectY = curY - 166 
+            if curY > 360 and curY < 510 and curX - 222 >= 78 or curY > 515 and curY < 665 and curX - 222 >= 165:
+                if self.zombies[index-1][1] is not None and self.zombies[index-1][1].zombie_type == "human":
+                    self.isHit((curX - 222, curY),False)
+                else:
+                    self.isHit((curX - 222, curY),True)
+                Playground.animationOfThunder.append((lazeRectX - 222, lazeRectY, pygame.time.get_ticks()))
+            if curY > 360 and curY < 510 and curX + 222 <= 966 + self.CHARACTER_WIDTH or curY > 515 and curY < 665 and curX + 222 <= 1053 + self.CHARACTER_WIDTH:
+                if self.zombies[index+1][1] is not None and self.zombies[index+1][1].zombie_type == "human":
+                    self.isHit((curX + 222, curY),False)
+                else:
+                    self.isHit((curX + 222, curY),True)
+                Playground.animationOfThunder.append((lazeRectX + 222, lazeRectY, pygame.time.get_ticks()))
 
+    def isHit(self, mousePosition, kill):
+        if not kill:
+            return
+        mouseX, mouseY = mousePosition
+        currentTime = pygame.time.get_ticks()
+        if self.needDelay and currentTime - self.delayStartTime < self.delayTime * 1000:
+            return
+        else:
+            self.needDelay = False
         for i in range(len(self.zombies)):
             if self.zombies[i][0] != -1 and self.zombies[i][2] == False:
                 if mouseY > 360 and mouseY < 510:
@@ -324,6 +365,10 @@ class MapHoles:
                                 self.score += self.zombies[i][1].win_point
                                 self.zombies[i][2] = True
                                 self.zombies[i][0] = pygame.time.get_ticks()
+                                self.applyEffect(i)
+                                if self.zombies[i][1].explosion:
+                                    self.delayStartTime = pygame.time.get_ticks()
+                                    self.needDelay = True
                 elif mouseY > 515 and mouseY < 665:
                     for j in range(5, 10):
                         if  mouseX > self.holePosition[j][0] and \
@@ -334,6 +379,10 @@ class MapHoles:
                                 self.score += self.zombies[i][1].win_point
                                 self.zombies[i][2] = True
                                 self.zombies[i][0] = pygame.time.get_ticks()
+                                self.applyEffect(i)
+                                if self.zombies[i][1].explosion:
+                                    self.delayStartTime = pygame.time.get_ticks()
+                                    self.needDelay = True
 
     def update(self, actions, mouse_pos):
         #--------- TODO ---------#
@@ -342,7 +391,7 @@ class MapHoles:
 
         # Catch the actions of hit and miss
         if actions["start"] or actions["left"]:
-            self.isHit(pygame.mouse.get_pos())
+            self.isHit(pygame.mouse.get_pos(), True)
             
         self.game.reset_keys()
 
@@ -353,7 +402,7 @@ class MapHoles:
         
     
 class Zombie:
-    def __init__(self, game, zombie_type):
+    def __init__(self, game, zombie_type, weapon):
         self.game = game
         self.load_sprites()
 
@@ -373,6 +422,8 @@ class Zombie:
             ]
         elif zombie_type == "explosive":
             self.num_hit = 2
+            if weapon == 3:
+                self.num_hit = 1
             self.win_point = 250
             self.lose_point = 20
             self.explosion = True
@@ -386,6 +437,8 @@ class Zombie:
             ]
         elif zombie_type == "tough":
             self.num_hit = 3
+            if weapon == 3:
+                self.num_hit = 2
             self.win_point = 350
             self.lose_point = 70
             self.explosion = False

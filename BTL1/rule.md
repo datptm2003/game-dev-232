@@ -15,14 +15,14 @@
 - **Zombie chúa:** loại zombie mạnh nhất, đập 3 lần để chết. Nếu zombie chết, người chơi hưởng 350 điểm. Nếu zombie không chết, người chơi mất 50 điểm.
 - **Con người (!):** không được đập dù chỉ 1 lần. Nếu bị đập, con người sẽ chết và người chơi mất 120 điểm.
 
-## Hiệu ứng đặc biệt
+<!-- ## Hiệu ứng đặc biệt
 
 Đôi khi, một số vật phẩm mang đến cho người chơi các hiệu ứng đặc biệt (lợi hoặc hại) cũng xuất hiện từ hang.
 
 - **Vật phẩm 1 (lợi):** Nhân đôi số điểm được hưởng đối với mỗi zombie bị chết trong vòng 5 giây kế tiếp. Số điểm bị trừ nếu giết hụt được giữ nguyên.
 - **Vật phẩm 2 (lợi):** Tiêu diệt toàn bộ zombie hiện có trên bản đồ và hưởng toàn bộ số điểm như khi giết chúng lúc bình thường.
 - **Vật phẩm 3 (hại):** Chia đôi số điểm được hưởng đối với mỗi zombie bị chết trong vòng 5 giây kế tiếp. Số điểm bị trừ nếu giết hụt được nhân đôi.
-- **Vật phẩm 4 (hại):** Người chơi ngay lập tức mất 600 điểm.
+- **Vật phẩm 4 (hại):** Người chơi ngay lập tức mất 600 điểm. -->
 
 ## Trang bị
 
@@ -30,15 +30,16 @@ Trước mỗi ván game, người chơi được quyền lựa chọn giữa c�
 
 - **Búa gỗ:**
   - Trang bị mặc định, không có hiệu ứng.
-- **Búa thép:** (Tốn 5000 điểm để mua)
+- **Búa thép:** (Tốn 40000 điểm để mua)
   - Giảm thời gian bất động khi đập zombie nổ còn 1 giây.
-  -
-- **Búa sấm sét:** Có hiệu ứng sấm sét khi đập. (Tốn 15000 điểm để mua)
-  - Như búa thép, nhưng có thể giảm 50% hiệu ứng xấu từ bùa hại.
-  - Có xác suất 30% đập lan ra 2 bên (trái, phải). Nếu trúng phải người sẽ không bị ảnh hưởng.
+  - Có xác suất 40% đập lan ra 2 bên (trái, phải). Nếu trúng phải người sẽ không bị ảnh hưởng.
+- **Búa sấm sét:** Có hiệu ứng sấm sét khi đập. (Tốn 100000 điểm để mua)
+  <!-- - Như búa thép, nhưng có thể giảm 50% hiệu ứng xấu từ bùa hại. -->
+  - Giảm thời gian bất động khi đập trúng zombie nổ còn 0.5 giây.
+  - Có xác suất 65% đập lan ra 2 bên (trái, phải). Nếu trúng phải người sẽ không bị ảnh hưởng.
   - Sát thương tăng lên, tức là đập zombie nổ chỉ cần đập 1 lần và zombie chúa chỉ cần đập 2 lần.
-  - Giảm thời gian hiệu ứng của vật phẩm 3 còn 2.5 giây.
-  - Giảm số điểm bị mất của vật phẩm 4 còn 300 điểm.
+  <!-- - Giảm thời gian hiệu ứng của vật phẩm 3 còn 2.5 giây.
+  - Giảm số điểm bị mất của vật phẩm 4 còn 300 điểm. -->
 
 ## Cấp độ
 
