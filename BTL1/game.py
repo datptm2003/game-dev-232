@@ -5,6 +5,8 @@ from states.Title import Title
 class Game():
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
+
         self.SCREEN_WIDTH = 1280
         self.SCREEN_HEIGHT = 720
         self.CHARACTER_WIDTH = 80
@@ -28,6 +30,7 @@ class Game():
         self.load_states()
 
     def game_loop(self):
+        self.load_sounds()
         while self.playing:
             self.get_dt()
             self.get_events()
@@ -94,6 +97,7 @@ class Game():
         self.background_dir = os.path.join(self.assets_dir, "background")
         self.sprite_dir = os.path.join(self.assets_dir, "sprites")
         self.font_dir = os.path.join(self.assets_dir, "fonts")
+        self.sound_dir = os.path.join(self.assets_dir, "sounds")
         self.huge_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 70)
         self.large_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 50)
         self.medium_font = pygame.font.Font(os.path.join(self.font_dir, "font.ttf"), 30)
@@ -107,6 +111,12 @@ class Game():
     def reset_keys(self):
         for action in self.actions:
             self.actions[action] = False
+
+    def load_sounds(self):
+        background_music_path = os.path.join(self.sound_dir, "background_sound.mp3")
+        self.background_music = pygame.mixer.Sound(background_music_path)
+        self.background_music.play(loops=-1)
+
 
 if __name__ == "__main__":
     g = Game()

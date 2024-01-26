@@ -428,12 +428,12 @@ class Zombie:
             self.lose_point = 20
             self.explosion = True
             self.images = [
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_1.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_2.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_3.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_4.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_5.png")),
-                pygame.image.load(os.path.join(self.game.sprite_dir, "zom_6.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_1.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_2.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_3.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_4.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_5.png")),
+                pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_6.png")),
             ]
         elif zombie_type == "tough":
             self.num_hit = 3
