@@ -32,6 +32,7 @@ class Playground(State):
         self.lazeImage_rect = self.lazeImage.get_rect()
         
         
+                
     def saveScore(self):
         with open('score.json', 'w') as file:
             json.dump(self.score, file)
@@ -250,6 +251,7 @@ class MapHoles:
             display.blit(timeText, timeTextPosition)
             pygame.mouse.set_visible(True)
             newState = Result(self.game, self.score, self.miss)
+            self.game.play_pickup_sound = True
             newState.enter_state()
             
 
@@ -349,6 +351,7 @@ class MapHoles:
             return
         mouseX, mouseY = mousePosition
         currentTime = pygame.time.get_ticks()
+        self.game.play_pickup_sound = False
         if self.needDelay and currentTime - self.delayStartTime < self.delayTime * 1000:
             return
         else:
@@ -366,9 +369,14 @@ class MapHoles:
                                 self.zombies[i][2] = True
                                 self.zombies[i][0] = pygame.time.get_ticks()
                                 self.applyEffect(i)
+                                self.game.punch_sound.play()
                                 if self.zombies[i][1].explosion:
+                                    self.game.explosion_sound.play()
                                     self.delayStartTime = pygame.time.get_ticks()
                                     self.needDelay = True
+                                elif self.zombies[i][1].human:
+                                    self.game.wrong_sound.play()
+
                 elif mouseY > 515 and mouseY < 665:
                     for j in range(5, 10):
                         if  mouseX > self.holePosition[j][0] and \
@@ -380,9 +388,14 @@ class MapHoles:
                                 self.zombies[i][2] = True
                                 self.zombies[i][0] = pygame.time.get_ticks()
                                 self.applyEffect(i)
+                                self.game.punch_sound.play()
                                 if self.zombies[i][1].explosion:
+                                    self.game.explosion_sound.play()
                                     self.delayStartTime = pygame.time.get_ticks()
                                     self.needDelay = True
+                                elif self.zombies[i][1].human:
+                                    self.game.wrong_sound.play()
+
 
     def update(self, actions, mouse_pos):
         #--------- TODO ---------#
@@ -412,6 +425,7 @@ class Zombie:
             self.win_point = 100
             self.lose_point = 10
             self.explosion = False
+            self.human = False
             self.images = [
                 pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_11.png")),
                 pygame.image.load(os.path.join(self.game.sprite_dir, "normzum_12.png")),
@@ -427,6 +441,7 @@ class Zombie:
             self.win_point = 250
             self.lose_point = 20
             self.explosion = True
+            self.human = False
             self.images = [
                 pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_1.png")),
                 pygame.image.load(os.path.join(self.game.sprite_dir, "exzom_2.png")),
@@ -442,6 +457,7 @@ class Zombie:
             self.win_point = 350
             self.lose_point = 70
             self.explosion = False
+            self.human = False
             self.images = [
                 pygame.image.load(os.path.join(self.game.sprite_dir, "masterzum_11.png")),
                 pygame.image.load(os.path.join(self.game.sprite_dir, "masterzum_12.png")),
@@ -455,6 +471,7 @@ class Zombie:
             self.win_point = -120
             self.lose_point = 0
             self.explosion = False
+            self.human = True
             self.images = [
                 pygame.image.load(os.path.join(self.game.sprite_dir, "human_11.png")),
                 pygame.image.load(os.path.join(self.game.sprite_dir, "human_12.png")),
@@ -468,6 +485,7 @@ class Zombie:
             self.win_point = 0
             self.lose_point = 0
             self.explosion = False
+            self.human = False
     
     def getImages(self):
         return self.images

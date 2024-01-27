@@ -46,12 +46,16 @@ class Game():
                 mouse_click = pygame.mouse.get_pressed()
                 if mouse_click[0]:
                     self.actions['left'] = True
+                    if self.play_pickup_sound:
+                        self.pickup_sound.play()
                 if mouse_click[2]:
                     self.actions['right'] = True
+                    if self.play_pickup_sound:
+                        self.pickup_sound.play()  # Play click sound
                 self.mouse_pos = pygame.mouse.get_pos()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.actions['pause'] = True    
+                    self.actions['pause'] = True
                 if event.key == pygame.K_RETURN:
                     self.actions['start'] = True
                 self.mouse_pos = (0,0)
@@ -113,9 +117,16 @@ class Game():
             self.actions[action] = False
 
     def load_sounds(self):
-        background_music_path = os.path.join(self.sound_dir, "background_sound.mp3")
-        self.background_music = pygame.mixer.Sound(background_music_path)
-        self.background_music.play(loops=-1)
+        self.background_sound = pygame.mixer.Sound(os.path.join(self.sound_dir, "background_sound.mp3"))
+
+        self.play_pickup_sound = True
+        self.pickup_sound = pygame.mixer.Sound(os.path.join(self.sound_dir, "pickup.wav"))
+        
+        self.punch_sound = pygame.mixer.Sound(os.path.join(self.sound_dir, "punch.wav"))
+        self.explosion_sound = pygame.mixer.Sound(os.path.join(self.sound_dir, "explosion.wav"))
+        self.wrong_sound = pygame.mixer.Sound(os.path.join(self.sound_dir, "wrong.mp3"))
+
+        self.background_sound.play(loops=-1)
 
 
 if __name__ == "__main__":
