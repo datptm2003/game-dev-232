@@ -7,7 +7,6 @@ import json
 # from states.PauseMenu import PauseMenu
 
 class Playground(State):
-    animationOfThunder = []
     def __init__(self, game, level, weapon):
         State.__init__(self,game)
         self.SCREEN_WIDTH = 1280
@@ -156,6 +155,9 @@ class MapHoles:
 
         # -1: hide, 0-1: time to display, 1-3: time alive, 4: become -1
         self.zombies = [[-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False], [-1, None, False]]
+        
+        self.animationOfThunder = []
+        self.animationOfSteel = []
 
     def renderZombie(self, display):
         discTime = 0.3
@@ -266,10 +268,30 @@ class MapHoles:
         display.blit(maxScoreText, maxScoreTextPosition)
 
     def displayLaze(self, display):
-        for index in range(len(Playground.animationOfThunder)):
-            currentTime = float((pygame.time.get_ticks() - Playground.animationOfThunder[index][2]) / 1000)
-            if (currentTime > 0 and currentTime < 0.5):
-                display.blit(self.lazeImage, (Playground.animationOfThunder[index][0], Playground.animationOfThunder[index][1]))
+        for index in range(len(self.animationOfThunder)):
+            currentTime = float((pygame.time.get_ticks() - self.animationOfThunder[index][2]) / 1000)
+            if (currentTime > 0 and currentTime <= 0.1):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon3_1.png"))
+                display.blit(lazeImage, (self.animationOfThunder[index][0], self.animationOfThunder[index][1]))
+            elif (currentTime > 0.1 and currentTime <= 0.2):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon3_2.png"))
+                display.blit(lazeImage, (self.animationOfThunder[index][0], self.animationOfThunder[index][1]))
+            elif (currentTime > 0.2 and currentTime <= 0.4):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon3_3.png"))
+                display.blit(lazeImage, (self.animationOfThunder[index][0], self.animationOfThunder[index][1]))
+                
+    def displaySteelEffect(self, display):
+        for index in range(len(self.animationOfSteel)):
+            currentTime = float((pygame.time.get_ticks() - self.animationOfSteel[index][2]) / 1000)
+            if (currentTime > 0 and currentTime <= 0.1):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon2_1.png"))
+                display.blit(lazeImage, (self.animationOfSteel[index][0], self.animationOfSteel[index][1]))
+            elif (currentTime > 0.1 and currentTime <= 0.2):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon2_2.png"))
+                display.blit(lazeImage, (self.animationOfSteel[index][0], self.animationOfSteel[index][1]))
+            elif (currentTime > 0.2 and currentTime <= 0.4):
+                lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "efWeapon2_3.png"))
+                display.blit(lazeImage, (self.animationOfSteel[index][0], self.animationOfSteel[index][1]))
 
     def render(self, display):
         #--------- TODO ---------#
@@ -278,13 +300,14 @@ class MapHoles:
         
         self.renderZombie(display)
         self.renderTimer(display)
+        self.displayLaze(display)
+        self.displaySteelEffect(display)
         
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.weaponImage_rect.x = mouse_x - self.weaponImage_rect.width / 2.3
         self.weaponImage_rect.y = mouse_y - self.weaponImage_rect.height / 2
         display.blit(self.weaponImage, self.weaponImage_rect)
         
-        self.displayLaze(display)
         
         pass
     
@@ -330,7 +353,7 @@ class MapHoles:
                     else:
                         self.zombies[newIndex][1] = Zombie(self.game, "human", self.weapon)
     
-    def applyEffect(self, index):
+    def applyEffect(self, index):        
         criticalStrike = False
         if self.weapon == 3:
             criticalStrike = self.randomProb(0.65)
@@ -340,18 +363,31 @@ class MapHoles:
             curX, curY = pygame.mouse.get_pos()
             lazeRectX = curX - 145 / 1.65
             lazeRectY = curY - 166 
-            if curY > 360 and curY < 510 and curX - 222 >= 78 or curY > 515 and curY < 665 and curX - 222 >= 165:
+            if (curY > 360) and (curY < 510) and \
+                (curX - 222 >= 78) or (curY > 515) and (curY < 665) and curX - 222 >= 165:
                 if self.zombies[index-1][1] is not None and self.zombies[index-1][1].zombie_type == "human":
                     self.isHit((curX - 222, curY),False)
                 else:
                     self.isHit((curX - 222, curY),True)
-                Playground.animationOfThunder.append((lazeRectX - 222, lazeRectY, pygame.time.get_ticks()))
-            if curY > 360 and curY < 510 and curX + 222 <= 966 + self.CHARACTER_WIDTH or curY > 515 and curY < 665 and curX + 222 <= 1053 + self.CHARACTER_WIDTH:
+
+                if self.weapon == 3:
+                    self.animationOfThunder.append((lazeRectX - 222, lazeRectY, pygame.time.get_ticks()))
+                elif self.weapon == 2:
+                    self.animationOfSteel.append((lazeRectX - 222, lazeRectY, pygame.time.get_ticks()))
+                    
+            if ((curY > 360) and (curY < 510) and \
+                (curX + 222 <= 966 + self.CHARACTER_WIDTH)) or \
+                ((curY > 515) and (curY < 665) and \
+                (curX + 222 <= 1053 + self.CHARACTER_WIDTH)):
                 if self.zombies[index+1][1] is not None and self.zombies[index+1][1].zombie_type == "human":
                     self.isHit((curX + 222, curY),False)
                 else:
                     self.isHit((curX + 222, curY),True)
-                Playground.animationOfThunder.append((lazeRectX + 222, lazeRectY, pygame.time.get_ticks()))
+                
+                if self.weapon == 3:
+                    self.animationOfThunder.append((lazeRectX + 222, lazeRectY, pygame.time.get_ticks()))
+                elif self.weapon == 2:
+                    self.animationOfSteel.append((lazeRectX + 222, lazeRectY, pygame.time.get_ticks()))
 
     def isHit(self, mousePosition, kill):
         if not kill:
@@ -425,6 +461,11 @@ class MapHoles:
         if actions["start"] or actions["left"]:
             self.startTimeToClick = pygame.time.get_ticks()
             
+            
+            currentTime = pygame.time.get_ticks()
+            if self.needDelay and float(currentTime - self.delayStartTime) < float(self.delayTime * 1000):
+                return
+            
             if self.weapon == 3:
                 # Lấy vị trí chuột
                 mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -433,7 +474,17 @@ class MapHoles:
                 self.lazeImage_rect.x = mouse_x - self.lazeImage_rect.width / 1.65
                 self.lazeImage_rect.y = mouse_y - self.lazeImage_rect.height 
                 # print(self.lazeImage_rect.width,', ',self.lazeImage_rect.height)
-                Playground.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
+                self.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
+            
+            if self.weapon == 2:
+                # Lấy vị trí chuột
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                
+                # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
+                self.lazeImage_rect.x = mouse_x - self.lazeImage_rect.width / 1.65
+                self.lazeImage_rect.y = mouse_y - self.lazeImage_rect.height / 1.35
+                # print(self.lazeImage_rect.width,', ',self.lazeImage_rect.height)
+                self.animationOfSteel.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
             
             self.isHit(pygame.mouse.get_pos(), True)
 
