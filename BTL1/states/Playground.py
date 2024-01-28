@@ -1,6 +1,7 @@
 import pygame, os
 from states.State import State
 from states.Result import Result
+from RWFile import HandleFile
 import random
 import json
 # from states.PauseMenu import PauseMenu
@@ -21,16 +22,6 @@ class Playground(State):
         self.countdownTime = self.countdown
         self.weapon = weapon
         self.level = level
-        self.startTimeToClick = 0
-        
-        weaponImageName = "weapon" + str(weapon) + "_1.png"
-        self.weaponImage = pygame.image.load(os.path.join(self.game.sprite_dir, weaponImageName))
-        self.weaponImage = pygame.transform.scale2x(self.weaponImage)
-        self.weaponImage_rect = self.weaponImage.get_rect()
-        
-        self.lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "laze1.png"))
-        self.lazeImage_rect = self.lazeImage.get_rect()
-        
         
                 
     def saveScore(self):
@@ -50,22 +41,11 @@ class Playground(State):
         # if actions["pause"]:
         #     new_state = PauseMenu(self.game)
         #     new_state.enter_state()
-        if actions["start"] or actions["left"]:
-            self.startTimeToClick = pygame.time.get_ticks()
-            if self.weapon == 3:
-                # Lấy vị trí chuột
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                
-                # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
-                self.lazeImage_rect.x = mouse_x - self.lazeImage_rect.width / 1.65
-                self.lazeImage_rect.y = mouse_y - self.lazeImage_rect.height 
-                # print(self.lazeImage_rect.width,', ',self.lazeImage_rect.height)
-                Playground.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
         
         if self.startGame:
             self.mapHoles.update(actions, mouse_pos)
-            pygame.mouse.set_visible(False)
-            self.animate()
+            # pygame.mouse.set_visible(False)
+            # self.animate()
             
         self.game.reset_keys()
         pass
@@ -92,11 +72,6 @@ class Playground(State):
         display.blit(self.img_background, (0,0))
         if self.startGame:
             self.mapHoles.render(display)
-            
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            self.weaponImage_rect.x = mouse_x - self.weaponImage_rect.width / 2.3
-            self.weaponImage_rect.y = mouse_y - self.weaponImage_rect.height / 2
-            display.blit(self.weaponImage, self.weaponImage_rect)
         else: 
             self.huge_font = pygame.font.SysFont('comicsansms', 72) 
             self.countdownTime = int(self.countdown - (pygame.time.get_ticks() - self.startTime) / 1000)
@@ -113,7 +88,6 @@ class Playground(State):
             else:
                 self.mapHoles = MapHoles(self.game, self.level, self.weapon)
                 self.startGame = True
-        self.displayLaze(display)
         # Handle to display weapon
         
 
@@ -140,19 +114,33 @@ class MapHoles:
         self.CHARACTER_HEIGHT = 150
         self.level = level
         self.weapon = weapon
-        print(level)
+        
+        weaponImageName = "weapon" + str(weapon) + "_1.png"
+        self.weaponImage = pygame.image.load(os.path.join(self.game.sprite_dir, weaponImageName))
+        self.weaponImage_rect = self.weaponImage.get_rect()
+        
+        self.lazeImage = pygame.image.load(os.path.join(self.game.sprite_dir, "laze1.png"))
+        self.lazeImage_rect = self.lazeImage.get_rect()
+        
+        self.scores = HandleFile.loadScore(self.game.assets_dir, "score.json")
+        self.maxScore = 0
+        
         if level == 1:
             self.aliveTime = 3
+            self.maxScore = self.scores["easyScore"]
         elif level == 2:
             self.aliveTime = 2
+            self.maxScore = self.scores["mediumScore"]
         else:
             self.aliveTime = 1
+            self.maxScore = self.scores["hardScore"]
         
         self.score = 0
         self.miss = 0
         self.time = 31
         self.remainingTime = self.time
         self.delayStartTime = pygame.time.get_ticks()
+        self.startTimeToClick = 0
         if self.weapon == 2:
             self.delayTime = 1
         elif self.weapon == 3:
@@ -186,25 +174,24 @@ class MapHoles:
                 # else:
                 if self.zombies[index][1].zombie_type == "tough" or self.zombies[index][1].zombie_type == "human":
                     additionalHeight = 35
-                if currentTime >= 1 and currentTime < self.aliveTime:
-                    display.blit(self.zombies[index][1].images[2], 
-                                    (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
-                elif currentTime > 0 and currentTime < discTime:
+                
+                if currentTime > 0 and currentTime < discTime:
                     display.blit(self.zombies[index][1].images[0], 
                                     (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
+
                 elif currentTime >= discTime and currentTime < (discTime * 2):
                     display.blit(self.zombies[index][1].images[1], 
                                     (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
-                elif currentTime > (discTime * 2) and currentTime < 1:
+                
+                elif currentTime >= (discTime * 2) and currentTime < float(self.aliveTime + discTime):
                     display.blit(self.zombies[index][1].images[2], 
                                     (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
-                elif currentTime >= self.aliveTime and currentTime < int(self.aliveTime + discTime):
-                    display.blit(self.zombies[index][1].images[2], 
-                                    (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
-                elif currentTime >= int(self.aliveTime + discTime) and currentTime < int(self.aliveTime + (discTime * 2)):
+
+                elif currentTime >= float(self.aliveTime + discTime) and currentTime < float(self.aliveTime + (discTime * 2)):
                     display.blit(self.zombies[index][1].images[1], 
                                     (self.holePosition[index][0] + 35, self.holePosition[index][1] + additionalHeight))
-                elif currentTime >= int(self.aliveTime + (discTime * 2)):
+
+                elif currentTime >= float(self.aliveTime + (discTime * 2)):
                     self.zombies[index][0] = -1
                     if self.zombies[index][1].zombie_type == "normal":
                         self.score -= self.zombies[index][1].lose_point
@@ -241,17 +228,16 @@ class MapHoles:
             currentTimeString = "TIME: " + str(self.remainingTime)
             timeText = self.game.small_font.render(currentTimeString, True, (255,255,255))
             timeTextPosition = timeText.get_rect()
-            timeTextPosition.center = (self.SCREEN_WIDTH - 100, self.FONT_TOP_MARGIN)
+            timeTextPosition = (self.SCREEN_WIDTH - 250, self.FONT_TOP_MARGIN)
             display.blit(timeText, timeTextPosition)
         else:
             currentTimeString = "TIME: 0" 
             timeText = self.game.small_font.render(currentTimeString, True, (255,255,255))
             timeTextPosition = timeText.get_rect()
-            timeTextPosition.center = (self.SCREEN_WIDTH - 100, self.FONT_TOP_MARGIN)
+            timeTextPosition = (self.SCREEN_WIDTH - 250, self.FONT_TOP_MARGIN)
             display.blit(timeText, timeTextPosition)
             pygame.mouse.set_visible(True)
-            newState = Result(self.game, self.score, self.miss)
-            self.game.play_pickup_sound = True
+            newState = Result(self.game, self.score, self.miss, self.level)
             newState.enter_state()
             
 
@@ -259,17 +245,31 @@ class MapHoles:
         currentScoreString = "SCORE: " + str(self.score)
         scoreText = self.game.small_font.render(currentScoreString, True, (255,255,255))
         scoreTextPosition = scoreText.get_rect()
-        scoreTextPosition.center = (
-            self.SCREEN_WIDTH - 100, self.FONT_TOP_MARGIN * 2)
+        scoreTextPosition = (
+            self.SCREEN_WIDTH - 250, self.FONT_TOP_MARGIN * 1.75)
         display.blit(scoreText, scoreTextPosition)
         
         # Update the player's miss
         currentMissString = "MISS: " + str(self.miss)
         missText = self.game.small_font.render(currentMissString, True, (255,255,255))
         missTextPosition = missText.get_rect()
-        missTextPosition.center = (
-            self.SCREEN_WIDTH - 100, self.FONT_TOP_MARGIN * 3)
+        missTextPosition = (
+            self.SCREEN_WIDTH - 250, self.FONT_TOP_MARGIN * 2.5)
         display.blit(missText, missTextPosition)
+        
+        # Update the player's miss
+        currentMaxScoreString = "MAX-SCORE: " + str(self.maxScore)
+        maxScoreText = self.game.small_font.render(currentMaxScoreString, True, (255,255,255))
+        maxScoreTextPosition = maxScoreText.get_rect()
+        maxScoreTextPosition = (
+            self.SCREEN_WIDTH - 250, self.FONT_TOP_MARGIN * 3.25)
+        display.blit(maxScoreText, maxScoreTextPosition)
+
+    def displayLaze(self, display):
+        for index in range(len(Playground.animationOfThunder)):
+            currentTime = float((pygame.time.get_ticks() - Playground.animationOfThunder[index][2]) / 1000)
+            if (currentTime > 0 and currentTime < 0.5):
+                display.blit(self.lazeImage, (Playground.animationOfThunder[index][0], Playground.animationOfThunder[index][1]))
 
     def render(self, display):
         #--------- TODO ---------#
@@ -278,6 +278,13 @@ class MapHoles:
         
         self.renderZombie(display)
         self.renderTimer(display)
+        
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.weaponImage_rect.x = mouse_x - self.weaponImage_rect.width / 2.3
+        self.weaponImage_rect.y = mouse_y - self.weaponImage_rect.height / 2
+        display.blit(self.weaponImage, self.weaponImage_rect)
+        
+        self.displayLaze(display)
         
         pass
     
@@ -397,6 +404,18 @@ class MapHoles:
                                     self.game.wrong_sound.play()
 
 
+    def animate(self):
+        currentTime = float((pygame.time.get_ticks() - self.startTimeToClick) / 1000)
+        if currentTime > 0 and currentTime < 0.3 and self.needDelay == False:
+            weaponImageName = "weapon" + str(self.weapon) + "_2.png"
+            self.weaponImage = pygame.image.load(os.path.join(self.game.sprite_dir, weaponImageName))
+            self.weaponImage_rect = self.weaponImage.get_rect()
+            
+        else:
+            weaponImageName = "weapon" + str(self.weapon) + "_1.png"
+            self.weaponImage = pygame.image.load(os.path.join(self.game.sprite_dir, weaponImageName))
+            self.weaponImage_rect = self.weaponImage.get_rect()
+
     def update(self, actions, mouse_pos):
         #--------- TODO ---------#
         # handle add zombie
@@ -404,14 +423,24 @@ class MapHoles:
 
         # Catch the actions of hit and miss
         if actions["start"] or actions["left"]:
-            self.isHit(pygame.mouse.get_pos(), True)
+            self.startTimeToClick = pygame.time.get_ticks()
             
-        self.game.reset_keys()
+            if self.weapon == 3:
+                # Lấy vị trí chuột
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                
+                # Tính toán vị trí mới cho hình ảnh sao cho nó nằm chính giữa con chuột
+                self.lazeImage_rect.x = mouse_x - self.lazeImage_rect.width / 1.65
+                self.lazeImage_rect.y = mouse_y - self.lazeImage_rect.height 
+                # print(self.lazeImage_rect.width,', ',self.lazeImage_rect.height)
+                Playground.animationOfThunder.append((self.lazeImage_rect.x, self.lazeImage_rect.y, pygame.time.get_ticks()))
+            
+            self.isHit(pygame.mouse.get_pos(), True)
 
-    def animate(self, delta_time, hit_pos):
-        #--------- TODO ---------#
-        # Control the animation when hit or miss
-        pass
+        pygame.mouse.set_visible(False)
+        self.animate()
+        
+        self.game.reset_keys()
         
     
 class Zombie:
