@@ -5,6 +5,7 @@
 #include "CommonFunc.h"
 #include "BaseObject.h"
 #include "GameMap.h"
+#include "Character.h"
 
 class Game
 {

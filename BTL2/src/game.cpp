@@ -65,6 +65,10 @@ void Game::start()
     game_map.LoadMap("../assets/map.txt");
     game_map.LoadTiles(gScreen);
 
+    Character p_player;
+    p_player.LoadImg("../assets/images/characters/player_left.png", gScreen);
+    p_player.setClips();
+
     bool isQuit = false;
     while (!isQuit)
     {
@@ -74,6 +78,7 @@ void Game::start()
             {
                 isQuit = true;
             }
+            p_player.handleInputAction(gEvent, gScreen);
         }
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
@@ -86,6 +91,8 @@ void Game::start()
         game_map.setMap(map_data);
         game_map.DrawMap(gScreen);
 
+        p_player.doPlayer(map_data);
+        p_player.show(gScreen);
         SDL_RenderPresent(gScreen);
     }
 }

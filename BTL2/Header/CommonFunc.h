@@ -40,6 +40,7 @@ struct Input
     int right_;
     int up_;
     int down_;
+    int prevStep_;
 };
 
 // Đối tượng dữ liệu cho 1 ô
