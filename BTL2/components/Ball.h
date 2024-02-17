@@ -10,7 +10,6 @@ class Ball {
 public:
 	int x, y, r;
     int speed;
-    SDL_Color color;
     SDL_Renderer * renderer;
 	SDL_Rect rect;
 

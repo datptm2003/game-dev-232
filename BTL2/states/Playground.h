@@ -75,6 +75,12 @@ public:
         if (keyStates[SDL_SCANCODE_RIGHT]) {
             p1.x += p1.speed;
         }
+        if (keyStates[SDL_SCANCODE_K]) {
+            p1.angle -= p1.rot_speed;
+        }
+        if (keyStates[SDL_SCANCODE_L]) {
+            p1.angle += p1.rot_speed;
+        }
 
         if (keyStates[SDL_SCANCODE_S]) {
             p2.y += p2.speed;
@@ -87,6 +93,12 @@ public:
         }
         if (keyStates[SDL_SCANCODE_D]) {
             p2.x += p2.speed;
+        }
+        if (keyStates[SDL_SCANCODE_V]) {
+            p2.angle -= p2.rot_speed;
+        }
+        if (keyStates[SDL_SCANCODE_B]) {
+            p2.angle += p2.rot_speed;
         }
 
         return n_back;
