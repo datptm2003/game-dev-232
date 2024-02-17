@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/BTL2/**",
                 "${workspaceFolder}/BTL2/include"
             ],
             "defines": [
@@ -18,7 +18,7 @@
             "intelliSenseMode": "windows-gcc-x64",
             "browse": {
                 "path": [
-                    "${workspaceFolder}",
+                    "${workspaceFolder}/BTL2/**",
                     "${workspaceFolder}/BTL2/lib"
                 ],
                 "limitSymbolsToIncludedHeaders": true

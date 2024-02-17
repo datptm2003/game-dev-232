@@ -36,7 +36,7 @@ public:
 	void render() {
         IMG_Init(IMG_INIT_PNG);
         // Sửa thành đường dẫn tới file trên máy của chị nhe, do chỗ này để đường dẫn tương đối nó ko nhận
-        std::string sprite = "F:/STUDY MATERIAL/HK232/LAP TRINH GAME/game-dev-232/BTL2/assets/ball.png";
+        std::string sprite = "F:/STUDY MATERIAL/HK232/LAP TRINH GAME/game-dev-232/BTL2/assets/sprite/ball.png";
         SDL_Surface* ballSurface = IMG_Load(sprite.c_str());
         IMG_Quit();
 

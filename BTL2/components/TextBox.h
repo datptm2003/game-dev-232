@@ -19,7 +19,7 @@ public:
         // this->renderer = renderer;
         x = 0;
         y = 0;
-        font = "OpenSans-Regular.ttf";
+        font = "assets/font/OpenSans-Regular.ttf";
         size = 24;
         color = {237, 242, 239};
         message = "Type your text";
