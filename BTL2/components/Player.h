@@ -19,8 +19,8 @@ public:
 	Player() {
         rect.w = 64;
         rect.h = 64;
-        x = 400;
-        y = 320;
+        x = 240;
+        y = 400;
         speed = 10;
         rot_speed = 5;
         angle = 0;
