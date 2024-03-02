@@ -20,7 +20,7 @@ public:
         title.color = {87, 196, 229};
         title.x = SCREEN_WIDTH / 2;
         title.y = 200;
-        title.message = "[GAME TITLE]";
+        title.message = "PING PONG";
 
         for (int i = 0;i < n; i++) {
             textBoxes[i].renderer = renderer;
@@ -55,7 +55,7 @@ public:
                         break;
 
                     case SDLK_RETURN:
-                        if (pos == 0) { 
+                        if (pos == 0) {
                             Playground playground = Playground(window,renderer);
                             n_back = playground.loop(quit, back);
                             // std::cout << "t: " << n_back << "\n";

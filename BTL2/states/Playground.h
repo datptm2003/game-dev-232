@@ -8,6 +8,53 @@
 #include "../components/Player.h"
 #include "../components/Ball.h"
 
+enum CollisionDirection {
+    NO_COLLISION,
+    FROM_TOP,
+    FROM_BOTTOM,
+    FROM_LEFT,
+    FROM_RIGHT
+};
+
+struct CollisionInfo {
+    CollisionDirection direction;
+    Player pushingPlayer;
+    Player pushedPlayer;
+};
+
+CollisionInfo checkPaddleCollision(Player p1, Player p2) {
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    leftA = p1.rect.x;
+    rightA = leftA + p1.rect.w;
+    topA = p1.rect.y;
+    bottomA = topA + p1.rect.h;
+
+    leftB = p2.rect.x;
+    rightB = leftB + p2.rect.w;
+    topB = p2.rect.y;
+    bottomB = topB + p2.rect.h;
+
+    if (bottomA <= topB || topA >= bottomB || rightA <= leftB || leftA >= rightB) {
+        return { NO_COLLISION, p1, p2 };
+    }
+
+    int overlapX = std::min(rightA, rightB) - std::max(leftA, leftB);
+    int overlapY = std::min(bottomA, bottomB) - std::max(topA, topB);
+
+    CollisionDirection direction;
+    if (overlapX < overlapY) {
+        direction = (topA < topB) ? FROM_BOTTOM : FROM_TOP;
+    } else {
+        direction = (leftA < leftB) ? FROM_RIGHT : FROM_LEFT;
+    }
+
+    return { direction, (direction == FROM_BOTTOM || direction == FROM_RIGHT) ? p1 : p2, (direction == FROM_BOTTOM || direction == FROM_RIGHT) ? p2 : p1 };
+}
+
 class Playground : public State {
 private:
     Player p1, p2;
@@ -18,6 +65,8 @@ private:
 
     TextBox countdown;
     bool first_time;
+    bool isPlayer1Turn;
+    bool startCountDown;
 
 public:
 	Playground(SDL_Window* window, SDL_Renderer * renderer) : State(window, renderer) {
@@ -46,6 +95,8 @@ public:
 
         start_intro = clock();
         first_time = true;
+        isPlayer1Turn = true;
+        startCountDown = false;
     }
 	~Playground() {}
 
@@ -131,13 +182,13 @@ public:
 
             ball.update();
         }
-        
     }
     bool checkCollision (Player p) {
         bool x_overlaps = (ball.rect.x < p.rect.x + p.rect.w && ball.rect.x + ball.d/2 > p.rect.x);
         bool y_overlap = (ball.rect.y < p.rect.y + p.rect.h && ball.rect.y + ball.d/2 > p.rect.y);
         return (x_overlaps && y_overlap);
     }
+
     void handleCollision() {
         if (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH) {
             ball.dir[0] = -ball.dir[0];
@@ -147,14 +198,38 @@ public:
         }
         if(checkCollision(p2)) {
             ball.dir[1] = -ball.dir[1];
-            p2.score++;
+            if(!isPlayer1Turn) 
+            {
+                p2.score++;
+                startCountDown = true;
+            }
         }
         else if(checkCollision(p1))
         {
             ball.dir[1] = -ball.dir[1];
-            p1.score++;
+            if (isPlayer1Turn){
+                 p1.score++;
+                 startCountDown = true;
+            }
         }
-        
+        if (checkPaddleCollision(p1, p2).direction != NO_COLLISION) {
+            CollisionInfo collisionInfo = checkPaddleCollision(p1, p2);
+            switch (collisionInfo.direction) {
+                case FROM_TOP:
+                    break;
+                case FROM_BOTTOM:
+                    break;
+                case FROM_LEFT:
+                    p1.x += (p1.rect.w);
+                    break;
+                case FROM_RIGHT:
+                    p1.x -= (p2.rect.w);
+                    break;
+            default:
+                    break;
+    }
+}
+
         if (ball.rect.y + ball.d / 2 >= SCREEN_HEIGHT) {
             intro = 3;
             countdown.message = std::to_string(intro);
@@ -185,14 +260,14 @@ public:
 
     void renderPlayerScores() {
     int scoreX = SCREEN_WIDTH / 2;
-    int scoreY = 10;
+    int scoreY = 20;
 
     TextBox player1ScoreText;
     player1ScoreText.renderer = renderer;
     player1ScoreText.x = scoreX - 100;
     player1ScoreText.y = scoreY;
     player1ScoreText.size = 24;
-    player1ScoreText.color = {209, 214, 70};
+    player1ScoreText.color = {0, 0, 0};
     player1ScoreText.message = "Player 1: " + std::to_string(p1.score);
     player1ScoreText.render();
 
@@ -201,12 +276,11 @@ public:
     player2ScoreText.x = scoreX + 80;
     player2ScoreText.y = scoreY;
     player2ScoreText.size = 24;
-    player2ScoreText.color = {209, 214, 70};
+    player2ScoreText.color = {0, 0, 0};
     player2ScoreText.message = "Player 2: " + std::to_string(p2.score);
     player2ScoreText.render();
 }
 
-    
 	void render() {
         SDL_SetRenderDrawColor(renderer, 237, 242, 239, 255);
         SDL_RenderClear(renderer);
