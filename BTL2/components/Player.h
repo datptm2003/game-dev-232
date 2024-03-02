@@ -11,6 +11,7 @@ public:
     int speed;
     double rot_speed;
     double angle;
+    int score;
     SDL_Color color;
     SDL_Renderer * renderer;
 	SDL_Rect rect;
@@ -24,6 +25,7 @@ public:
         speed = 10;
         rot_speed = 5;
         angle = 0;
+        score = 0;
         rect.x = x - rect.w / 2;
         rect.y = y - rect.h / 2;
     }

@@ -65,7 +65,6 @@ public:
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
                     PauseScreen pause = PauseScreen(window,renderer);
                     n_back = pause.loop(quit, back);
-                    // std::cout << "p: " << n_back << "\n";
                     if (back && n_back <= 1) {
                         back = false;
                         if (n_back > 0) --n_back;
@@ -127,15 +126,18 @@ public:
             p1.update();
             p2.update();
             handleCollision();
-            // std::cout << ":: " << ball.x << "," << ball.y << "\n";
             ball.x += ball.speed*ball.dir[0];
             ball.y += ball.speed*ball.dir[1];
-            
+
             ball.update();
         }
         
     }
-
+    bool checkCollision (Player p) {
+        bool x_overlaps = (ball.rect.x < p.rect.x + p.rect.w && ball.rect.x + ball.d/2 > p.rect.x);
+        bool y_overlap = (ball.rect.y < p.rect.y + p.rect.h && ball.rect.y + ball.d/2 > p.rect.y);
+        return (x_overlaps && y_overlap);
+    }
     void handleCollision() {
         if (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH) {
             ball.dir[0] = -ball.dir[0];
@@ -143,6 +145,16 @@ public:
         if (ball.rect.y - ball.d / 2 <= 0) {
             ball.dir[1] = -ball.dir[1];
         }
+        if(checkCollision(p2)) {
+            ball.dir[1] = -ball.dir[1];
+            p2.score++;
+        }
+        else if(checkCollision(p1))
+        {
+            ball.dir[1] = -ball.dir[1];
+            p1.score++;
+        }
+        
         if (ball.rect.y + ball.d / 2 >= SCREEN_HEIGHT) {
             intro = 3;
             countdown.message = std::to_string(intro);
@@ -171,6 +183,29 @@ public:
         // return (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x - ball.d / 2 >= SCREEN_WIDTH || ball.rect.y - ball.d / 2 <= 0 || ball.rect.y - ball.d / 2 >= SCREEN_HEIGHT);
     }
 
+    void renderPlayerScores() {
+    int scoreX = SCREEN_WIDTH / 2;
+    int scoreY = 10;
+
+    TextBox player1ScoreText;
+    player1ScoreText.renderer = renderer;
+    player1ScoreText.x = scoreX - 100;
+    player1ScoreText.y = scoreY;
+    player1ScoreText.size = 24;
+    player1ScoreText.color = {209, 214, 70};
+    player1ScoreText.message = "Player 1: " + std::to_string(p1.score);
+    player1ScoreText.render();
+
+    TextBox player2ScoreText;
+    player2ScoreText.renderer = renderer;
+    player2ScoreText.x = scoreX + 80;
+    player2ScoreText.y = scoreY;
+    player2ScoreText.size = 24;
+    player2ScoreText.color = {209, 214, 70};
+    player2ScoreText.message = "Player 2: " + std::to_string(p2.score);
+    player2ScoreText.render();
+}
+
     
 	void render() {
         SDL_SetRenderDrawColor(renderer, 237, 242, 239, 255);
@@ -197,9 +232,8 @@ public:
             // p2.render();
             // ball.render();
             // SDL_RenderPresent(renderer);
-            // std::cout << intro << "\n";
         }
-        
+        renderPlayerScores();
         SDL_RenderPresent(renderer);
     }
 
@@ -212,8 +246,6 @@ public:
         }
         return n_back;
     }
-
-
 
 };
 
