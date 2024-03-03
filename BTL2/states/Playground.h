@@ -5,6 +5,7 @@
 #include <ctime>
 #include "State.h"
 #include "PauseScreen.h"
+#include "VictoryScreen.h"
 #include "../components/Player.h"
 #include "../components/Ball.h"
 #include "../components/Effect.h"
@@ -120,12 +121,21 @@ public:
 	~Playground() {}
 
 	int handleEvents(bool &quit, bool &back) {
+        if (p1.score >= 7 || p2.score >= 7) {
+            int n_back = 0;
+            VictoryScreen playground = VictoryScreen(window,renderer,(p1.score >= 7 ? 1 : 2));
+            n_back = playground.loop(quit, back);
+            // std::cout << "t: " << n_back << "\n";
+            if (back && n_back <= 1) {
+                back = false;
+                if (n_back > 0) --n_back;
+            } else --n_back;
+        }
         SDL_Event event; //Event handling
         clock_t now = clock();
 
         if (stopMovement && now - startFreezing >= 3000) {
             stopMovement = false;
-            std::cout << "AA\n";
         }
 	
         SDL_PollEvent(&event);
@@ -160,21 +170,25 @@ public:
         if (keyStates[SDL_SCANCODE_S]) {
             if (!isPlayer1Turn || !stopMovement) {
                 p1.y += p1.speed;
+                if (p1.y >= SCREEN_HEIGHT) p1.y = SCREEN_HEIGHT;
             }
         }
         if (keyStates[SDL_SCANCODE_W]) {
             if (!isPlayer1Turn || !stopMovement) {
                 p1.y -= p1.speed;
+                if (p1.y <= 220) p1.y = 220;
             }
         }
         if (keyStates[SDL_SCANCODE_A]) {
             if (!isPlayer1Turn || !stopMovement) {
                 p1.x -= p1.speed;
+                if (p1.x <= 0) p1.x = 0;
             }
         }
         if (keyStates[SDL_SCANCODE_D]) {
             if (!isPlayer1Turn || !stopMovement) {
                 p1.x += p1.speed;
+                if (p1.x >= SCREEN_WIDTH) p1.x = SCREEN_WIDTH;
             }
         }
         if (keyStates[SDL_SCANCODE_V]) {
@@ -188,16 +202,26 @@ public:
         if (keyStates[SDL_SCANCODE_DOWN]) {
             if (isPlayer1Turn || !stopMovement) {
                 p2.y += p2.speed;
+                if (p2.y >= SCREEN_HEIGHT) p2.y = SCREEN_HEIGHT;
             }
         }
         if (keyStates[SDL_SCANCODE_UP]) {
-            if (isPlayer1Turn || !stopMovement) p2.y -= p2.speed;
+            if (isPlayer1Turn || !stopMovement) {
+                p2.y -= p2.speed;
+                if (p2.y <= 220) p2.y = 220;
+            }
         }
         if (keyStates[SDL_SCANCODE_LEFT]) {
-            if (isPlayer1Turn || !stopMovement) p2.x -= p2.speed;
+            if (isPlayer1Turn || !stopMovement) {
+                p2.x -= p2.speed;
+                if (p2.x <= 0) p2.x = 0;
+            }
         }
         if (keyStates[SDL_SCANCODE_RIGHT]) {
-            if (isPlayer1Turn || !stopMovement) p2.x += p2.speed;
+            if (isPlayer1Turn || !stopMovement) {
+                p2.x += p2.speed;
+                if (p2.x >= SCREEN_WIDTH) p2.x = SCREEN_WIDTH;    
+            }
         }
         if (keyStates[SDL_SCANCODE_K]) {
             if (isPlayer1Turn || !stopMovement) p2.angle -= p2.rot_speed;
@@ -290,6 +314,12 @@ public:
         if(checkCollision(p2)) {
 
             // ball.dir[1] = -ball.dir[1];
+            if (isPlayer1Turn) {
+                reset();
+                if (isPlayer1Turn) p1.score += 1;
+                else p2.score += 1;
+                return;
+            }
             isPlayer1Turn = true;
             // std::cout << isPlayer1Turn << "++\n";
             // if(!isPlayer1Turn) 
@@ -301,6 +331,12 @@ public:
         else if(checkCollision(p1))
         {
             // ball.dir[1] = -ball.dir[1];
+            if (!isPlayer1Turn) {
+                reset();
+                if (isPlayer1Turn) p1.score += 1;
+                else p2.score += 1;
+                return;
+            }
             isPlayer1Turn = false;
             // std::cout << isPlayer1Turn << "++\n";
             // if (isPlayer1Turn){
@@ -342,6 +378,7 @@ public:
                     
                     if (effect[i].type == 0) {
                         ball.speed *= 2;
+                        ball.type = 1;
                         // std::cout << "BBB\n";
                     } else if (effect[i].type == 1) {
                         stopMovement = true;
@@ -362,33 +399,41 @@ public:
         }
 
         if (ball.rect.y + ball.d / 2 >= SCREEN_HEIGHT) {
-            intro = 3;
-            countdown.message = std::to_string(intro);
-            ball.x = 240;
-            ball.y = 220;
-            // ball.rect.x = ball.x - ball.rect.w / 2;
-            // ball.rect.y = ball.y - ball.rect.h / 2;
-            ball.dir[0] = -(rand() % 100)*1.0 / 100;
-            ball.dir[1] = -sqrt(1 - ball.dir[0]*ball.dir[0]);
-
-            p1.x = 160;
-            p1.y = 400;
-            p1.rect.x = p1.x - p1.rect.w / 2;
-            p1.rect.y = p1.y - p1.rect.h / 2;
-            p1.angle = 0;
-
-            p2.x = 320;
-            p2.y = 400;
-            p2.rect.x = p2.x - p2.rect.w / 2;
-            p2.rect.y = p2.y - p2.rect.h / 2;
-            p2.angle = 0;
-
-            ball.speed = 8;
-            p1.speed = p2.speed = 10;
-            start_intro = clock();
+            reset();
+            if (isPlayer1Turn) p2.score += 1;
+            else p1.score += 1;
         }
 
         // return (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x - ball.d / 2 >= SCREEN_WIDTH || ball.rect.y - ball.d / 2 <= 0 || ball.rect.y - ball.d / 2 >= SCREEN_HEIGHT);
+    }
+
+    void reset() {
+        intro = 3;
+        countdown.message = std::to_string(intro);
+        ball.x = 240;
+        ball.y = 220;
+        // ball.rect.x = ball.x - ball.rect.w / 2;
+        // ball.rect.y = ball.y - ball.rect.h / 2;
+        ball.dir[0] = -(rand() % 100)*1.0 / 100;
+        ball.dir[1] = -sqrt(1 - ball.dir[0]*ball.dir[0]);
+
+        p1.x = 160;
+        p1.y = 400;
+        p1.rect.x = p1.x - p1.rect.w / 2;
+        p1.rect.y = p1.y - p1.rect.h / 2;
+        p1.angle = 0;
+
+        p2.x = 320;
+        p2.y = 400;
+        p2.rect.x = p2.x - p2.rect.w / 2;
+        p2.rect.y = p2.y - p2.rect.h / 2;
+        p2.angle = 0;
+
+        ball.speed = 8;
+        ball.type = 0;
+        p1.speed = p2.speed = 10;
+        
+        start_intro = clock();
     }
 
     void renderPlayerScores() {
@@ -400,7 +445,13 @@ public:
         player1ScoreText.x = scoreX - 100;
         player1ScoreText.y = scoreY;
         player1ScoreText.size = 24;
-        player1ScoreText.color = {0, 0, 0};
+
+        if (isPlayer1Turn) {
+            if (stopMovement) player1ScoreText.color = {0, 0, 255};
+            else player1ScoreText.color = {255, 0, 0};
+        
+        } else player1ScoreText.color = {0, 0, 0};
+
         player1ScoreText.message = "Player 1: " + std::to_string(p1.score);
         player1ScoreText.render();
 
@@ -409,7 +460,13 @@ public:
         player2ScoreText.x = scoreX + 80;
         player2ScoreText.y = scoreY;
         player2ScoreText.size = 24;
-        player2ScoreText.color = {0, 0, 0};
+
+        if (!isPlayer1Turn) {
+            if (stopMovement) player2ScoreText.color = {0, 0, 255};
+            else player2ScoreText.color = {255, 0, 0};
+            
+        } else player2ScoreText.color = {0, 0, 0};
+
         player2ScoreText.message = "Player 2: " + std::to_string(p2.score);
         player2ScoreText.render();
     }
@@ -417,6 +474,8 @@ public:
 	void render() {
         SDL_SetRenderDrawColor(renderer, 237, 242, 239, 255);
         SDL_RenderClear(renderer);
+
+        renderBackground();
 
         if (!first_time) {
             for (int i = 0; i < 2; ++i) {
@@ -489,6 +548,31 @@ public:
         }
         renderPlayerScores();
         SDL_RenderPresent(renderer);
+    }
+
+    void renderBackground() {
+        IMG_Init(IMG_INIT_PNG);
+        // Sửa thành đường dẫn tới file trên máy của chị nhe, do chỗ này để đường dẫn tương đối nó ko nhận
+        std::string background = "F:/STUDY MATERIAL/HK232/LAP TRINH GAME/temp/game-dev-232/BTL2/assets/background/main_playground.png";
+
+
+        SDL_Surface* backgroundSurface = IMG_Load(background.c_str());
+        IMG_Quit();
+
+        SDL_Texture* backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
+
+        SDL_Rect backgroundRect;                      //create a rect
+        backgroundRect.w = SCREEN_WIDTH;                         // controls the width of the rect
+        backgroundRect.h = SCREEN_HEIGHT;                         // controls the height of the rect
+        backgroundRect.x = 0;      // controls the rect's x coordinate 
+        backgroundRect.y = 0;      // controls the rect's y coordinte
+        
+        // SDL_SetRenderTarget(renderer, messageTexture);
+        SDL_RenderCopy(renderer, backgroundTexture, NULL, &backgroundRect);
+        // SDL_RenderPresent(renderer);
+        // SDL_SetRenderTarget(renderer, NULL);
+        SDL_FreeSurface(backgroundSurface);
+        SDL_DestroyTexture(backgroundTexture);
     }
 
     int loop(bool &quit, bool &back) {

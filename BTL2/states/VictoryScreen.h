@@ -1,36 +1,48 @@
-#ifndef PAUSESCREEN_H
-#define PAUSESCREEN_H
+#ifndef VICTORYSCREEN_H
+#define VICTORYSCREEN_H
 
+#include <string.h>
 #include "../components/TextBox.h"
 #include "State.h"
 
-class PauseScreen : public State {
+class VictoryScreen : public State {
 private:
 	int pos = 0;
-	int n = 3;
+	int n = 2;
+	int winner;
 
 	TextBox title;
-	TextBox textBoxes[3];
+	TextBox subtitle;
+	TextBox textBoxes[2];
 
 public:
-	PauseScreen(SDL_Window* window, SDL_Renderer * renderer) : State(window, renderer) {
+	VictoryScreen(SDL_Window* window, SDL_Renderer * renderer, int winner) : State(window, renderer) {
 		title.renderer = renderer;
-        title.size = 60;
+        title.size = 48;
         title.color = {87, 196, 229};
         title.x = SCREEN_WIDTH / 2;
-        title.y = 200;
-        title.message = "PAUSE";
+        title.y = 160;
+        title.message = "VICTORY";
+
+		subtitle.renderer = renderer;
+        subtitle.size = 60;
+        subtitle.color = {87, 255, 129};
+        subtitle.x = SCREEN_WIDTH / 2;
+        subtitle.y = 230;
+        subtitle.message = "== Player " + std::to_string(winner) + " ==";
+
+		this->winner = winner;
 
 		for (int i = 0; i < n; i++) {
 			textBoxes[i].renderer = renderer;
 			textBoxes[i].x = SCREEN_WIDTH / 2;
 			textBoxes[i].y = 150 + (SCREEN_HEIGHT-((n-1) * 100)) / 2 + i * 75;  
-			textBoxes[0].message = "Continue";
-			textBoxes[1].message = "Back to title";
-			textBoxes[2].message = "Quit";
+			// textBoxes[0].message = "Play again";
+			textBoxes[0].message = "Back to title";
+			textBoxes[1].message = "Quit";
 		}
 	}
-	~PauseScreen() {}
+	~VictoryScreen() {}
 
 	int handleEvents(bool &quit, bool &back) {
         SDL_Event event;
@@ -53,12 +65,13 @@ public:
 						break;
 
 					case SDLK_RETURN:
+						// if (pos == 0) { 
+						// 	quit = false;
+						// 	back = true;
+						// 	n_back = 1;
+						// 	break;
+						// } else 
 						if (pos == 0) { 
-							quit = false;
-							back = true;
-							n_back = 1;
-							break;
-						} else if (pos == 1) { 
 							quit = false;
 							back = true;
 							n_back = 2;
@@ -99,6 +112,8 @@ public:
 
 		renderBackground();
 		title.render();
+		subtitle.render();
+
 		for (int i = 0; i < n; i++) {
 			textBoxes[i].render();
 		}

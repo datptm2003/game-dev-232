@@ -23,7 +23,7 @@ public:
 public:
 	Effect() {
         srand(time(NULL));
-        d = 45;
+        d = 40;
         rect.w = d;
         rect.h = d;
         x = rand() % 440 + 20;
