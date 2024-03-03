@@ -223,17 +223,60 @@ public:
             ball.update();
         }
     }
-    bool checkCollision (Player p) {
-        bool x_overlaps = (ball.rect.x < p.rect.x + p.rect.w && ball.rect.x + ball.d/2 > p.rect.x);
-        bool y_overlap = (ball.rect.y < p.rect.y + p.rect.h && ball.rect.y + ball.d/2 > p.rect.y);
-        return (x_overlaps && y_overlap);
+    float degToRad(float degrees) {
+        return degrees * (M_PI / 180.0f);
     }
 
-    double degToRad(double deg) {
-        double pi = 3.14159265358;
-        return pi * deg / 180;
-    }
+    bool checkCollision(Player p) {
+        float ballRadius = ball.d / 2;
+        float playerHalfWidth = p.rect.w / 2;
+        float playerHalfHeight = p.rect.h / 2;
 
+        float dx = ball.rect.x - (p.rect.x + playerHalfWidth);
+        float dy = ball.rect.y - (p.rect.y + playerHalfHeight);
+
+        float rotatedX = cos(-p.angle) * dx - sin(-p.angle) * dy;
+        float rotatedY = sin(-p.angle) * dx + cos(-p.angle) * dy;
+
+        float overlapX = ballRadius + playerHalfWidth - std::abs(rotatedX);
+        float overlapY = ballRadius + playerHalfHeight - std::abs(rotatedY);
+
+        bool xOverlap = overlapX > 0;
+        bool yOverlap = overlapY > 0;
+
+        if (xOverlap && yOverlap) {
+            float collisionX = cos(p.angle) * rotatedX - sin(p.angle) * rotatedY + (p.rect.x + playerHalfWidth);
+            float collisionY = sin(p.angle) * rotatedX + cos(p.angle) * rotatedY + (p.rect.y + playerHalfHeight);
+
+            if (overlapX < overlapY) {
+                if (rotatedX > 0) {
+                    ball.rect.x += overlapX;
+                } else {
+                    ball.rect.x -= overlapX;
+                }
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p.angle));
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p.angle));
+            ball.rect.x = 2 * collisionX - ball.rect.x;
+
+            } else {
+                if (rotatedY > 0) {
+                    ball.rect.y += overlapY;
+                } else {
+                    ball.rect.y -= overlapY;
+                }
+
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p.angle));
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p.angle));
+            ball.rect.y = 2 * collisionY - ball.rect.y;
+            }
+
+            return true;
+        }
+
+        return false;
+}
     void handleCollision() {
         if (!collideVerticalWall && (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH)) {
             ball.dir[0] = -ball.dir[0];
@@ -245,10 +288,6 @@ public:
         } else collideHorizontalWall = false;
 
         if(checkCollision(p2)) {
-            double temp = ball.dir[0];
-            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p2.angle));
-            // std::cout << ball.dir[0] << "++\n";
-            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p2.angle));
 
             // ball.dir[1] = -ball.dir[1];
             isPlayer1Turn = true;
@@ -262,9 +301,6 @@ public:
         else if(checkCollision(p1))
         {
             // ball.dir[1] = -ball.dir[1];
-            double temp = ball.dir[0];
-            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p1.angle));
-            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p1.angle));
             isPlayer1Turn = false;
             // std::cout << isPlayer1Turn << "++\n";
             // if (isPlayer1Turn){
@@ -280,10 +316,16 @@ public:
                 case FROM_BOTTOM:
                     break;
                 case FROM_LEFT:
-                    p1.x += (p1.rect.w);
+                    if (collisionInfo.pushingPlayer == p2) {
+                    p1.x += (p1.rect.x);
+                    }
+                    p2.x += (p2.rect.x);
                     break;
                 case FROM_RIGHT:
-                    p1.x -= (p2.rect.w);
+                    if (collisionInfo.pushingPlayer == p2) {
+                        p1.x -= (p2.rect.x);
+                    }
+                    p2.x -= p1.rect.x;
                     break;
                 default:
                     break;
