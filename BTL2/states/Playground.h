@@ -67,6 +67,8 @@ private:
     bool first_time;
     bool isPlayer1Turn;
     bool startCountDown;
+    bool collideVerticalWall;
+    bool collideHorizontalWall;
 
 public:
 	Playground(SDL_Window* window, SDL_Renderer * renderer) : State(window, renderer) {
@@ -97,6 +99,9 @@ public:
         first_time = true;
         isPlayer1Turn = true;
         startCountDown = false;
+
+        collideVerticalWall = false;
+        collideHorizontalWall = false;
     }
 	~Playground() {}
 
@@ -190,12 +195,15 @@ public:
     }
 
     void handleCollision() {
-        if (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH) {
+        if (!collideVerticalWall && (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH)) {
             ball.dir[0] = -ball.dir[0];
-        }
-        if (ball.rect.y - ball.d / 2 <= 0) {
+            collideVerticalWall = true;
+        } else collideVerticalWall = false;
+        if (!collideHorizontalWall && (ball.rect.y - ball.d / 2 <= 0)) {
             ball.dir[1] = -ball.dir[1];
-        }
+            collideHorizontalWall = true;
+        } else collideHorizontalWall = false;
+
         if(checkCollision(p2)) {
             ball.dir[1] = -ball.dir[1];
             if(!isPlayer1Turn) 
