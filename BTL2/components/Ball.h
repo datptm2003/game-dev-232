@@ -13,6 +13,7 @@ class Ball {
 public:
 	int x, y, d;
     int speed;
+    int type;
     double dir[2];
     SDL_Renderer * renderer;
 	SDL_Rect rect;
@@ -25,10 +26,11 @@ public:
         rect.h = d;
         x = 240;
         y = 220;
-        speed = 5;
-        dir[0] = -(rand() % 100)*1.0 / 100;
+        speed = 8;
+        type = 0;
+        dir[0] = (rand() % 200)*1.0 / 100 - 1;
         dir[1] = -sqrt(1 - dir[0]*dir[0]);
-        std::cout << dir[0] << ", " << dir[1] << "\n";
+        // std::cout << dir[0] << ", " << dir[1] << "\n";
         rect.x = x - rect.w / 2;
         rect.y = y - rect.h / 2;
     }
@@ -59,6 +61,10 @@ public:
         IMG_Init(IMG_INIT_PNG);
         // Sửa thành đường dẫn tới file trên máy của chị nhe, do chỗ này để đường dẫn tương đối nó ko nhận
         std::string sprite = "F:/STUDY MATERIAL/HK232/LAP TRINH GAME/game-dev-232/BTL2/assets/sprite/ball.png";
+        if (type == 1) {
+            sprite = "F:/STUDY MATERIAL/HK232/LAP TRINH GAME/game-dev-232/BTL2/assets/sprite/ball.png";
+        }
+
         SDL_Surface* ballSurface = IMG_Load(sprite.c_str());
         IMG_Quit();
 

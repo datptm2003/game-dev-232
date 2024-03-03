@@ -7,6 +7,7 @@
 #include "PauseScreen.h"
 #include "../components/Player.h"
 #include "../components/Ball.h"
+#include "../components/Effect.h"
 
 enum CollisionDirection {
     NO_COLLISION,
@@ -59,19 +60,28 @@ class Playground : public State {
 private:
     Player p1, p2;
     Ball ball;
+    Effect effect[2];
+    // int effect[2];
+    // int effectPos[2][2];
     const Uint8* keyStates = SDL_GetKeyboardState(NULL);
     int intro = 3;
     clock_t start_intro;
+    clock_t lastEffect;
+    clock_t startFreezing;
 
     TextBox countdown;
     bool first_time;
     bool isPlayer1Turn;
     bool startCountDown;
+    bool gapEffect;
     bool collideVerticalWall;
     bool collideHorizontalWall;
+    bool stopMovement;
 
 public:
 	Playground(SDL_Window* window, SDL_Renderer * renderer) : State(window, renderer) {
+        srand(time(NULL));
+
         countdown.renderer = renderer;
         countdown.size = 60;
         countdown.color = {0, 0, 0};
@@ -82,6 +92,8 @@ public:
         p1.renderer = renderer;
         p2.renderer = renderer;
         ball.renderer = renderer;
+        effect[0].renderer = renderer;
+        effect[1].renderer = renderer;
 
         p1.x = 160;
         p1.y = 400;
@@ -99,6 +111,8 @@ public:
         first_time = true;
         isPlayer1Turn = true;
         startCountDown = false;
+        gapEffect = false;
+        stopMovement = false;
 
         collideVerticalWall = false;
         collideHorizontalWall = false;
@@ -107,6 +121,12 @@ public:
 
 	int handleEvents(bool &quit, bool &back) {
         SDL_Event event; //Event handling
+        clock_t now = clock();
+
+        if (stopMovement && now - startFreezing >= 3000) {
+            stopMovement = false;
+            std::cout << "AA\n";
+        }
 	
         SDL_PollEvent(&event);
         int n_back = 0;
@@ -135,43 +155,58 @@ public:
 
         // Keystate handling
         if (intro > 0) return 0;
+        // std::cout << !stopMovement << ", " << !isPlayer1Turn << "\n";
+        // std::cout << "****" << keyStates[SDL_SCANCODE_S] << "\n";
         if (keyStates[SDL_SCANCODE_S]) {
-            p1.y += p1.speed;
+            if (!isPlayer1Turn || !stopMovement) {
+                p1.y += p1.speed;
+            }
         }
         if (keyStates[SDL_SCANCODE_W]) {
-            p1.y -= p1.speed;
+            if (!isPlayer1Turn || !stopMovement) {
+                p1.y -= p1.speed;
+            }
         }
         if (keyStates[SDL_SCANCODE_A]) {
-            p1.x -= p1.speed;
+            if (!isPlayer1Turn || !stopMovement) {
+                p1.x -= p1.speed;
+            }
         }
         if (keyStates[SDL_SCANCODE_D]) {
-            p1.x += p1.speed;
+            if (!isPlayer1Turn || !stopMovement) {
+                p1.x += p1.speed;
+            }
         }
         if (keyStates[SDL_SCANCODE_V]) {
-            p1.angle -= p1.rot_speed;
+            if (!isPlayer1Turn || !stopMovement) p1.angle -= p1.rot_speed;
         }
         if (keyStates[SDL_SCANCODE_B]) {
-            p1.angle += p1.rot_speed;
+            if (!isPlayer1Turn || !stopMovement) p1.angle += p1.rot_speed;
         }
-
+        
+        
         if (keyStates[SDL_SCANCODE_DOWN]) {
-            p2.y += p2.speed;
+            if (isPlayer1Turn || !stopMovement) {
+                p2.y += p2.speed;
+            }
         }
         if (keyStates[SDL_SCANCODE_UP]) {
-            p2.y -= p2.speed;
+            if (isPlayer1Turn || !stopMovement) p2.y -= p2.speed;
         }
         if (keyStates[SDL_SCANCODE_LEFT]) {
-            p2.x -= p2.speed;
+            if (isPlayer1Turn || !stopMovement) p2.x -= p2.speed;
         }
         if (keyStates[SDL_SCANCODE_RIGHT]) {
-            p2.x += p2.speed;
+            if (isPlayer1Turn || !stopMovement) p2.x += p2.speed;
         }
         if (keyStates[SDL_SCANCODE_K]) {
-            p2.angle -= p2.rot_speed;
+            if (isPlayer1Turn || !stopMovement) p2.angle -= p2.rot_speed;
         }
         if (keyStates[SDL_SCANCODE_L]) {
-            p2.angle += p2.rot_speed;
+            if (isPlayer1Turn || !stopMovement) p2.angle += p2.rot_speed;
         }
+        
+        
 
         return n_back;
     }
@@ -194,6 +229,11 @@ public:
         return (x_overlaps && y_overlap);
     }
 
+    double degToRad(double deg) {
+        double pi = 3.14159265358;
+        return pi * deg / 180;
+    }
+
     void handleCollision() {
         if (!collideVerticalWall && (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH)) {
             ball.dir[0] = -ball.dir[0];
@@ -205,20 +245,32 @@ public:
         } else collideHorizontalWall = false;
 
         if(checkCollision(p2)) {
-            ball.dir[1] = -ball.dir[1];
-            if(!isPlayer1Turn) 
-            {
-                p2.score++;
-                startCountDown = true;
-            }
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p2.angle));
+            // std::cout << ball.dir[0] << "++\n";
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p2.angle));
+
+            // ball.dir[1] = -ball.dir[1];
+            isPlayer1Turn = true;
+            // std::cout << isPlayer1Turn << "++\n";
+            // if(!isPlayer1Turn) 
+            // {
+            //     p2.score++;
+            //     startCountDown = true;
+            // }
         }
         else if(checkCollision(p1))
         {
-            ball.dir[1] = -ball.dir[1];
-            if (isPlayer1Turn){
-                 p1.score++;
-                 startCountDown = true;
-            }
+            // ball.dir[1] = -ball.dir[1];
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p1.angle));
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p1.angle));
+            isPlayer1Turn = false;
+            // std::cout << isPlayer1Turn << "++\n";
+            // if (isPlayer1Turn){
+            //     p1.score++;
+            //     startCountDown = true;
+            // }
         }
         if (checkPaddleCollision(p1, p2).direction != NO_COLLISION) {
             CollisionInfo collisionInfo = checkPaddleCollision(p1, p2);
@@ -233,10 +285,39 @@ public:
                 case FROM_RIGHT:
                     p1.x -= (p2.rect.w);
                     break;
-            default:
+                default:
                     break;
-    }
-}
+            }
+        }
+
+        for (int i = 0; i < 2; ++i) {
+            if (effect[i].type != -1) {
+                if (
+                    (ball.rect.x < effect[i].rect.x + effect[i].rect.w && ball.rect.x + ball.d/2 > effect[i].rect.x) && 
+                    (ball.rect.y < effect[i].rect.y + effect[i].rect.h && ball.rect.y + ball.d/2 > effect[i].rect.y)
+                ) {
+                    // std::cout << "AAA\n";
+                    
+                    if (effect[i].type == 0) {
+                        ball.speed *= 2;
+                        // std::cout << "BBB\n";
+                    } else if (effect[i].type == 1) {
+                        stopMovement = true;
+                        startFreezing = clock();
+                    } else if (effect[i].type == 2) {
+                        ball.dir[0] = -ball.dir[0];
+                    } else {
+                        if (isPlayer1Turn) {
+                            p1.speed = p1.speed / 2 - 1;
+                        } else {
+                            p2.speed = p2.speed / 2 - 1;
+                        }
+                    }
+                    effect[i].type = -1;
+                    lastEffect = clock();
+                }
+            }
+        }
 
         if (ball.rect.y + ball.d / 2 >= SCREEN_HEIGHT) {
             intro = 3;
@@ -260,6 +341,8 @@ public:
             p2.rect.y = p2.y - p2.rect.h / 2;
             p2.angle = 0;
 
+            ball.speed = 8;
+            p1.speed = p2.speed = 10;
             start_intro = clock();
         }
 
@@ -267,36 +350,82 @@ public:
     }
 
     void renderPlayerScores() {
-    int scoreX = SCREEN_WIDTH / 2;
-    int scoreY = 20;
+        int scoreX = SCREEN_WIDTH / 2;
+        int scoreY = 20;
 
-    TextBox player1ScoreText;
-    player1ScoreText.renderer = renderer;
-    player1ScoreText.x = scoreX - 100;
-    player1ScoreText.y = scoreY;
-    player1ScoreText.size = 24;
-    player1ScoreText.color = {0, 0, 0};
-    player1ScoreText.message = "Player 1: " + std::to_string(p1.score);
-    player1ScoreText.render();
+        TextBox player1ScoreText;
+        player1ScoreText.renderer = renderer;
+        player1ScoreText.x = scoreX - 100;
+        player1ScoreText.y = scoreY;
+        player1ScoreText.size = 24;
+        player1ScoreText.color = {0, 0, 0};
+        player1ScoreText.message = "Player 1: " + std::to_string(p1.score);
+        player1ScoreText.render();
 
-    TextBox player2ScoreText;
-    player2ScoreText.renderer = renderer;
-    player2ScoreText.x = scoreX + 80;
-    player2ScoreText.y = scoreY;
-    player2ScoreText.size = 24;
-    player2ScoreText.color = {0, 0, 0};
-    player2ScoreText.message = "Player 2: " + std::to_string(p2.score);
-    player2ScoreText.render();
-}
+        TextBox player2ScoreText;
+        player2ScoreText.renderer = renderer;
+        player2ScoreText.x = scoreX + 80;
+        player2ScoreText.y = scoreY;
+        player2ScoreText.size = 24;
+        player2ScoreText.color = {0, 0, 0};
+        player2ScoreText.message = "Player 2: " + std::to_string(p2.score);
+        player2ScoreText.render();
+    }
 
 	void render() {
         SDL_SetRenderDrawColor(renderer, 237, 242, 239, 255);
         SDL_RenderClear(renderer);
 
         if (!first_time) {
+            for (int i = 0; i < 2; ++i) {
+                // std::cout << effect[i] << "\n";
+                if (effect[i].type != -1) {
+                    // std::cout << "---" << "\n";
+                    // Effect newEffect;
+                    // newEffect.renderer = renderer;
+                    // newEffect.type = effect[i];
+                    // newEffect.rect.x = effectPos[i][0];
+                    // newEffect.rect.y = effectPos[i][1];
+                    // std::cout << "BBB\n";
+                    effect[i].render();
+                    // std::cout << "CCC\n";
+                    if (!gapEffect) {
+                        lastEffect = clock();
+                        gapEffect = true;
+                    }
+                    // else gapEffect = !gapEffect;
+                }
+            }
             p1.render();
             p2.render();
             ball.render();
+            
+            
+        }
+        if (intro == 0) {
+            clock_t now = clock();
+            int seed = (rand() % 100);
+            // std::cout << "---" << now - lastEffect << "\n";
+            if (seed < 10 && now - lastEffect >= 3000) {
+                // std::cout << "+++" << seed << "\n";
+                for (int i = 0; i < 2; ++i) {
+                    if (effect[i].type == -1) {
+                        // std::cout << "***\n";
+                        // effect[i] = rand() % 4;
+                        // effectPos[i][0] = rand() % 440 + 20;
+                        // effectPos[i][1] = rand() % 200 + 20;
+                        effect[i].type = rand() % 4;
+                        effect[i].x = rand() % 380 + 50;
+                        effect[i].y = rand() % 120 + 50;
+                        // std::cout << effect[i].x << ", " << effect[i].y << "\n";
+                        effect[i].update();
+                        gapEffect = false;
+                        break;
+                    }
+                    
+                }
+                
+            }
         }
 
         if (intro > 0) {
@@ -309,7 +438,8 @@ public:
                 countdown.message = std::to_string(intro - 1);
                 intro--;
             }
-
+            lastEffect = clock();
+            gapEffect = false;
             // p1.render();
             // p2.render();
             // ball.render();
