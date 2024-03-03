@@ -31,6 +31,10 @@ public:
     }
 
 	~Player() {}
+    
+    bool operator==(const Player& rhs) const {
+        return rect.x == rhs.rect.x && rect.y == rhs.rect.y && rect.w == rhs.rect.w && rect.h == rhs.rect.h;
+    }
 
 	void update() {
         rect.x = x - rect.w / 2;
