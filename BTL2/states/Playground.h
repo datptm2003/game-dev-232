@@ -188,12 +188,56 @@ public:
             ball.update();
         }
     }
-    bool checkCollision (Player p) {
-        bool x_overlaps = (ball.rect.x < p.rect.x + p.rect.w && ball.rect.x + ball.d/2 > p.rect.x);
-        bool y_overlap = (ball.rect.y < p.rect.y + p.rect.h && ball.rect.y + ball.d/2 > p.rect.y);
-        return (x_overlaps && y_overlap);
-    }
 
+    bool checkCollision(Player p) {
+        float ballRadius = ball.d / 2;
+        float playerHalfWidth = p.rect.w / 2;
+        float playerHalfHeight = p.rect.h / 2;
+
+        float dx = ball.rect.x - (p.rect.x + playerHalfWidth);
+        float dy = ball.rect.y - (p.rect.y + playerHalfHeight);
+
+        float rotatedX = cos(-p.angle) * dx - sin(-p.angle) * dy;
+        float rotatedY = sin(-p.angle) * dx + cos(-p.angle) * dy;
+
+        float overlapX = ballRadius + playerHalfWidth - std::abs(rotatedX);
+        float overlapY = ballRadius + playerHalfHeight - std::abs(rotatedY);
+
+        bool xOverlap = overlapX > 0;
+        bool yOverlap = overlapY > 0;
+
+        if (xOverlap && yOverlap) {
+            float collisionX = cos(p.angle) * rotatedX - sin(p.angle) * rotatedY + (p.rect.x + playerHalfWidth);
+            float collisionY = sin(p.angle) * rotatedX + cos(p.angle) * rotatedY + (p.rect.y + playerHalfHeight);
+
+            if (overlapX < overlapY) {
+                if (rotatedX > 0) {
+                    ball.rect.x += overlapX;
+                } else {
+                    ball.rect.x -= overlapX;
+                }
+
+                ball.dir[0] = -ball.dir[0];
+
+                ball.rect.x = 2 * collisionX - ball.rect.x;
+
+            } else {
+                if (rotatedY > 0) {
+                    ball.rect.y += overlapY;
+                } else {
+                    ball.rect.y -= overlapY;
+                }
+
+                ball.dir[1] = -ball.dir[1];
+
+                ball.rect.y = 2 * collisionY - ball.rect.y;
+            }
+
+            return true;
+        }
+
+        return false;
+}
     void handleCollision() {
         if (!collideVerticalWall && (ball.rect.x - ball.d / 2 <= 0 || ball.rect.x + ball.d / 2 >= SCREEN_WIDTH)) {
             ball.dir[0] = -ball.dir[0];
@@ -205,7 +249,7 @@ public:
         } else collideHorizontalWall = false;
 
         if(checkCollision(p2)) {
-            ball.dir[1] = -ball.dir[1];
+            // ball.dir[1] = -ball.dir[1];
             if(!isPlayer1Turn) 
             {
                 p2.score++;
@@ -214,7 +258,7 @@ public:
         }
         else if(checkCollision(p1))
         {
-            ball.dir[1] = -ball.dir[1];
+            // ball.dir[1] = -ball.dir[1];
             if (isPlayer1Turn){
                  p1.score++;
                  startCountDown = true;
