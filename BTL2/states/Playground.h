@@ -188,6 +188,9 @@ public:
             ball.update();
         }
     }
+    float degToRad(float degrees) {
+        return degrees * (M_PI / 180.0f);
+    }
 
     bool checkCollision(Player p) {
         float ballRadius = ball.d / 2;
@@ -216,10 +219,10 @@ public:
                 } else {
                     ball.rect.x -= overlapX;
                 }
-
-                ball.dir[0] = -ball.dir[0];
-
-                ball.rect.x = 2 * collisionX - ball.rect.x;
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p.angle));
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p.angle));
+            ball.rect.x = 2 * collisionX - ball.rect.x;
 
             } else {
                 if (rotatedY > 0) {
@@ -228,9 +231,10 @@ public:
                     ball.rect.y -= overlapY;
                 }
 
-                ball.dir[1] = -ball.dir[1];
-
-                ball.rect.y = 2 * collisionY - ball.rect.y;
+            double temp = ball.dir[0];
+            ball.dir[0] = cos(acos(temp) - 2 * degToRad(p.angle));
+            ball.dir[1] = -sin(acos(temp) - 2 * degToRad(p.angle));
+            ball.rect.y = 2 * collisionY - ball.rect.y;
             }
 
             return true;
@@ -272,10 +276,16 @@ public:
                 case FROM_BOTTOM:
                     break;
                 case FROM_LEFT:
-                    p1.x += (p1.rect.w);
+                    if (collisionInfo.pushingPlayer == p2) {
+                    p1.x += (p1.rect.x);
+                    }
+                    p2.x += (p2.rect.x);
                     break;
                 case FROM_RIGHT:
-                    p1.x -= (p2.rect.w);
+                    if (collisionInfo.pushingPlayer == p2) {
+                        p1.x -= (p2.rect.x);
+                    }
+                    p2.x -= p1.rect.x;
                     break;
             default:
                     break;
