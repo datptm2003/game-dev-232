@@ -14,7 +14,8 @@ public class InteractableObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && playerInRange)
+        // if (Input.GetKeyDown(KeyCode.Mouse0) && playerInRange)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && playerInRange && SelectionManager.Instance.onTarget && SelectionManager.Instance.selectedObject == gameObject)
         {
             if (!InventorySystem.Instance.CheckIfFull())
             {
