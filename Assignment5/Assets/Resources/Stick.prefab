@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5132739847734352071}
   - component: {fileID: 5305422877024683449}
   - component: {fileID: 1221903127527797597}
-  - component: {fileID: 6927932843842566394}
+  - component: {fileID: 1381923435979973994}
   m_Layer: 5
-  m_Name: Stone
+  m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d1c5598fa17bc74339bd6e6c2aa313be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f4439fa59e0be64692c4c774572e46f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
---- !u!114 &6927932843842566394
+--- !u!114 &1381923435979973994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,14 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f34cca44078a35daf30a084e06325e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTrashable: 0
-  thisName: Stone
-  thisDescription: A simple stone
-  thisFunctionality: Use for crafting
-  isConsumable: 0
-  healthEffect: 0
-  caloriesEffect: 0
-  hydrationEffect: 0
-  isEquipable: 1
-  isInsideQuickSlot: 0
-  isSelected: 0
+  isTrashable: 1
+  thisName: Stick
+  thisDescription: A dry stick
+  thisFunctionality: Used for crafting
+  isConsumable: 1
+  healthEffect: 10
+  caloriesEffect: 100
+  hydrationEffect: 2

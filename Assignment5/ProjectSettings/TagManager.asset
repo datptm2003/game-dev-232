@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slot
   - QuickSlot
+  - Pickable
   layers:
   - Default
   - TransparentFX

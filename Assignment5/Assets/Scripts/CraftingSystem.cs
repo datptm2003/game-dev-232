@@ -22,6 +22,7 @@ public class CraftingSystem : MonoBehaviour
     public bool isOpen;
 
     // All Blueprint
+    public Blueprint AxeBLP = new Blueprint("Axe", 2, "Stone", 3, "Stick", 3);
 
 
     public static CraftingSystem Instance { get; set; }
@@ -50,7 +51,7 @@ public class CraftingSystem : MonoBehaviour
         AxeReq2 = toolsScreenUI.transform.Find("Axe").transform.Find("req2").GetComponent<Text>();
 
         craftAxeBTN = toolsScreenUI.transform.Find("Axe").transform.Find("Button").GetComponent<Button>();
-        craftAxeBTN.onClick.AddListener(delegate { CraftAnyItem("Axe"); });
+        craftAxeBTN.onClick.AddListener(delegate { CraftAnyItem(AxeBLP); });
     }
 
     void OpenToolsCategory()
@@ -59,18 +60,34 @@ public class CraftingSystem : MonoBehaviour
         toolsScreenUI.SetActive(true);
     }
 
-    void CraftAnyItem()
+    void CraftAnyItem(Blueprint blueprintToCraft)
     {
         // Add item into inventory
-        InventorySystem.Instance.AddToInventory();
+        Debug.Log(blueprintToCraft.itemName);
+        InventorySystem.Instance.AddToInventory(blueprintToCraft.itemName);
 
         // Remove resources from inventory
-        InventorySystem.Instance.RemoveItem("Stone", 3);
+        if (blueprintToCraft.numOfRequirements == 1)
+        {
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req1, blueprintToCraft.Req1amount);
+        }
+        else if (blueprintToCraft.numOfRequirements == 2)
+        {
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req1, blueprintToCraft.Req1amount);
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req2, blueprintToCraft.Req2amount);
+        }
+
+        StartCoroutine(calculate());
 
         // refresh list
-        InventorySystem.Instance.ReCalculateList();
         RefreshNeededItems();
+    }
 
+    public IEnumerator calculate()
+    {
+        yield return new WaitForSeconds(1f);
+
+        InventorySystem.Instance.ReCalculateList();
     }
 
     // Update is called once per frame
@@ -87,7 +104,7 @@ public class CraftingSystem : MonoBehaviour
             Cursor.visible = true;
 
             SelectionManager.Instance.DisableSelection();
-            // SelectionManager.Instance.GetComponent<SelectionManager>().enable = false;
+            SelectionManager.Instance.GetComponent<SelectionManager>().enabled = false;
 
             isOpen = true;
         }
@@ -104,13 +121,13 @@ public class CraftingSystem : MonoBehaviour
             }
 
             SelectionManager.Instance.EnableSelection();
-            // SelectionManager.Instance.GetComponent<SelectionManager>().enable = true;
+            SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
 
             isOpen = false;
         }
     }
 
-    private void RefreshNeededItems()
+    public void RefreshNeededItems()
     {
         int stone_count = 0;
         int stick_count = 0;

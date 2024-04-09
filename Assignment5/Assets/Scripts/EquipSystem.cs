@@ -11,7 +11,12 @@ public class EquipSystem : MonoBehaviour
     public GameObject quickSlotsPanel;
 
     public List<GameObject> quickSlotsList = new List<GameObject>();
-    public List<string> itemList = new List<string>();
+    // public List<string> itemList = new List<string>();
+
+    public GameObject numbersHolder;
+
+    public int selectedNumber = -1;
+    public GameObject selectedItem;
 
     private void Awake()
     {
@@ -29,6 +34,108 @@ public class EquipSystem : MonoBehaviour
     void Start()
     {
         PopulateSlotList();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SelectQuickSlot(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SelectQuickSlot(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SelectQuickSlot(3);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SelectQuickSlot(4);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SelectQuickSlot(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            SelectQuickSlot(6);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            SelectQuickSlot(7);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            SelectQuickSlot(8);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            SelectQuickSlot(9);
+        }
+    }
+
+    void SelectQuickSlot(int number)
+    {
+        if (checkIfSlotIsFull(number) == true)
+        {
+            if (selectedNumber != number)
+            {
+                selectedNumber = number;
+
+                // Unselect previously selected item
+                if (selectedItem != null)
+                {
+                    selectedItem.gameObject.GetComponent<InventoryItem>().isSelected = false;
+                }
+
+                selectedItem = GetSelectedItem(number);
+                selectedItem.GetComponent<InventoryItem>().isSelected = true;
+
+                // Changing the color
+                foreach (Transform child in numbersHolder.transform)
+                {
+                    child.GetComponent<Text>().color = Color.white;
+                }
+
+                Text toBeChanged = numbersHolder.transform.Find("Number" + number).GetComponent<Text>();
+                toBeChanged.color = Color.yellow;
+            }
+            else
+            {
+                // We are trying to select the same slot
+                selectedNumber = -1; // null
+
+                // Unselect previously selected item
+                if (selectedItem != null)
+                {
+                    selectedItem.gameObject.GetComponent<InventoryItem>().isSelected = false;
+                    selectedItem = null;
+                }
+
+                // Changing the color
+                foreach (Transform child in numbersHolder.transform)
+                {
+                    child.GetComponent<Text>().color = Color.white;
+                }
+            }
+        }
+    }
+
+    GameObject GetSelectedItem(int slotNumber)
+    {
+        return quickSlotsList[slotNumber - 1].transform.GetChild(0).gameObject;
+    }
+
+    bool checkIfSlotIsFull(int slotNumber)
+    {
+        if (quickSlotsList[slotNumber - 1].transform.childCount > 0)
+        {
+            return true;
+        }
+        else return false;
     }
 
     private void PopulateSlotList()
@@ -50,11 +157,11 @@ public class EquipSystem : MonoBehaviour
         // Set transform of our object
         itemToEquip.transform.SetParent(availableSlot.transform, false);
 
-        // Getting clean name
-        string cleanName = itemToEquip.name.Replace("(Clone)", "");
+        // // Getting clean name
+        // string cleanName = itemToEquip.name.Replace("(Clone)", "");
 
-        // Adding item to list
-        itemList.Add(cleanName);
+        // // Adding item to list
+        // itemList.Add(cleanName);
 
         InventorySystem.Instance.ReCalculateList();
     }
@@ -91,11 +198,5 @@ public class EquipSystem : MonoBehaviour
         {
             return false;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
