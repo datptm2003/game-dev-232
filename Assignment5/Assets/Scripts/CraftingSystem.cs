@@ -15,14 +15,20 @@ public class CraftingSystem : MonoBehaviour
 
     // Craft Buttons
     Button craftAxeBTN;
+    Button craftBowBTN;
+    Button craftMoonSword6BTN;
 
     // Requirement Text
     Text AxeReq1, AxeReq2;
+    Text BowReq1, BowReq2;
+    Text MoonSword6Req1, MoonSword6Req2;
 
     public bool isOpen;
 
     // All Blueprint
     public Blueprint AxeBLP = new Blueprint("Axe", 2, "Stone", 3, "Stick", 3);
+    public Blueprint BowBLP = new Blueprint("Bow", 2, "Stone", 1, "Stick", 1);
+    public Blueprint MoonSword6BLP = new Blueprint("MoonSword6", 2, "Stone", 1, "Stick", 1);
 
 
     public static CraftingSystem Instance { get; set; }
@@ -52,6 +58,20 @@ public class CraftingSystem : MonoBehaviour
 
         craftAxeBTN = toolsScreenUI.transform.Find("Axe").transform.Find("Button").GetComponent<Button>();
         craftAxeBTN.onClick.AddListener(delegate { CraftAnyItem(AxeBLP); });
+
+        // Bow
+        BowReq1 = toolsScreenUI.transform.Find("Bow").transform.Find("req1").GetComponent<Text>();
+        BowReq2 = toolsScreenUI.transform.Find("Bow").transform.Find("req2").GetComponent<Text>();
+
+        craftBowBTN = toolsScreenUI.transform.Find("Bow").transform.Find("Button").GetComponent<Button>();
+        craftBowBTN.onClick.AddListener(delegate { CraftAnyItem(BowBLP); });
+
+        // MoonSword6
+        MoonSword6Req1 = toolsScreenUI.transform.Find("MoonSword6").transform.Find("req1").GetComponent<Text>();
+        MoonSword6Req2 = toolsScreenUI.transform.Find("MoonSword6").transform.Find("req2").GetComponent<Text>();
+
+        craftMoonSword6BTN = toolsScreenUI.transform.Find("MoonSword6").transform.Find("Button").GetComponent<Button>();
+        craftMoonSword6BTN.onClick.AddListener(delegate { CraftAnyItem(MoonSword6BLP); });
     }
 
     void OpenToolsCategory()
@@ -63,7 +83,6 @@ public class CraftingSystem : MonoBehaviour
     void CraftAnyItem(Blueprint blueprintToCraft)
     {
         // Add item into inventory
-        Debug.Log(blueprintToCraft.itemName);
         InventorySystem.Instance.AddToInventory(blueprintToCraft.itemName);
 
         // Remove resources from inventory
@@ -161,5 +180,30 @@ public class CraftingSystem : MonoBehaviour
         }
 
 
+        // ------ Bow ------ //
+        BowReq1.text = "1 Stone [" + stone_count + "]";
+        BowReq2.text = "1 Stick [" + stick_count + "]";
+
+        if (stone_count >= 1 && stick_count >= 1)
+        {
+            craftBowBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftBowBTN.gameObject.SetActive(false);
+        }
+
+        // ------ MoonSword6 ------ //
+        MoonSword6Req1.text = "1 Stone [" + stone_count + "]";
+        MoonSword6Req2.text = "1 Stick [" + stick_count + "]";
+
+        if (stone_count >= 1 && stick_count >= 1)
+        {
+            craftMoonSword6BTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftMoonSword6BTN.gameObject.SetActive(false);
+        }
     }
 }

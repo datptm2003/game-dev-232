@@ -151,7 +151,7 @@ public class InventorySystem : MonoBehaviour
             }
 
         }
-        if (counter == 21)
+        if (counter == 56)
         {
             return true;
         }

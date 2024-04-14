@@ -15,8 +15,10 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Text itemInfoUI_itemName;
     private Text itemInfoUI_itemDescription;
     private Text itemInfoUI_itemFunctionality;
+    private Image itemInfoUI_itemImage;
 
     public string thisName, thisDescription, thisFunctionality;
+    public Sprite sprite;
 
     // ------- Consumption ------- //
     private GameObject itemPendingConsumptions;
@@ -40,6 +42,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemInfoUI_itemName = itemInfoUI.transform.Find("ItemName").GetComponent<Text>();
         itemInfoUI_itemDescription = itemInfoUI.transform.Find("ItemDescription").GetComponent<Text>();
         itemInfoUI_itemFunctionality = itemInfoUI.transform.Find("ItemFunctionality").GetComponent<Text>();
+        itemInfoUI_itemImage = itemInfoUI.transform.Find("ItemImage").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -62,6 +65,15 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemInfoUI_itemName.text = thisName;
         itemInfoUI_itemDescription.text = thisDescription;
         itemInfoUI_itemFunctionality.text = thisFunctionality;
+        itemInfoUI_itemImage.sprite = sprite;
+
+        // 
+        Vector2 pos = eventData.position;
+        pos.x = 900f;
+        if (pos.y < 325) pos.y = 325;
+        if (pos.y > 610) pos.y = 610;
+        itemInfoUI.transform.position = pos;
+        Debug.Log(eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)

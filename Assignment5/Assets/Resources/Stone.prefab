@@ -106,6 +106,7 @@ MonoBehaviour:
   thisName: Stone
   thisDescription: A simple stone
   thisFunctionality: Use for crafting
+  sprite: {fileID: 21300000, guid: d1c5598fa17bc74339bd6e6c2aa313be, type: 3}
   isConsumable: 0
   healthEffect: 0
   caloriesEffect: 0

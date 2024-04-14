@@ -145,8 +145,23 @@ public class EquipSystem : MonoBehaviour
         }
 
         string selectedItemName = selectedItem.name.Replace("(Clone)", "");
-        selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-            new Vector3(0.22f, -0.3f, 0.4f), Quaternion.Euler(18f, 80f, 1.36f));
+        if (selectedItemName == "Axe")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.22f, -0.3f, 0.4f), Quaternion.Euler(18f, 80f, 1.36f));
+        }
+        else if (selectedItemName == "MoonSword6")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.46f, -0.85f, 1.15f), Quaternion.Euler(27.3f, 72.7f, 4.25f));
+
+        }
+        else if (selectedItemName == "Bow")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.42f, -0.22f, 0.66f), Quaternion.Euler(-6f, -18f, -23f));
+
+        }
         selectedItemModel.transform.SetParent(toolHolder.transform, false);
     }
 

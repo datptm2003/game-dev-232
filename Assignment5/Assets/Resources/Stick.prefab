@@ -106,7 +106,11 @@ MonoBehaviour:
   thisName: Stick
   thisDescription: A dry stick
   thisFunctionality: Used for crafting
+  sprite: {fileID: 21300000, guid: 3f4439fa59e0be64692c4c774572e46f, type: 3}
   isConsumable: 1
   healthEffect: 10
   caloriesEffect: 100
   hydrationEffect: 2
+  isEquipable: 0
+  isInsideQuickSlot: 0
+  isSelected: 0
