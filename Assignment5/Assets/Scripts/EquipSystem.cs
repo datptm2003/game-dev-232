@@ -240,4 +240,26 @@ public class EquipSystem : MonoBehaviour
             return false;
         }
     }
+
+    internal int GetWeaponDamage()
+    {
+        if (selectedItem != null && selectedItemModel != null)
+        {
+            return selectedItemModel.GetComponent<WeaponStats>().weaponDamage;
+        }
+        else return 0;
+    }
+
+    internal bool IsHoldingWeapon()
+    {
+        if (selectedItem != null)
+        {
+            if (selectedItem.GetComponent<WeaponStats>() != null)
+            {
+                return true;
+            }
+            else return false;
+        }
+        else return false;
+    }
 }

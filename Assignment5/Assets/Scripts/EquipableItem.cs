@@ -36,5 +36,13 @@ public class EquipableItem : MonoBehaviour
         {
             selectedTree.GetComponent<ChoppableTree>().GetHit();
         }
+
+        GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+
+        if (selectedMonster != null)
+        {
+            Debug.Log(EquipSystem.Instance.GetWeaponDamage());
+            selectedMonster.GetComponent<Monster>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
+        }
     }
 }

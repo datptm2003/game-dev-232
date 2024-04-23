@@ -21,6 +21,9 @@ public class SelectionManager : MonoBehaviour
     public GameObject selectedTree;
     public GameObject chopHolder;
 
+    public GameObject selectedMonster;
+    public GameObject monsterHealthBar;
+
     private void Start()
     {
         onTarget = false;
@@ -48,6 +51,36 @@ public class SelectionManager : MonoBehaviour
         {
             var selectionTransform = hit.transform;
             InteractableObject interactable = selectionTransform.GetComponent<InteractableObject>();
+
+            Monster monster = selectionTransform.GetComponent<Monster>();
+            if (monster && monster.playerInRange)
+            {
+                Debug.Log("Here");
+                monster.canBeKilled = true;
+                selectedMonster = monster.gameObject;
+                monsterHealthBar.gameObject.SetActive(true);
+                monsterHealthBar.gameObject.transform.GetChild(0).GetComponent<Text>().text = monster.monsterName;
+
+                // interaction_text.text = monster.monsterName;
+                // interaction_Info_UI.SetActive(true);
+
+                // if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon())
+                // {
+                //     StartCoroutine(DealDamageTo(monster, 0.3f, EquipSystem.Instance.GetWeaponDamagge()));
+                // }
+            }
+            else
+            {
+                if (selectedMonster != null)
+                {
+                    selectedMonster.gameObject.GetComponent<Monster>().canBeKilled = false;
+                    selectedMonster = null;
+                    monsterHealthBar.gameObject.SetActive(false);
+                }
+                // interaction_text.text = "";
+                // interaction_Info_UI.SetActive(false);
+            }
+
 
             ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
 
@@ -110,6 +143,13 @@ public class SelectionManager : MonoBehaviour
 
             handIsVisible = false;
         }
+    }
+
+    IEnumerator DealDamageTo(Monster monster, float delay, int damage)
+    {
+        yield return new WaitForSeconds(delay);
+
+        monster.TakeDamage(damage);
     }
 
     public void EnableSelection()
