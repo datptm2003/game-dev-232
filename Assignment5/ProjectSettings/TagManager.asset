@@ -7,6 +7,21 @@ TagManager:
   - Slot
   - QuickSlot
   - Pickable
+<<<<<<< HEAD
+  - HelmetEquipSlot
+  - AccessoriesEquipSlot
+  - ArmorEquipSlot
+  - BootEquipSlot
+  - WeaponEquipSlot
+  - Helmet
+  - Accessories
+  - Armor
+  - Boot
+  - Weapon
+=======
+  - Target
+  - Monster
+>>>>>>> 5972869a34b6691c860a3241aae8b1c1880e6428
   layers:
   - Default
   - TransparentFX

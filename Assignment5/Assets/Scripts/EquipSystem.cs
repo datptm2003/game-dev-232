@@ -12,6 +12,15 @@ public class EquipSystem : MonoBehaviour
 
     public List<GameObject> quickSlotsList = new List<GameObject>();
     // public List<string> itemList = new List<string>();
+    public GameObject helmetSlot;
+
+    public GameObject accessoriesSlot;
+
+    public GameObject armorSlot;
+
+    public GameObject bootSlot;
+
+    public GameObject weaponSlot;
 
     public GameObject numbersHolder;
 
@@ -179,6 +188,35 @@ public class EquipSystem : MonoBehaviour
         else return false;
     }
 
+    bool checkIfEquipSlotIsFull(string type) {
+        if (type == "helmet") {
+            if (helmetSlot.transform.childCount > 0) {
+                return true;
+            }
+            else return false;
+        } else if (type == "accessories") {
+            if (accessoriesSlot.transform.childCount > 0) {
+                return true;
+            }
+            else return false;
+        } else if (type == "armor") {
+            if (armorSlot.transform.childCount > 0) {
+                return true;
+            }
+            else return false;
+        } else if (type == "boot") {
+            if (armorSlot.transform.childCount > 0) {
+                return true;
+            }
+            else return false;
+        } else if (type == "weapon") {
+            if (armorSlot.transform.childCount > 0) {
+                return true;
+            }
+            else return false;
+        } else return false;
+    }
+
     private void PopulateSlotList()
     {
         foreach (Transform child in quickSlotsPanel.transform)
@@ -188,6 +226,7 @@ public class EquipSystem : MonoBehaviour
                 quickSlotsList.Add(child.gameObject);
             }
         }
+
     }
 
     public void AddToQuickSlots(GameObject itemToEquip)
@@ -205,6 +244,20 @@ public class EquipSystem : MonoBehaviour
         // itemList.Add(cleanName);
 
         InventorySystem.Instance.ReCalculateList();
+    }
+
+    public void AddToEquipSlots(string type, GameObject item) {
+        if (type == "helmet") {
+            item.transform.SetParent(helmetSlot.transform, false);
+        } else if (type == "accessories") {
+            item.transform.SetParent(accessoriesSlot.transform, false);
+        } else if (type == "armor") {
+            item.transform.SetParent(armorSlot.transform, false);
+        } else if (type == "boot") {
+            item.transform.SetParent(bootSlot.transform, false);
+        } else if (type == "weapon") {
+            item.transform.SetParent(weaponSlot.transform, false);
+        }
     }
 
     private GameObject FindNextEmptySlot()
@@ -239,5 +292,27 @@ public class EquipSystem : MonoBehaviour
         {
             return false;
         }
+    }
+
+    internal int GetWeaponDamage()
+    {
+        if (selectedItem != null && selectedItemModel != null)
+        {
+            return selectedItemModel.GetComponent<WeaponStats>().weaponDamage;
+        }
+        else return 0;
+    }
+
+    internal bool IsHoldingWeapon()
+    {
+        if (selectedItem != null)
+        {
+            if (selectedItem.GetComponent<WeaponStats>() != null)
+            {
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 }

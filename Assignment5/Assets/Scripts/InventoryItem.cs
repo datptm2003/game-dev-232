@@ -33,6 +33,12 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private GameObject itemPendingEquipping;
     public bool isInsideQuickSlot;
 
+    public bool isInsideHelmetSlot;
+    public bool isInsideAccessoriesSlot;
+    public bool isInsideArmorSlot;
+    public bool isInsideBootSlot;
+    public bool isInsideWeaponSlot;
+
     public bool isSelected;
 
     // Start is called before the first frame update
@@ -97,6 +103,31 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 EquipSystem.Instance.AddToQuickSlots(gameObject);
                 isInsideQuickSlot = true;
+            }
+            if (isEquipable && isInsideHelmetSlot == false && gameObject.tag == "helmet")
+            {
+                EquipSystem.Instance.AddToEquipSlots("helmet",gameObject);
+                isInsideHelmetSlot = true;
+            }
+            if (isEquipable && isInsideAccessoriesSlot == false && gameObject.tag == "accessories")
+            {
+                EquipSystem.Instance.AddToEquipSlots("accessories",gameObject);
+                isInsideAccessoriesSlot = true;
+            }
+            if (isEquipable && isInsideArmorSlot == false && gameObject.tag == "armor")
+            {
+                EquipSystem.Instance.AddToEquipSlots("armor",gameObject);
+                isInsideArmorSlot = true;
+            }
+            if (isEquipable && isInsideBootSlot == false && gameObject.tag == "boot")
+            {
+                EquipSystem.Instance.AddToEquipSlots("boot",gameObject);
+                isInsideBootSlot = true;
+            }
+            if (isEquipable && isInsideWeaponSlot == false && gameObject.tag == "weapon")
+            {
+                EquipSystem.Instance.AddToEquipSlots("weapon",gameObject);
+                isInsideWeaponSlot = true;
             }
         }
 
