@@ -8,6 +8,7 @@ TagManager:
   - QuickSlot
   - Pickable
 <<<<<<< HEAD
+<<<<<<< HEAD
   - HelmetEquipSlot
   - AccessoriesEquipSlot
   - ArmorEquipSlot
@@ -18,6 +19,10 @@ TagManager:
   - Armor
   - Boot
   - Weapon
+=======
+  - Target
+  - Monster
+>>>>>>> 5972869a34b6691c860a3241aae8b1c1880e6428
 =======
   - Target
   - Monster
