@@ -4,78 +4,83 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator playerAnim;
-    public Rigidbody playerRigid;
-    public float w_speed, wb_speed, olw_speed, rn_speed, ro_speed;
-    public bool walking;
-    public Transform playerTrans;
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float jumpStrength = 8f; // Jump strength variable
+    [SerializeField] float rotationSpeed = 500f;
+    [SerializeField] float gravityMultiplier = 3f; // Added gravity multiplier
 
+    [Header("Ground Check Settings")]
+    [SerializeField] float groundCheckRadius = 0.2f;
+    [SerializeField] Vector3 groundCheckOffset;
+    [SerializeField] LayerMask groundLayer;
 
-    void FixedUpdate()
+    bool isGrounded;
+
+    float ySpeed;
+    Quaternion targetRotation;
+
+    CameraController cameraController;
+    Animator animator;
+    CharacterController characterController;
+
+    private void Awake()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            playerRigid.velocity = transform.forward * w_speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            playerRigid.velocity = -transform.forward * wb_speed * Time.deltaTime;
-        }
+        cameraController = Camera.main.GetComponent<CameraController>();
+        animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
     }
-    void Update()
+
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        float moveAmount = Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v));
+
+        var moveInput = (new Vector3(h, 0, v)).normalized;
+
+        var moveDir = cameraController.PlanarRotation * moveInput;
+
+        GroundCheck();
+
+        if (isGrounded)
         {
-            playerAnim.SetTrigger("walk");
-            playerAnim.ResetTrigger("idle");
-            walking = true;
-            //steps1.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            playerAnim.ResetTrigger("walk");
-            playerAnim.SetTrigger("idle");
-            walking = false;
-            //steps1.SetActive(false);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            playerAnim.SetTrigger("walkback");
-            playerAnim.ResetTrigger("idle");
-            //steps1.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            playerAnim.ResetTrigger("walkback");
-            playerAnim.SetTrigger("idle");
-            //steps1.SetActive(false);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
-        }
-        if (walking == true)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            ySpeed = -0.5f;
+
+            if (Input.GetButtonDown("Jump")) // Jump input handling
             {
-                //steps1.SetActive(false);
-                //steps2.SetActive(true);
-                w_speed = w_speed + rn_speed;
-                playerAnim.SetTrigger("run");
-                playerAnim.ResetTrigger("walk");
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                //steps1.SetActive(true);
-                //steps2.SetActive(false);
-                w_speed = olw_speed;
-                playerAnim.ResetTrigger("run");
-                playerAnim.SetTrigger("walk");
+                ySpeed = jumpStrength; // Apply jump force
             }
         }
+        else
+        {
+            ySpeed += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
+        }
+
+        var velocity = moveDir * moveSpeed;
+        velocity.y = ySpeed;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+        if (moveAmount > 0)
+        {
+            targetRotation = Quaternion.LookRotation(moveDir);
+        }
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
+            rotationSpeed * Time.deltaTime);
+
+        animator.SetFloat("moveAmount", moveAmount, 0.2f, Time.deltaTime);
+    }
+
+    void GroundCheck()
+    {
+        isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    }
+
+    private void onDrawGizmosSeletected()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
     }
 }

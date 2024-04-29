@@ -1,0 +1,289 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CraftingController2 : MonoBehaviour
+{
+    public GameObject craftingScreenUI;
+    public GameObject useItemsScreenUI;
+
+    public List<string> inventoryItemList = new List<string>();
+
+    // Category buttons
+    Button toolsBTN;
+    Button useItemsBTN;
+
+    // Craft buttons
+    Button craftAxeBTN;
+    Button craftBowBTN;
+    Button craftHammerBTN;
+    Button craftMoonSwordIceBTN;
+    Button craftMoonSwordFireBTN;
+    Button craftMoonSwordLightBTN;
+
+    // Requirement Text
+    Text AxeReq1, AxeReq2;
+    Text BowReq1, BowReq2;
+    Text HammerReq1, HammerReq2;
+    Text MoonSwordIceReq1, MoonSwordIceReq2;
+    Text MoonSwordFireReq1, MoonSwordFireReq2;
+    Text MoonSwordLightReq1, MoonSwordLightReq2;
+
+    public bool isOpen;
+
+    // All Blueprint
+    public Blueprint AxeBLP = new Blueprint("Axe", 2, 1, "Stone", 1, "Stick", 1);
+    public Blueprint BowBLP = new Blueprint("Bow", 2, 1, "Stone", 2, "Stick", 2);
+    public Blueprint HammerBLP = new Blueprint("Hammer", 2, 1, "Stone", 1, "Stick", 1);
+    public Blueprint MoonSwordIceBLP = new Blueprint("MoonSwordIce", 2, 2, "Stone", 2, "Stick", 2);
+    public Blueprint MoonSwordFireBLP = new Blueprint("MoonSwordFire", 2, 2, "Stone", 3, "Stick", 3);
+    public Blueprint MoonSwordLightBLP = new Blueprint("MoonSwordLight", 2, 3, "Stone", 4, "Stick", 4);
+
+    public static CraftingController Instance { get; set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        isOpen = false;
+
+        // Category buttons
+        toolsBTN = craftingScreenUI.transform.Find("ToolsButton").GetComponent<Button>();
+        toolsBTN.onClick.AddListener(delegate { OpenToolsCategory(); });
+
+        useItemsBTN = craftingScreenUI.transform.Find("UseItemsButton").GetComponent<Button>();
+        useItemsBTN.onClick.AddListener(delegate { OpenUseItemsCategory(); });
+
+        // Axe
+        AxeReq1 = toolsScreenUI.transform.Find("Axe").transform.Find("req1").GetComponent<Text>();
+        AxeReq2 = toolsScreenUI.transform.Find("Axe").transform.Find("req2").GetComponent<Text>();
+
+        craftAxeBTN = toolsScreenUI.transform.Find("Axe").transform.Find("Button").GetComponent<Button>();
+        craftAxeBTN.onClick.AddListener(delegate { CraftAnyItem(AxeBLP); });
+
+        // Bow
+        BowReq1 = toolsScreenUI.transform.Find("Bow").transform.Find("req1").GetComponent<Text>();
+        BowReq2 = toolsScreenUI.transform.Find("Bow").transform.Find("req2").GetComponent<Text>();
+
+        craftBowBTN = toolsScreenUI.transform.Find("Bow").transform.Find("Button").GetComponent<Button>();
+        craftBowBTN.onClick.AddListener(delegate { CraftAnyItem(BowBLP); });
+
+        // Hammer
+        HammerReq1 = toolsScreenUI.transform.Find("Hammer").transform.Find("req1").GetComponent<Text>();
+        HammerReq2 = toolsScreenUI.transform.Find("Hammer").transform.Find("req2").GetComponent<Text>();
+
+        craftHammerBTN = toolsScreenUI.transform.Find("Hammer").transform.Find("Button").GetComponent<Button>();
+        craftHammerBTN.onClick.AddListener(delegate { CraftAnyItem(HammerBLP); });
+
+        // MoonSwordIce
+        MoonSwordIceReq1 = toolsScreenUI.transform.Find("MoonSwordIce").transform.Find("req1").GetComponent<Text>();
+        MoonSwordIceReq2 = toolsScreenUI.transform.Find("MoonSwordIce").transform.Find("req2").GetComponent<Text>();
+
+        craftMoonSwordIceBTN = toolsScreenUI.transform.Find("MoonSwordIce").transform.Find("Button").GetComponent<Button>();
+        craftMoonSwordIceBTN.onClick.AddListener(delegate { CraftAnyItem(MoonSwordIceBLP); });
+
+        // MoonSwordFire
+        MoonSwordFireReq1 = toolsScreenUI.transform.Find("MoonSwordFire").transform.Find("req1").GetComponent<Text>();
+        MoonSwordFireReq2 = toolsScreenUI.transform.Find("MoonSwordFire").transform.Find("req2").GetComponent<Text>();
+
+        craftMoonSwordFireBTN = toolsScreenUI.transform.Find("MoonSwordFire").transform.Find("Button").GetComponent<Button>();
+        craftMoonSwordFireBTN.onClick.AddListener(delegate { CraftAnyItem(MoonSwordFireBLP); });
+
+        // MoonSwordLight
+        MoonSwordLightReq1 = toolsScreenUI.transform.Find("MoonSwordLight").transform.Find("req1").GetComponent<Text>();
+        MoonSwordLightReq2 = toolsScreenUI.transform.Find("MoonSwordLight").transform.Find("req2").GetComponent<Text>();
+
+        craftMoonSwordLightBTN = toolsScreenUI.transform.Find("MoonSwordLight").transform.Find("Button").GetComponent<Button>();
+        craftMoonSwordLightBTN.onClick.AddListener(delegate { CraftAnyItem(MoonSwordLightBLP); });
+    }
+
+    void OpenToolsCategory()
+    {
+        craftingScreenUI.SetActive(true);
+        useItemsScreenUI.SetActive(false);
+    }
+
+    void OpenUseItemsCategory()
+    {
+        craftingScreenUI.SetActive(false);
+        useItemsScreenUI.SetActive(true);
+    }
+
+    void CraftAnyItem(Blueprint blueprintToCraft)
+    {
+        // Add item into inventory
+        InventorySystem.Instance.AddToInventory(blueprintToCraft.itemName);
+
+        // Remove resources from inventory
+        if (blueprintToCraft.numOfRequirements == 1)
+        {
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req1, blueprintToCraft.Req1amount);
+        }
+        else if (blueprintToCraft.numOfRequirements == 2)
+        {
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req1, blueprintToCraft.Req1amount);
+            InventorySystem.Instance.RemoveItem(blueprintToCraft.Req2, blueprintToCraft.Req2amount);
+        }
+
+        StartCoroutine(calculate(blueprintToCraft));
+
+        // refresh list
+        RefreshNeededItems();
+    }
+
+    public IEnumerator calculate(Blueprint blueprintToCraft)
+    {
+        yield return new WaitForSeconds(blueprintToCraft.waitingTime);
+
+        InventorySystem.Instance.ReCalculateList();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        RefreshNeededItems();
+
+        if (Input.GetKeyDown(KeyCode.C) && !isOpen)
+        {
+            Debug.Log("c is pressed");
+
+            craftingScreenUI.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            SelectionManager.Instance.DisableSelection();
+            SelectionManager.Instance.GetComponent<SelectionManager>().enabled = false;
+
+            isOpen = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.C) && isOpen)
+        {
+            Debug.Log("c is pressed");
+
+            craftingScreenUI.SetActive(false);
+            toolsScreenUI.SetActive(false);
+
+            if (!InventorySystem.Instance.isOpen)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            SelectionManager.Instance.EnableSelection();
+            SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
+
+            isOpen = false;
+        }
+    }
+
+    public void RefreshNeededItems()
+    {
+        int stone_count = 0;
+        int stick_count = 0;
+
+        inventoryItemList = InventorySystem.Instance.itemList;
+
+        foreach (string itemName in inventoryItemList)
+        {
+            switch (itemName)
+            {
+                case "Stone":
+                    stone_count += 1;
+                    break;
+                case "Stick":
+                    stick_count += 1;
+                    break;
+            }
+        }
+
+        // ------ AXE ------ //
+        AxeReq1.text = "1 Stone [" + stone_count + "]";
+        AxeReq2.text = "1 Stick [" + stick_count + "]";
+
+        if (stone_count >= 1 && stick_count >= 1)
+        {
+            craftAxeBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftAxeBTN.gameObject.SetActive(false);
+        }
+
+        // ------ Bow ------ //
+        BowReq1.text = "1 Stone [" + stone_count + "]";
+        BowReq2.text = "1 Stick [" + stick_count + "]";
+
+        if (stone_count >= 1 && stick_count >= 1)
+        {
+            craftBowBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftBowBTN.gameObject.SetActive(false);
+        }
+
+        // ------ Hammer ------ //
+        HammerReq1.text = "1 Stone [" + stone_count + "]";
+        HammerReq2.text = "1 Stick [" + stick_count + "]";
+
+        if (stone_count >= 1 && stick_count >= 1)
+        {
+            craftHammerBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftHammerBTN.gameObject.SetActive(false);
+        }
+
+        // ------ MoonSwordIce ------ //
+        MoonSwordIceReq1.text = "2 Stone [" + stone_count + "]";
+        MoonSwordIceReq2.text = "2 Stick [" + stick_count + "]";
+
+        if (stone_count >= 2 && stick_count >= 2)
+        {
+            craftMoonSwordIceBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftMoonSwordIceBTN.gameObject.SetActive(false);
+        }
+
+        // ------ MoonSwordFire ------ //
+        MoonSwordFireReq1.text = "3 Stone [" + stone_count + "]";
+        MoonSwordFireReq2.text = "3 Stick [" + stick_count + "]";
+
+        if (stone_count >= 3 && stick_count >= 3)
+        {
+            craftMoonSwordFireBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftMoonSwordFireBTN.gameObject.SetActive(false);
+        }
+
+        // ------ MoonSwordLight ------ //
+        MoonSwordLightReq1.text = "4 Stone [" + stone_count + "]";
+        MoonSwordLightReq2.text = "4 Stick [" + stick_count + "]";
+
+        if (stone_count >= 4 && stick_count >= 4)
+        {
+            craftMoonSwordLightBTN.gameObject.SetActive(true);
+        }
+        else
+        {
+            craftMoonSwordLightBTN.gameObject.SetActive(false);
+        }
+    }
+}

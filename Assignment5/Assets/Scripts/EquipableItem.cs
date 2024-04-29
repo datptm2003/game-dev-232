@@ -18,7 +18,8 @@ public class EquipableItem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && // Left mouse button
             InventorySystem.Instance.isOpen == false &&
-            CraftingSystem.Instance.isOpen == false &&
+            // CraftingSystem.Instance.isOpen == false &&
+            CraftingController.Instance.isOpen == false &&
             SelectionManager.Instance.handIsVisible == false
         )
         {
@@ -41,8 +42,14 @@ public class EquipableItem : MonoBehaviour
 
         if (selectedMonster != null)
         {
-            Debug.Log(EquipSystem.Instance.GetWeaponDamage());
             selectedMonster.GetComponent<Monster>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
+        }
+
+        GameObject selectedStone = SelectionManager.Instance.selectedStone;
+
+        if (selectedStone != null)
+        {
+            selectedStone.GetComponent<Stone>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
         }
     }
 }

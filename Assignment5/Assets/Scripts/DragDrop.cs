@@ -35,6 +35,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             canvasGroup.blocksRaycasts = false;
         }
 
+
         startPosition = transform.position;
         startParent = transform.parent;
         transform.SetParent(transform.root);
@@ -43,10 +44,17 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+
         if (canvas != null)
         {
             // Thực hiện kéo thả vật phẩm
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        }
+        else
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 0;
+            transform.position = mousePos;
         }
     }
 

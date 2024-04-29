@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class AI_Movement : MonoBehaviour
 {
+    public static AI_Movement Instance { get; set; }
     public Animator animator;
 
     public float moveSpeed = 2f;
@@ -20,6 +21,8 @@ public class AI_Movement : MonoBehaviour
 
     public bool isWalking;
 
+    public bool isAttacking;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,15 +36,19 @@ public class AI_Movement : MonoBehaviour
         waitCounter = waitTime;
         walkCounter = walkTime;
 
+        isAttacking = false;
+
         ChooseDirection();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isWalking)
+        if (!isAttacking && isWalking)
         {
-            animator.SetTrigger("walk");
+            animator.SetTrigger("WalkForward");
+            animator.SetBool("WalkForward", true);
+            animator.SetBool("Idle", false);
 
             walkCounter -= Time.deltaTime;
 
@@ -72,12 +79,14 @@ public class AI_Movement : MonoBehaviour
                 // stop movement
                 transform.position = stopPosition;
                 // animator.SetBool("isRunning", false);
-                animator.SetTrigger("idle");
+                animator.SetTrigger("Idle");
+                animator.SetBool("Idle", true);
+                animator.SetBool("WalkForward", false);
                 // reset the waitCounter
                 waitCounter = waitTime;
             }
         }
-        else
+        else if (!isAttacking && !isWalking)
         {
             waitCounter -= Time.deltaTime;
 

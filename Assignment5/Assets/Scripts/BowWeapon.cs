@@ -20,7 +20,8 @@ public class BowWeapon : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && // Left mouse button
             InventorySystem.Instance.isOpen == false &&
-            CraftingSystem.Instance.isOpen == false &&
+            // CraftingSystem.Instance.isOpen == false &&
+            CraftingController.Instance.isOpen == false &&
             SelectionManager.Instance.handIsVisible == false
         )
         {

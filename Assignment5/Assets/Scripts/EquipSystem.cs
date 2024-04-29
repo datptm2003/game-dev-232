@@ -11,7 +11,16 @@ public class EquipSystem : MonoBehaviour
     public GameObject quickSlotsPanel;
 
     public List<GameObject> quickSlotsList = new List<GameObject>();
-    // public List<string> itemList = new List<string>();
+
+    public GameObject helmetSlot;
+
+    public GameObject accessoriesSlot;
+
+    public GameObject armorSlot;
+
+    public GameObject bootSlot;
+
+    public GameObject weaponSlot;
 
     public GameObject numbersHolder;
 
@@ -21,6 +30,8 @@ public class EquipSystem : MonoBehaviour
     public GameObject toolHolder;
 
     public GameObject selectedItemModel;
+
+    public GameObject player;
 
     private void Awake()
     {
@@ -145,23 +156,39 @@ public class EquipSystem : MonoBehaviour
         }
 
         string selectedItemName = selectedItem.name.Replace("(Clone)", "");
+        print(selectedItemName);
+
         if (selectedItemName == "Axe")
         {
             selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.22f, -0.3f, 0.4f), Quaternion.Euler(18f, 80f, 1.36f));
-        }
-        else if (selectedItemName == "MoonSword6")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.46f, -0.85f, 1.15f), Quaternion.Euler(27.3f, 72.7f, 4.25f));
-
+                new Vector3(-0.624f, 0.118f, 0f), Quaternion.Euler(180f, 0f, 90f));
         }
         else if (selectedItemName == "Bow")
         {
             selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
                 new Vector3(0.42f, -0.22f, 0.66f), Quaternion.Euler(-6f, -18f, -23f));
-
         }
+        else if (selectedItemName == "Hammer")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(-0.291f, 0.075f, 0f), Quaternion.Euler(0f, 0f, 90f));
+        }
+        else if (selectedItemName == "MoonSwordIce")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
+        }
+        else if (selectedItemName == "MoonSwordFire")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
+        }
+        else if (selectedItemName == "MoonSwordLight")
+        {
+            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
+        }
+
         selectedItemModel.transform.SetParent(toolHolder.transform, false);
     }
 
@@ -261,5 +288,24 @@ public class EquipSystem : MonoBehaviour
             else return false;
         }
         else return false;
+    }
+
+    public void EquipItem(GameObject itemToEquip, string tag)
+    {
+        GameObject availableSlot = FindNextEmptySlot(tag);
+        if (availableSlot)
+        {
+            itemToEquip.transform.SetParent(availableSlot.transform, false);
+            InventorySystem.Instance.ReCalculateList();
+        }
+    }
+
+    private GameObject FindNextEmptySlot(string tag)
+    {
+        if (tag == "WeaponEquipSlot" && weaponSlot.transform.childCount == 0)
+        {
+            return weaponSlot;
+        }
+        return null;
     }
 }

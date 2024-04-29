@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     // ------- Is this item trashable ------- //
+    [Header("Trashable")]
     public bool isTrashable;
 
     // ------- Item Info UI ------- //
+    [Header("Item Info")]
     private GameObject itemInfoUI;
-
     private Text itemInfoUI_itemName;
     private Text itemInfoUI_itemDescription;
     private Text itemInfoUI_itemFunctionality;
@@ -21,6 +22,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Sprite sprite;
 
     // ------- Consumption ------- //
+    [Header("Consumption")]
     private GameObject itemPendingConsumptions;
     public bool isConsumable;
 
@@ -29,6 +31,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public float hydrationEffect;
 
     // ------- Equipping ------- //
+    [Header("Equipping")]
     public bool isEquipable;
     private GameObject itemPendingEquipping;
     public bool isInsideQuickSlot;
@@ -73,7 +76,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (pos.y < 325) pos.y = 325;
         if (pos.y > 610) pos.y = 610;
         itemInfoUI.transform.position = pos;
-        Debug.Log(eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -95,8 +97,13 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
             if (isEquipable && isInsideQuickSlot == false && EquipSystem.Instance.CheckIfFull() == false)
             {
-                EquipSystem.Instance.AddToQuickSlots(gameObject);
-                isInsideQuickSlot = true;
+                if (gameObject.CompareTag("WeaponEquipSlot"))
+                {
+                    Debug.Log("Equip weapon slot");
+                    EquipSystem.Instance.EquipItem(gameObject, "WeaponEquipSlot");
+                }
+                // EquipSystem.Instance.AddToQuickSlots(gameObject);
+                // isInsideQuickSlot = true;
             }
         }
 
@@ -111,7 +118,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 DestroyImmediate(gameObject);
                 InventorySystem.Instance.ReCalculateList();
-                CraftingSystem.Instance.RefreshNeededItems();
+                // CraftingSystem.Instance.RefreshNeededItems();
             }
         }
     }

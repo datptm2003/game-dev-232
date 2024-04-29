@@ -22,19 +22,29 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         // if there is not item already then set our item.
         if (!Item)
         {
-            DragDrop.itemBeingDragged.transform.SetParent(transform);
-            DragDrop.itemBeingDragged.transform.localPosition = new Vector2(0, 0);
+            bool check = false;
 
-            if (transform.CompareTag("QuickSlot") == false)
+            if (transform.CompareTag("Slot"))
             {
                 DragDrop.itemBeingDragged.GetComponent<InventoryItem>().isInsideQuickSlot = false;
-                InventorySystem.Instance.ReCalculateList();
+                check = true;
             }
             else if (transform.CompareTag("QuickSlot"))
             {
                 DragDrop.itemBeingDragged.GetComponent<InventoryItem>().isInsideQuickSlot = true;
-                InventorySystem.Instance.ReCalculateList();
+                check = true;
+            }
+            else if (transform.CompareTag("WeaponEquipSlot") && DragDrop.itemBeingDragged.CompareTag("WeaponEquipSlot"))
+            {
+                DragDrop.itemBeingDragged.GetComponent<InventoryItem>().isInsideQuickSlot = false;
+                check = true;
+            }
 
+            if (check)
+            {
+                DragDrop.itemBeingDragged.transform.SetParent(transform);
+                DragDrop.itemBeingDragged.transform.localPosition = new Vector2(0, 0);
+                InventorySystem.Instance.ReCalculateList();
             }
         }
     }

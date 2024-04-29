@@ -22,6 +22,7 @@ public class SelectionManager : MonoBehaviour
     public GameObject chopHolder;
 
     public GameObject selectedMonster;
+    public GameObject selectedStone;
     public GameObject monsterHealthBar;
 
     private void Start()
@@ -55,7 +56,6 @@ public class SelectionManager : MonoBehaviour
             Monster monster = selectionTransform.GetComponent<Monster>();
             if (monster && monster.playerInRange)
             {
-                Debug.Log("Here");
                 monster.canBeKilled = true;
                 selectedMonster = monster.gameObject;
                 monsterHealthBar.gameObject.SetActive(true);
@@ -76,6 +76,35 @@ public class SelectionManager : MonoBehaviour
                     selectedMonster.gameObject.GetComponent<Monster>().canBeKilled = false;
                     selectedMonster = null;
                     monsterHealthBar.gameObject.SetActive(false);
+                }
+                // interaction_text.text = "";
+                // interaction_Info_UI.SetActive(false);
+            }
+
+
+            Stone stone = selectionTransform.GetComponent<Stone>();
+            if (stone && stone.playerInRange)
+            {
+                stone.canBeKilled = true;
+                selectedStone = stone.gameObject;
+                chopHolder.gameObject.SetActive(true);
+                chopHolder.gameObject.transform.GetChild(0).GetComponent<Text>().text = stone.name;
+
+                // interaction_text.text = monster.monsterName;
+                // interaction_Info_UI.SetActive(true);
+
+                // if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon())
+                // {
+                //     StartCoroutine(DealDamageTo(monster, 0.3f, EquipSystem.Instance.GetWeaponDamagge()));
+                // }
+            }
+            else
+            {
+                if (selectedStone != null)
+                {
+                    selectedStone.gameObject.GetComponent<Stone>().canBeKilled = false;
+                    selectedStone = null;
+                    chopHolder.gameObject.SetActive(false);
                 }
                 // interaction_text.text = "";
                 // interaction_Info_UI.SetActive(false);

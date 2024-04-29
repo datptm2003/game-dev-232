@@ -107,7 +107,7 @@ public class InventorySystem : MonoBehaviour
         TriggerPickupPopUp(itemName, sprite);
 
         ReCalculateList();
-        CraftingSystem.Instance.RefreshNeededItems();
+        // CraftingSystem.Instance.RefreshNeededItems();
     }
 
     void TriggerPickupPopUp(string itemName, Sprite itemSprite)
@@ -180,7 +180,7 @@ public class InventorySystem : MonoBehaviour
 
         ReCalculateList();
 
-        CraftingSystem.Instance.RefreshNeededItems();
+        // CraftingSystem.Instance.RefreshNeededItems();
     }
 
     public void ReCalculateList()
