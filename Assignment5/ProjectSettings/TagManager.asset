@@ -9,6 +9,12 @@ TagManager:
   - Pickable
   - Target
   - Monster
+  - AccessoriesEquipSlot
+  - BootEquipSlot
+  - HelmetEquipSlot
+  - ArmorEquipSlot
+  - WeaponEquipSlot
+  - Stone
   layers:
   - Default
   - TransparentFX

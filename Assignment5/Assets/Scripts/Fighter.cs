@@ -45,6 +45,10 @@ public class Fighter : MonoBehaviour
             {
                 OnClick();
             }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                ChopTree();
+            }
         }
     }
 
@@ -84,6 +88,36 @@ public class Fighter : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+    }
+
+    void ChopTree()
+    {
+        GameObject selectedTree = SelectionManager.Instance.selectedTree;
+
+        if (selectedTree != null)
+        {
+            StartCoroutine(ChopHit(selectedTree));
+        }
+    }
+
+    IEnumerator ChopHit(GameObject selectedTree)
+    {
+        resetAnimator();
+        animator.SetBool("hit_tree", true);
+
+        yield return new WaitForSeconds(1.5f);
+
+        selectedTree.GetComponent<ChoppableTree>().GetHit();
+        animator.SetBool("hit_tree", false);
+    }
+
+    void resetAnimator()
+    {
+        animator.SetBool("hit1", false);
+        animator.SetBool("hit2", false);
+        animator.SetBool("hit3", false);
+        animator.SetBool("hit_tree", false);
+        animator.SetBool("hit_stone", false);
     }
 
 

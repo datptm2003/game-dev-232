@@ -10,8 +10,18 @@ public class SelectionManager : MonoBehaviour
 
     public GameObject selectedObject;
 
+    [Header("Interaction UI")]
     public GameObject interaction_Info_UI;
+    public GameObject key_Interaction_Info_UI;
+
     Text interaction_text;
+    Text keyInteractionText;
+    Image keyInteractionImage;
+
+    public Sprite z;
+    public Sprite f;
+
+    [Header("Icon")]
 
     public Image centerDotImage;
     public Image handIcon;
@@ -28,7 +38,9 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         onTarget = false;
-        interaction_text = interaction_Info_UI.GetComponent<Text>();
+        interaction_text = interaction_Info_UI.transform.GetChild(1).transform.GetComponent<Text>();
+        keyInteractionText = key_Interaction_Info_UI.transform.GetChild(1).transform.GetComponent<Text>();
+        keyInteractionImage = key_Interaction_Info_UI.transform.GetChild(2).transform.GetComponent<Image>();
     }
 
     private void Awake()
@@ -144,6 +156,10 @@ public class SelectionManager : MonoBehaviour
                     handIcon.gameObject.SetActive(true);
 
                     handIsVisible = true;
+
+                    keyInteractionImage.sprite = z;
+                    keyInteractionText.text = "Pickup";
+                    key_Interaction_Info_UI.SetActive(true);
                 }
                 else
                 {
@@ -151,12 +167,14 @@ public class SelectionManager : MonoBehaviour
                     handIcon.gameObject.SetActive(false);
 
                     handIsVisible = false;
+                    key_Interaction_Info_UI.SetActive(false);
                 }
             }
             else
             {
                 onTarget = false;
                 interaction_Info_UI.SetActive(false);
+                key_Interaction_Info_UI.SetActive(false);
                 centerDotImage.gameObject.SetActive(true);
                 handIcon.gameObject.SetActive(false);
 
@@ -167,6 +185,7 @@ public class SelectionManager : MonoBehaviour
         {
             onTarget = false;
             interaction_Info_UI.SetActive(false);
+            key_Interaction_Info_UI.SetActive(false);
             centerDotImage.gameObject.SetActive(true);
             handIcon.gameObject.SetActive(false);
 
@@ -195,5 +214,6 @@ public class SelectionManager : MonoBehaviour
         handIcon.enabled = false;
         centerDotImage.enabled = false;
         interaction_Info_UI.SetActive(false);
+        key_Interaction_Info_UI.SetActive(false);
     }
 }
