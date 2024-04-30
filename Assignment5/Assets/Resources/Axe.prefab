@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7076293166709692302}
   m_Layer: 5
   m_Name: Axe
-  m_TagString: Untagged
+  m_TagString: WeaponEquipSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,13 @@ MonoBehaviour:
   thisName: Axe
   thisDescription: A sharp tool.
   thisFunctionality: Used to chop down trees.
+  type: Axe
+  damage: 35
+  attack: 30
+  strength: 7
+  agility: 3
+  luckily: 1
+  sprite: {fileID: 21300000, guid: c20c426c837766ed093c03149968c87c, type: 3}
   isConsumable: 0
   healthEffect: 0
   caloriesEffect: 0

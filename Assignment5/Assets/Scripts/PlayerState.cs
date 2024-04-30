@@ -26,6 +26,14 @@ public class PlayerState : MonoBehaviour
 
     public bool isHydrationActive = true;
 
+    // Player Stats
+    public int strength;
+    public int defense;
+    public int agility;
+    public int luckily;
+    public int weaponDamage;
+    public int damageRegular;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -90,5 +98,30 @@ public class PlayerState : MonoBehaviour
     public void setHydration(float newHydration)
     {
         currentHydrationPercentage = newHydration;
+    }
+
+    public void setWeaponDamage(int newWeaponDamage)
+    {
+        weaponDamage = newWeaponDamage;
+    }
+
+    public void setStrength(int newStrength)
+    {
+        strength = newStrength;
+    }
+
+    public void setAgility(int newAgility)
+    {
+        agility = newAgility;
+    }
+
+    public void setLuckily(int newLuckily)
+    {
+        luckily = newLuckily;
+    }
+
+    public int GetDamage()
+    {
+        return damageRegular + weaponDamage;
     }
 }

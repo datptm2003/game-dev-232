@@ -106,6 +106,12 @@ MonoBehaviour:
   thisName: Moon Sword Light
   thisDescription: A sharp tool.
   thisFunctionality: Used to chop down trees.
+  type: Sword
+  damage: 164
+  attack: 150
+  strength: 16
+  agility: 4
+  luckily: 11
   sprite: {fileID: 21300000, guid: 0a2120276dcb47ed8bc19e86c5e22905, type: 3}
   isConsumable: 0
   healthEffect: 0

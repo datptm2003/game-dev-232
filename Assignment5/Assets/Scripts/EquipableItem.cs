@@ -42,14 +42,14 @@ public class EquipableItem : MonoBehaviour
 
         if (selectedMonster != null)
         {
-            selectedMonster.GetComponent<Monster>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
+            selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
         }
 
         GameObject selectedStone = SelectionManager.Instance.selectedStone;
 
         if (selectedStone != null)
         {
-            selectedStone.GetComponent<Stone>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
+            selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage);
         }
     }
 }

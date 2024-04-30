@@ -155,41 +155,54 @@ public class EquipSystem : MonoBehaviour
             selectedItemModel = null;
         }
 
-        string selectedItemName = selectedItem.name.Replace("(Clone)", "");
-        print(selectedItemName);
+        selectedItem.name = selectedItem.name.Replace("(Clone)", "");
 
-        if (selectedItemName == "Axe")
+        string selectedItemName = selectedItem.name.Replace("(Clone)", "");
+
+        InventoryItem item = selectedItem.transform.GetComponent<InventoryItem>();
+
+        if (item.isEquipable)
         {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(-0.624f, 0.118f, 0f), Quaternion.Euler(180f, 0f, 90f));
+            // Display weapon model
+            if (item.type == "Sword")
+            {
+                selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                    new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
+            }
+            else if (item.type == "Axe")
+            {
+                selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                    new Vector3(-0.624f, 0.118f, 0f), Quaternion.Euler(180f, 0f, 90f));
+            }
+            else if (item.type == "Bow")
+            {
+                selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                    new Vector3(0.42f, -0.22f, 0.66f), Quaternion.Euler(-6f, -18f, -23f));
+            }
+            else if (item.type == "Hammer")
+            {
+                selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                    new Vector3(-0.291f, 0.075f, 0f), Quaternion.Euler(0f, 0f, 90f));
+            }
+
+            // Update stats
+            UpdateStats(item.damage, item.strength, item.agility, item.luckily);
+
+            // Display weapon equipped
+            if (gameObject.CompareTag("WeaponEquipSlot"))
+                EquipSystem.Instance.EquipItem(selectedItem, "WeaponEquipSlot");
         }
-        else if (selectedItemName == "Bow")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.42f, -0.22f, 0.66f), Quaternion.Euler(-6f, -18f, -23f));
-        }
-        else if (selectedItemName == "Hammer")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(-0.291f, 0.075f, 0f), Quaternion.Euler(0f, 0f, 90f));
-        }
-        else if (selectedItemName == "MoonSwordIce")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
-        }
-        else if (selectedItemName == "MoonSwordFire")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
-        }
-        else if (selectedItemName == "MoonSwordLight")
-        {
-            selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                new Vector3(0.045f, 0.145f, 0f), Quaternion.Euler(0f, 0f, 90f));
-        }
+
 
         selectedItemModel.transform.SetParent(toolHolder.transform, false);
+    }
+
+    void UpdateStats(int damage, int strength, int agility, int luckily)
+    {
+        PlayerState.Instance.setWeaponDamage(damage);
+        PlayerState.Instance.setStrength(strength);
+        PlayerState.Instance.setAgility(agility);
+        PlayerState.Instance.setLuckily(luckily);
     }
 
     GameObject GetSelectedItem(int slotNumber)

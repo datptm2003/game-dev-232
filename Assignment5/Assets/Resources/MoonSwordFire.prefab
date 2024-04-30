@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7076293166709692302}
   m_Layer: 5
   m_Name: MoonSwordFire
-  m_TagString: Untagged
+  m_TagString: WeaponEquipSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,12 @@ MonoBehaviour:
   thisName: Moon Sword Fire
   thisDescription: A sharp tool.
   thisFunctionality: Used to chop down trees.
+  type: Sword
+  damage: 136
+  attack: 125
+  strength: 12
+  agility: 3
+  luckily: 9
   sprite: {fileID: 21300000, guid: 71b781d9a3bbf5164b5551a5cac9fc29, type: 3}
   isConsumable: 0
   healthEffect: 0

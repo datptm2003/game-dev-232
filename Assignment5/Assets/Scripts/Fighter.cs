@@ -71,7 +71,13 @@ public class Fighter : MonoBehaviour
             animator.SetBool("hit3", true);
         }
 
-        GetHit();
+        // GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+
+        // if (selectedMonster != null)
+        // {
+        //     selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+        // }
+        // GetHit();
     }
 
     public void GetHit()
@@ -83,11 +89,6 @@ public class Fighter : MonoBehaviour
             selectedTree.GetComponent<ChoppableTree>().GetHit();
         }
 
-        GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
 
-        if (selectedMonster != null)
-        {
-            selectedMonster.GetComponent<Monster>().TakeDamage(EquipSystem.Instance.GetWeaponDamage());
-        }
     }
 }

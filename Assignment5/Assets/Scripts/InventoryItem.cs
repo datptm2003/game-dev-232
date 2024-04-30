@@ -14,11 +14,18 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Header("Item Info")]
     private GameObject itemInfoUI;
     private Text itemInfoUI_itemName;
+    private Image itemInfoUI_itemImage;
+    private Text itemInfoUI_itemDamage;
+    private Text itemInfoUI_itemType;
+    private Text itemInfoUI_itemStrength;
+    private Text itemInfoUI_itemAgility;
+    private Text itemInfoUI_itemLuckily;
+    private Text itemInfoUI_itemAttack;
     private Text itemInfoUI_itemDescription;
     private Text itemInfoUI_itemFunctionality;
-    private Image itemInfoUI_itemImage;
 
-    public string thisName, thisDescription, thisFunctionality;
+    public string thisName, thisDescription, thisFunctionality, type;
+    public int damage, attack, strength, agility, luckily;
     public Sprite sprite;
 
     // ------- Consumption ------- //
@@ -43,9 +50,15 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         itemInfoUI = InventorySystem.Instance.ItemInfoUI;
         itemInfoUI_itemName = itemInfoUI.transform.Find("ItemName").GetComponent<Text>();
+        itemInfoUI_itemDamage = itemInfoUI.transform.Find("ItemDamage").GetComponent<Text>();
+        itemInfoUI_itemType = itemInfoUI.transform.Find("ItemType").GetComponent<Text>();
+        itemInfoUI_itemStrength = itemInfoUI.transform.Find("ItemStrength").GetComponent<Text>();
+        itemInfoUI_itemAgility = itemInfoUI.transform.Find("ItemAgility").GetComponent<Text>();
+        itemInfoUI_itemLuckily = itemInfoUI.transform.Find("ItemLuckily").GetComponent<Text>();
+        itemInfoUI_itemAttack = itemInfoUI.transform.Find("ItemAttack").GetComponent<Text>();
+        itemInfoUI_itemImage = itemInfoUI.transform.Find("ItemImage").GetComponent<Image>();
         itemInfoUI_itemDescription = itemInfoUI.transform.Find("ItemDescription").GetComponent<Text>();
         itemInfoUI_itemFunctionality = itemInfoUI.transform.Find("ItemFunctionality").GetComponent<Text>();
-        itemInfoUI_itemImage = itemInfoUI.transform.Find("ItemImage").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -66,15 +79,41 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         itemInfoUI.SetActive(true);
         itemInfoUI_itemName.text = thisName;
+        itemInfoUI_itemImage.sprite = sprite;
+
+        itemInfoUI_itemDamage.text = "+ " + damage.ToString();
+        itemInfoUI_itemType.text = type;
+        itemInfoUI_itemStrength.text = "+ " + strength.ToString();
+        itemInfoUI_itemAgility.text = "+ " + agility.ToString();
+        itemInfoUI_itemLuckily.text = "+ " + luckily.ToString();
+        itemInfoUI_itemAttack.text = "+ " + attack.ToString();
+
         itemInfoUI_itemDescription.text = thisDescription;
         itemInfoUI_itemFunctionality.text = thisFunctionality;
-        itemInfoUI_itemImage.sprite = sprite;
 
         // 
         Vector2 pos = eventData.position;
-        pos.x = 900f;
-        if (pos.y < 325) pos.y = 325;
-        if (pos.y > 610) pos.y = 610;
+        print("pos.x = " + pos.x + " ; pos.y = " + pos.y);
+
+        if (pos.y < 200) // Quick slots
+        {
+            pos.x = 900;
+            pos.y = 325;
+        }
+        else if (pos.x > 1050) // Inventory slots
+        {
+            pos.x = 900;
+            if (pos.y < 325) pos.y = 325;
+            if (pos.y > 610) pos.y = 610;
+        }
+        else // Equipment slots
+        {
+            // pos.x += 226;
+            pos.x = 956;
+            if (pos.y < 325) pos.y = 325;
+            if (pos.y > 610) pos.y = 610;
+        }
+
         itemInfoUI.transform.position = pos;
     }
 

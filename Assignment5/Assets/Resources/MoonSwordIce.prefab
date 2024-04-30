@@ -106,6 +106,12 @@ MonoBehaviour:
   thisName: Moon Sword Ice
   thisDescription: A sharp tool.
   thisFunctionality: Used to chop down trees.
+  type: Sword
+  damage: 109
+  attack: 100
+  strength: 11
+  agility: 3
+  luckily: 5
   sprite: {fileID: 21300000, guid: f36ff5c923c8bbd2aa4d700a0e95882d, type: 3}
   isConsumable: 0
   healthEffect: 0
