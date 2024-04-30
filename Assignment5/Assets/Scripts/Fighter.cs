@@ -71,14 +71,21 @@ public class Fighter : MonoBehaviour
             animator.SetBool("hit3", true);
         }
 
-        // GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+        GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
 
-        // if (selectedMonster != null)
-        // {
-        //     selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
-        // }
-        // GetHit();
+        if (selectedMonster != null)
+        {
+            StartCoroutine(ClickHit(selectedMonster));
+        }
     }
+
+    IEnumerator ClickHit(GameObject selectedMonster)
+    {
+        yield return new WaitForSeconds(1f);
+
+        selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+    }
+
 
     public void GetHit()
     {
