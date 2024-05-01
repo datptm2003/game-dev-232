@@ -48,6 +48,7 @@ public class Fighter : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.F))
             {
                 ChopTree();
+                Exploit();
             }
         }
     }
@@ -109,6 +110,27 @@ public class Fighter : MonoBehaviour
 
         selectedTree.GetComponent<ChoppableTree>().GetHit();
         animator.SetBool("hit_tree", false);
+    }
+
+    void Exploit()
+    {
+        GameObject selectedStone = SelectionManager.Instance.selectedStone;
+
+        if (selectedStone != null)
+        {
+            StartCoroutine(ExploitHit(selectedStone));
+        }
+    }
+
+    IEnumerator ExploitHit(GameObject selectedStone)
+    {
+        resetAnimator();
+        animator.SetBool("hit_stone", true);
+
+        yield return new WaitForSeconds(1f);
+
+        selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage);
+        animator.SetBool("hit_stone", false);
     }
 
     void resetAnimator()

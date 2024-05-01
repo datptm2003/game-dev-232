@@ -539,7 +539,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9786528, z: 0, w: -0.2055208}
   m_LocalPosition: {x: 36.32, y: 0.00000047683716, z: 35.15}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7468161963204461647}
@@ -604,7 +604,7 @@ MonoBehaviour:
   playerInRange: 0
   playerInRangeToAttack: 0
   canBeKilled: 0
-  maxHealth: 60
+  maxHealth: 400
   currentHealth: 0
   animator: {fileID: 9028676881031162142}
   previousPosition: {x: 0, y: 0, z: 0}

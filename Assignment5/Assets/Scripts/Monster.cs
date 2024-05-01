@@ -73,6 +73,9 @@ public class Monster : MonoBehaviour
 
         GameObject brokenTree = Instantiate(Resources.Load<GameObject>(monsterModelName),
             pos, Quaternion.Euler(0, 0, 0));
+
+
+        SelectionManager.Instance.monsterHealthBar.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

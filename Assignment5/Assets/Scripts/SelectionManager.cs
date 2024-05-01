@@ -20,6 +20,7 @@ public class SelectionManager : MonoBehaviour
 
     public Sprite z;
     public Sprite f;
+    public Sprite mouse;
 
     [Header("Icon")]
 
@@ -73,6 +74,9 @@ public class SelectionManager : MonoBehaviour
                 monsterHealthBar.gameObject.SetActive(true);
                 monsterHealthBar.gameObject.transform.GetChild(0).GetComponent<Text>().text = monster.monsterName;
 
+                keyInteractionImage.sprite = mouse;
+                keyInteractionText.text = "Kill";
+                key_Interaction_Info_UI.SetActive(true);
                 // interaction_text.text = monster.monsterName;
                 // interaction_Info_UI.SetActive(true);
 
@@ -89,6 +93,7 @@ public class SelectionManager : MonoBehaviour
                     selectedMonster = null;
                     monsterHealthBar.gameObject.SetActive(false);
                 }
+                key_Interaction_Info_UI.SetActive(false);
                 // interaction_text.text = "";
                 // interaction_Info_UI.SetActive(false);
             }
@@ -102,6 +107,9 @@ public class SelectionManager : MonoBehaviour
                 chopHolder.gameObject.SetActive(true);
                 chopHolder.gameObject.transform.GetChild(0).GetComponent<Text>().text = stone.name;
 
+                keyInteractionImage.sprite = f;
+                keyInteractionText.text = "Exploit";
+                key_Interaction_Info_UI.SetActive(true);
                 // interaction_text.text = monster.monsterName;
                 // interaction_Info_UI.SetActive(true);
 
@@ -118,6 +126,7 @@ public class SelectionManager : MonoBehaviour
                     selectedStone = null;
                     chopHolder.gameObject.SetActive(false);
                 }
+                key_Interaction_Info_UI.SetActive(false);
                 // interaction_text.text = "";
                 // interaction_Info_UI.SetActive(false);
             }
@@ -130,6 +139,10 @@ public class SelectionManager : MonoBehaviour
                 choppableTree.canBeChopped = true;
                 selectedTree = choppableTree.gameObject;
                 chopHolder.gameObject.SetActive(true);
+
+                keyInteractionImage.sprite = f;
+                keyInteractionText.text = "Chop";
+                key_Interaction_Info_UI.SetActive(true);
             }
             else
             {
@@ -139,6 +152,7 @@ public class SelectionManager : MonoBehaviour
                     selectedTree = null;
                     chopHolder.gameObject.SetActive(false);
                 }
+                key_Interaction_Info_UI.SetActive(false);
             }
 
 

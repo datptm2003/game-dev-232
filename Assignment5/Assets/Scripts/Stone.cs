@@ -59,6 +59,7 @@ public class Stone : MonoBehaviour
 
         // GameObject 
         Destroy(gameObject);
+        SelectionManager.Instance.chopHolder.gameObject.SetActive(false);
 
         // GameObject brokenTree = Instantiate(Resources.Load<GameObject>(monsterModelName),
         //     pos, Quaternion.Euler(0, 0, 0));
