@@ -107,6 +107,10 @@ PrefabInstance:
       value: Birch_tree1
       objectReference: {fileID: 0}
     - target: {fileID: 2018545508553288465, guid: bcc910f545a2e06e0874d1dd1093120b, type: 3}
+      propertyPath: m_TagString
+      value: Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018545508553288465, guid: bcc910f545a2e06e0874d1dd1093120b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -129,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 6921154790914629762, guid: bcc910f545a2e06e0874d1dd1093120b, type: 3}
       propertyPath: m_Center.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229240420910636800, guid: bcc910f545a2e06e0874d1dd1093120b, type: 3}
+      propertyPath: m_TagString
+      value: Tree
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

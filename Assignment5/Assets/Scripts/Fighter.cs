@@ -105,11 +105,15 @@ public class Fighter : MonoBehaviour
     {
         resetAnimator();
         animator.SetBool("hit_tree", true);
+        yield return new WaitForSeconds(0.5f);
 
-        yield return new WaitForSeconds(1.5f);
+        selectedTree.GetComponent<Tree>().animator.SetBool("shake", true);
 
-        selectedTree.GetComponent<ChoppableTree>().GetHit();
+        yield return new WaitForSeconds(0.5f);
+
+        selectedTree.GetComponent<Tree>().TakeDamage(PlayerState.Instance.weaponDamage);
         animator.SetBool("hit_tree", false);
+        selectedTree.GetComponent<Tree>().animator.SetBool("shake", false);
     }
 
     void Exploit()
@@ -127,7 +131,7 @@ public class Fighter : MonoBehaviour
         resetAnimator();
         animator.SetBool("hit_stone", true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage);
         animator.SetBool("hit_stone", false);

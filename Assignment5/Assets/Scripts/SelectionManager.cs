@@ -66,6 +66,8 @@ public class SelectionManager : MonoBehaviour
             var selectionTransform = hit.transform;
             InteractableObject interactable = selectionTransform.GetComponent<InteractableObject>();
 
+            bool checkInteractableKey = false;
+
             Monster monster = selectionTransform.GetComponent<Monster>();
             if (monster && monster.playerInRange)
             {
@@ -76,14 +78,7 @@ public class SelectionManager : MonoBehaviour
 
                 keyInteractionImage.sprite = mouse;
                 keyInteractionText.text = "Kill";
-                key_Interaction_Info_UI.SetActive(true);
-                // interaction_text.text = monster.monsterName;
-                // interaction_Info_UI.SetActive(true);
-
-                // if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon())
-                // {
-                //     StartCoroutine(DealDamageTo(monster, 0.3f, EquipSystem.Instance.GetWeaponDamagge()));
-                // }
+                checkInteractableKey = true;
             }
             else
             {
@@ -93,11 +88,7 @@ public class SelectionManager : MonoBehaviour
                     selectedMonster = null;
                     monsterHealthBar.gameObject.SetActive(false);
                 }
-                key_Interaction_Info_UI.SetActive(false);
-                // interaction_text.text = "";
-                // interaction_Info_UI.SetActive(false);
             }
-
 
             Stone stone = selectionTransform.GetComponent<Stone>();
             if (stone && stone.playerInRange)
@@ -109,14 +100,7 @@ public class SelectionManager : MonoBehaviour
 
                 keyInteractionImage.sprite = f;
                 keyInteractionText.text = "Exploit";
-                key_Interaction_Info_UI.SetActive(true);
-                // interaction_text.text = monster.monsterName;
-                // interaction_Info_UI.SetActive(true);
-
-                // if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon())
-                // {
-                //     StartCoroutine(DealDamageTo(monster, 0.3f, EquipSystem.Instance.GetWeaponDamagge()));
-                // }
+                checkInteractableKey = true;
             }
             else
             {
@@ -126,11 +110,29 @@ public class SelectionManager : MonoBehaviour
                     selectedStone = null;
                     chopHolder.gameObject.SetActive(false);
                 }
-                key_Interaction_Info_UI.SetActive(false);
-                // interaction_text.text = "";
-                // interaction_Info_UI.SetActive(false);
             }
 
+            Tree tree = selectionTransform.GetComponent<Tree>();
+            if (tree && tree.playerInRange)
+            {
+                tree.canBeChopped = true;
+                selectedTree = tree.gameObject;
+                chopHolder.gameObject.SetActive(true);
+                chopHolder.gameObject.transform.GetChild(0).GetComponent<Text>().text = tree.name;
+
+                keyInteractionImage.sprite = f;
+                keyInteractionText.text = "Chop";
+                checkInteractableKey = true;
+            }
+            else
+            {
+                if (selectedTree != null)
+                {
+                    selectedTree.gameObject.GetComponent<Tree>().canBeChopped = false;
+                    selectedTree = null;
+                    chopHolder.gameObject.SetActive(false);
+                }
+            }
 
             ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
 
@@ -142,7 +144,7 @@ public class SelectionManager : MonoBehaviour
 
                 keyInteractionImage.sprite = f;
                 keyInteractionText.text = "Chop";
-                key_Interaction_Info_UI.SetActive(true);
+                checkInteractableKey = true;
             }
             else
             {
@@ -152,9 +154,7 @@ public class SelectionManager : MonoBehaviour
                     selectedTree = null;
                     chopHolder.gameObject.SetActive(false);
                 }
-                key_Interaction_Info_UI.SetActive(false);
             }
-
 
             // if (interactable)
             if (interactable && interactable.playerInRange)
@@ -173,7 +173,7 @@ public class SelectionManager : MonoBehaviour
 
                     keyInteractionImage.sprite = z;
                     keyInteractionText.text = "Pickup";
-                    key_Interaction_Info_UI.SetActive(true);
+                    checkInteractableKey = true;
                 }
                 else
                 {
@@ -181,19 +181,18 @@ public class SelectionManager : MonoBehaviour
                     handIcon.gameObject.SetActive(false);
 
                     handIsVisible = false;
-                    key_Interaction_Info_UI.SetActive(false);
                 }
             }
             else
             {
                 onTarget = false;
                 interaction_Info_UI.SetActive(false);
-                key_Interaction_Info_UI.SetActive(false);
                 centerDotImage.gameObject.SetActive(true);
                 handIcon.gameObject.SetActive(false);
 
                 handIsVisible = false;
             }
+            key_Interaction_Info_UI.SetActive(checkInteractableKey);
         }
         else
         {

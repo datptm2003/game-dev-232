@@ -189,8 +189,8 @@ public class EquipSystem : MonoBehaviour
             UpdateStats(item.damage, item.strength, item.agility, item.luckily);
 
             // Display weapon equipped
-            if (gameObject.CompareTag("WeaponEquipSlot"))
-                EquipSystem.Instance.EquipItem(selectedItem, "WeaponEquipSlot");
+            if (selectedItem.gameObject.CompareTag("WeaponEquipSlot"))
+                EquipItem(selectedItem.gameObject, "WeaponEquipSlot");
         }
 
 

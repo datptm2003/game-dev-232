@@ -93,7 +93,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         // 
         Vector2 pos = eventData.position;
-        print("pos.x = " + pos.x + " ; pos.y = " + pos.y);
 
         if (pos.y < 200) // Quick slots
         {
