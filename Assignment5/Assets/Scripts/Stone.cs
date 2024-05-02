@@ -20,7 +20,7 @@ public class Stone : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject player)
     {
         currentHealth -= damage;
 

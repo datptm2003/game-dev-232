@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using static AI_Movement;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Monster : MonoBehaviour
@@ -26,13 +27,16 @@ public class Monster : MonoBehaviour
         // animator = transform.parent.transform.parent.GetComponent<Animator>();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject player)
     {
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
             IsDead();
+        } else {
+            // Debug.Log(AI_Movement.Instance);
+            AI_Movement.Instance.MoveToward(player,6);
         }
     }
 

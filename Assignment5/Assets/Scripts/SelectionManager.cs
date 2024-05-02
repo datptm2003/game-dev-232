@@ -211,7 +211,7 @@ public class SelectionManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        monster.TakeDamage(damage);
+        monster.TakeDamage(damage,this.transform.gameObject);
     }
 
     public void EnableSelection()

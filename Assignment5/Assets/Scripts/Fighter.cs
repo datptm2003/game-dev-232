@@ -80,15 +80,18 @@ public class Fighter : MonoBehaviour
 
         if (selectedMonster != null)
         {
-            StartCoroutine(ClickHit(selectedMonster));
+            GameObject player = this.transform.gameObject;
+            // Debug.Log(playerPosition);
+            // Debug.Log("AAAAABCCCC");
+            StartCoroutine(ClickHit(selectedMonster, player));
         }
     }
 
-    IEnumerator ClickHit(GameObject selectedMonster)
+    IEnumerator ClickHit(GameObject selectedMonster, GameObject player)
     {
         yield return new WaitForSeconds(1f);
 
-        selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+        selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage(),player);
     }
 
     void ChopTree()
@@ -129,7 +132,7 @@ public class Fighter : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage);
+        selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage,transform.gameObject);
         animator.SetBool("hit_stone", false);
     }
 
