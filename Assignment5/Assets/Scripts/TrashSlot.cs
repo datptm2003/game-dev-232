@@ -27,6 +27,7 @@ public class TrashSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
     }
 
     GameObject itemToBeDeleted;
+    GameObject numHolderOfItemBeingDragged;
 
     public string itemName
     {
@@ -81,7 +82,42 @@ public class TrashSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
     private void DeleteItem()
     {
         imageComponent.sprite = trash_closed;
-        DestroyImmediate(itemToBeDeleted.gameObject);
+        // print(itemToBeDeleted.name);
+
+        List<GameObject> slotList = InventorySystem.Instance.slotList;
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if (slotList[i] != null && slotList[i].transform != null && slotList[i].transform.childCount > 0)
+            {
+                if (slotList[i].transform.GetChild(0).name == "numHolder(Clone)")
+                {
+                    print("Here1");
+                    numHolderOfItemBeingDragged = slotList[i].transform.GetChild(0).gameObject;
+                    print(i);
+                    break;
+                }
+            }
+        }
+
+        if (numHolderOfItemBeingDragged)
+        {
+            Vector3 pos = EquipSystem.Instance.player.transform.position;
+
+            if (itemName == "Leather" || itemName == "Stick" || itemName == "Wood")
+            {
+                GameObject leather = Instantiate(Resources.Load<GameObject>(itemName + "_Model"),
+                    pos, Quaternion.Euler(0, 0, 90));
+            }
+            else
+            {
+                GameObject stick = Instantiate(Resources.Load<GameObject>(itemName + "_Model"),
+                    pos, Quaternion.Euler(0, 0, 0));
+            }
+
+            DestroyImmediate(numHolderOfItemBeingDragged.gameObject);
+            DestroyImmediate(itemToBeDeleted.gameObject);
+        }
+
         InventorySystem.Instance.ReCalculateList();
         // CraftingSystem.Instance.RefreshNeededItems();
         trashAlertUI.SetActive(false);

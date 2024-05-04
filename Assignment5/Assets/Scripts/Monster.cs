@@ -74,6 +74,12 @@ public class Monster : MonoBehaviour
         GameObject brokenTree = Instantiate(Resources.Load<GameObject>(monsterModelName),
             pos, Quaternion.Euler(0, 0, 0));
 
+        if (monsterModelName == "Bear_Model")
+        {
+            GameObject leather = Instantiate(Resources.Load<GameObject>("Leather_Model"),
+                new Vector3(pos.x + 3, pos.y, pos.z), Quaternion.Euler(0, 0, 90));
+        }
+
 
         SelectionManager.Instance.monsterHealthBar.gameObject.SetActive(false);
     }
