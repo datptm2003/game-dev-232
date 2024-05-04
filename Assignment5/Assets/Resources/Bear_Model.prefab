@@ -123,6 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   ItemName: BearMeat
+  minCount: 4
+  maxCount: 7
 --- !u!65 &4016151976375705808
 BoxCollider:
   m_ObjectHideFlags: 0

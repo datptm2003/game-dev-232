@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5489987490838446504}
   - component: {fileID: 7659025874765741119}
   - component: {fileID: 6972996614045768712}
+  - component: {fileID: 2191145021478270628}
+  - component: {fileID: 1087887428765356346}
   m_Layer: 0
   m_Name: Pine_tree1
   m_TagString: Untagged
@@ -28,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8360742061131414792}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.28889, y: 0.3966732, z: 7.0638547}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -96,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 8360742061131414792}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 852f9a79f7bf832408d4ed1eb088311a, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6e3c14f21a3587ff78aa5858feb08b07, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -130,3 +132,42 @@ CapsuleCollider:
   m_Height: 19.388874
   m_Direction: 1
   m_Center: {x: 0.027983665, y: 7.91, z: 0}
+--- !u!114 &2191145021478270628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8360742061131414792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7814c15a9f21f1754a4f15a68c35d6ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: PineTree
+  playerInRange: 0
+  canBeChopped: 0
+  maxHealth: 150
+  currentHealth: 0
+  animator: {fileID: 0}
+--- !u!65 &1087887428765356346
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8360742061131414792}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 19.388874, z: 9}
+  m_Center: {x: 0.027980804, y: 9.297764, z: -0.25131226}

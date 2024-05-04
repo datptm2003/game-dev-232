@@ -13,17 +13,26 @@ public class CraftingController : MonoBehaviour
 
     public static CraftingController Instance { get; set; }
     public GameObject craftingScreenUI;
-    public GameObject useItemsScreenUI;
 
+    [Header("Crafting Item Selected")]
+    public CraftingItem craftingItemSelected;
     public string craftingItemNameSelected;
 
     // Category buttons
     public Button toolsBTN;
-    public Button useItemsBTN;
+    // public Button useItemsBTN;
 
     public List<string> inventoryItemList = new List<string>();
 
     public bool isOpen;
+
+    [Header("Materials")]
+    public Sprite Stone;
+    public Sprite Iron;
+    public Sprite Steel;
+    public Sprite Stick;
+    public Sprite Wood;
+    public Sprite Leather;
 
     private void Awake()
     {
@@ -51,8 +60,8 @@ public class CraftingController : MonoBehaviour
         toolsBTN = craftingScreenUI.transform.Find("ToolsButton").GetComponent<Button>();
         toolsBTN.onClick.AddListener(delegate { OpenToolsCategory(); });
 
-        useItemsBTN = craftingScreenUI.transform.Find("UseItemsButton").GetComponent<Button>();
-        useItemsBTN.onClick.AddListener(delegate { OpenUseItemsCategory(); });
+        // useItemsBTN = craftingScreenUI.transform.Find("UseItemsButton").GetComponent<Button>();
+        // useItemsBTN.onClick.AddListener(delegate { OpenUseItemsCategory(); });
 
         craftBTN = craftingScreenUI.transform.Find("CraftBTN").GetComponent<Button>();
         craftBTN.onClick.AddListener(delegate { CraftItemSelected(); });
@@ -61,34 +70,34 @@ public class CraftingController : MonoBehaviour
     void OpenToolsCategory()
     {
         craftingScreenUI.SetActive(true);
-        useItemsScreenUI.SetActive(false);
+        // useItemsScreenUI.SetActive(false);
     }
 
     void OpenUseItemsCategory()
     {
         craftingScreenUI.SetActive(false);
-        useItemsScreenUI.SetActive(true);
+        // useItemsScreenUI.SetActive(true);
     }
 
     void CraftItemSelected()
     {
         if (craftingItemNameSelected == "" || !isReadyToCraft) return;
         string itemName = craftingItemNameSelected.Replace(" ", "");
-        print(itemName);
+
         // Add item into inventory
-        InventorySystem.Instance.AddToInventory(craftingItemNameSelected.Replace(" ", ""));
+        InventorySystem.Instance.AddToInventory(itemName, 1);
 
         CraftingItem item = craftingScreenUI.transform.Find(itemName).GetComponent<CraftingItem>();
 
         // Remove resources from inventory
         if (item.numOfRequirements == 1)
         {
-            InventorySystem.Instance.RemoveItem(item.req1, int.Parse(item.req1Amount));
+            InventorySystem.Instance.DecreaseCountOfItem(item.req1, int.Parse(item.req1Amount));
         }
         else if (item.numOfRequirements == 2)
         {
-            InventorySystem.Instance.RemoveItem(item.req1, int.Parse(item.req1Amount));
-            InventorySystem.Instance.RemoveItem(item.req2, int.Parse(item.req2Amount));
+            InventorySystem.Instance.DecreaseCountOfItem(item.req1, int.Parse(item.req1Amount));
+            InventorySystem.Instance.DecreaseCountOfItem(item.req2, int.Parse(item.req2Amount));
         }
 
         StartCoroutine(calculate(item.waitingTime));
@@ -103,35 +112,63 @@ public class CraftingController : MonoBehaviour
         InventorySystem.Instance.ReCalculateList();
     }
 
-    public void RefreshNeededItems(CraftingItem item)
+    public int getCountOfItem(string itemName)
     {
-        int stone_count = 0;
-        int stick_count = 0;
-
-        inventoryItemList = InventorySystem.Instance.itemList;
-
-        foreach (string itemName in inventoryItemList)
+        List<GameObject> slotList = InventorySystem.Instance.slotList;
+        for (int i = 0; i < slotList.Count; i++)
         {
-            switch (itemName)
+            // if (slotList[i] != null && slotList[i].transform.childCount > 1)
+            if (slotList[i] != null && slotList[i].transform != null && slotList[i].transform.childCount > 1)
             {
-                case "Stone":
-                    stone_count += 1;
-                    break;
-                case "Stick":
-                    stick_count += 1;
-                    break;
+                if (slotList[i].transform.GetChild(0).name.Replace("(Clone)", "") == itemName)
+                {
+                    Transform childTransform = slotList[i].transform.GetChild(1).transform.GetChild(1);
+                    if (childTransform != null)
+                    {
+                        int count = int.Parse(childTransform.GetComponent<Text>().text);
+                        // print(itemName + " " + count);
+                        return count;
+
+                    }
+                }
             }
         }
+        return 0;
+    }
 
-        if (stone_count >= int.Parse(item.req1Amount) && stick_count >= int.Parse(item.req2Amount))
-        {
-            print("Openned");
-            craftBTN.gameObject.SetActive(true);
-        }
-        else
-        {
-            craftBTN.gameObject.SetActive(false);
-        }
+    public void RefreshNeededItems(CraftingItem item)
+    {
+        int stone_count = getCountOfItem("Stone");
+        int stick_count = getCountOfItem("Stick");
+
+        // print("stone_count = " + stone_count);
+        // print("stick_count = " + stick_count);
+
+        // inventoryItemList = InventorySystem.Instance.itemList;
+
+        // foreach (string itemName in inventoryItemList)
+        // {
+        //     switch (itemName)
+        //     {
+        //         case "Stone":
+        //             stone_count += 1;
+        //             break;
+        //         case "Stick":
+        //             stick_count += 1;
+        //             break;
+        //     }
+        // }
+
+        // if (stone_count >= int.Parse(item.req1Amount) && stick_count >= int.Parse(item.req2Amount))
+        // {
+        //     print("Openned");
+        //     craftBTN.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     craftBTN.gameObject.SetActive(false);
+        // }
+
     }
 
     // Update is called once per frame
@@ -156,7 +193,7 @@ public class CraftingController : MonoBehaviour
             Debug.Log("c is pressed");
 
             craftingScreenUI.SetActive(false);
-            useItemsScreenUI.SetActive(false);
+            // useItemsScreenUI.SetActive(false);
 
             if (!InventorySystem.Instance.isOpen)
             {
@@ -170,13 +207,34 @@ public class CraftingController : MonoBehaviour
             isOpen = false;
         }
 
-        if (isReadyToCraft)
+        // if (isReadyToCraft)
+        // {
+        //     craftBTN.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     craftBTN.gameObject.SetActive(false);
+        // }
+        RefreshNeededItems();
+    }
+
+    public void RefreshNeededItems()
+    {
+        if (craftingItemSelected)
         {
-            craftBTN.gameObject.SetActive(true);
-        }
-        else
-        {
-            craftBTN.gameObject.SetActive(false);
+            int stone_count = getCountOfItem(craftingItemSelected.req1);
+            int stick_count = getCountOfItem(craftingItemSelected.req2);
+
+            if (stone_count >= int.Parse(craftingItemSelected.req1Amount) && stick_count >= int.Parse(craftingItemSelected.req2Amount))
+            {
+                craftBTN.gameObject.SetActive(true);
+                isReadyToCraft = true;
+            }
+            else
+            {
+                craftBTN.gameObject.SetActive(false);
+                isReadyToCraft = false;
+            }
         }
     }
 }

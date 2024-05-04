@@ -261,6 +261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   ItemName: Log
+  minCount: 3
+  maxCount: 6
 --- !u!65 &8244231954218891201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -280,8 +282,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 3, z: 2}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 3, y: 4, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5115839139606929468
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +651,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   ItemName: Log
+  minCount: 3
+  maxCount: 6
 --- !u!65 &5910024487417001570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -668,8 +672,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 3, z: 2}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 3, y: 4, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5671972404830431362
 GameObject:
   m_ObjectHideFlags: 0

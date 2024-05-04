@@ -40,11 +40,29 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                 check = true;
             }
 
+            GameObject numHolder = DragDrop.numHolderOfItemBeingDragged;
+
             if (check)
             {
                 DragDrop.itemBeingDragged.transform.SetParent(transform);
                 DragDrop.itemBeingDragged.transform.localPosition = new Vector2(0, 0);
+
+                if (numHolder)
+                {
+                    numHolder.transform.SetParent(transform);
+                    numHolder.transform.localPosition = new Vector2(0, 0);
+                }
                 InventorySystem.Instance.ReCalculateList();
+            }
+            else
+            {
+                print("here2");
+                if (numHolder)
+                {
+                    print("here3");
+                    numHolder.transform.SetParent(transform);
+                    numHolder.transform.localPosition = new Vector2(0, 0);
+                }
             }
         }
     }

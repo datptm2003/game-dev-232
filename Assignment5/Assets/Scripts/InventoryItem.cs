@@ -33,9 +33,9 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private GameObject itemPendingConsumptions;
     public bool isConsumable;
 
-    public float healthEffect;
-    public float caloriesEffect;
-    public float hydrationEffect;
+    public int healthEffect;
+    public int caloriesEffect;
+    public int hydrationEffect;
 
     // ------- Equipping ------- //
     [Header("Equipping")]
@@ -138,7 +138,8 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 if (gameObject.CompareTag("WeaponEquipSlot"))
                 {
                     Debug.Log("Equip weapon slot");
-                    EquipSystem.Instance.EquipItem(gameObject, "WeaponEquipSlot");
+                    // EquipSystem.Instance.EquipItem(gameObject, "WeaponEquipSlot");
+                    EquipSystem.Instance.EquipRightClick(gameObject);
                 }
                 // EquipSystem.Instance.AddToQuickSlots(gameObject);
                 // isInsideQuickSlot = true;
@@ -161,7 +162,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    public void consumingFunction(float healthEffect, float caloriesEffect, float hydrationEffect)
+    public void consumingFunction(int healthEffect, int caloriesEffect, int hydrationEffect)
     {
         itemInfoUI.SetActive(false);
 
@@ -172,12 +173,12 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         hydrationEffectCalculation(hydrationEffect);
     }
 
-    public static void healthEffectCalculation(float healthEffect)
+    public static void healthEffectCalculation(int healthEffect)
     {
         // ------- Health ------- //
 
-        float healthBeforeConsumption = PlayerState.Instance.currentHealth;
-        float maxHealth = PlayerState.Instance.maxHealth;
+        int healthBeforeConsumption = PlayerState.Instance.currentHealth;
+        int maxHealth = PlayerState.Instance.maxHealth;
 
         if (healthEffect != 0)
         {
@@ -192,12 +193,12 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    public static void caloriesEffectCalculation(float caloriesEffect)
+    public static void caloriesEffectCalculation(int caloriesEffect)
     {
         // ------- Calories ------- //
 
-        float caloriesBeforeConsumption = PlayerState.Instance.currentCalories;
-        float maxCalories = PlayerState.Instance.maxCalories;
+        int caloriesBeforeConsumption = PlayerState.Instance.currentCalories;
+        int maxCalories = PlayerState.Instance.maxCalories;
 
         if (caloriesEffect != 0)
         {
@@ -212,12 +213,12 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    public static void hydrationEffectCalculation(float hydrationEffect)
+    public static void hydrationEffectCalculation(int hydrationEffect)
     {
         // ------- Hydration ------- //
 
-        float hydrationBeforeConsumption = PlayerState.Instance.currentHydrationPercentage;
-        float maxHydration = PlayerState.Instance.maxHydrationPercentage;
+        int hydrationBeforeConsumption = PlayerState.Instance.currentHydrationPercentage;
+        int maxHydration = PlayerState.Instance.maxHydrationPercentage;
 
         if (hydrationEffect != 0)
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Tree : MonoBehaviour
 {
-    public string name;
+    public string treeName;
     public bool playerInRange;
     public bool canBeChopped;
 
@@ -39,6 +39,15 @@ public class Tree : MonoBehaviour
     {
         Vector3 treePosition = transform.position;
 
+        if (treeName == "Birch Tree")
+        {
+            GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Wood_Model"), treePosition, Quaternion.Euler(0, 0, 90f));
+        }
+        else
+        {
+            GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Stick_Model"), treePosition, Quaternion.Euler(0, 0, 90f));
+        }
+
         Destroy(gameObject);
 
         canBeChopped = false;
@@ -46,8 +55,8 @@ public class Tree : MonoBehaviour
         SelectionManager.Instance.selectedTree = null;
         SelectionManager.Instance.chopHolder.gameObject.SetActive(false);
 
-        GameObject brokenTree = Instantiate(Resources.Load<GameObject>("ChoppedTree"),
-            new Vector3(treePosition.x, treePosition.y + 1, treePosition.z), Quaternion.Euler(0, 0, 0));
+        // brokenTree.transform.localPosition = new Vector3()
+        // new Vector3(treePosition.x, treePosition.y + 1, treePosition.z), Quaternion.Euler(0, 0, 0));
 
 
         SelectionManager.Instance.chopHolder.gameObject.SetActive(false);

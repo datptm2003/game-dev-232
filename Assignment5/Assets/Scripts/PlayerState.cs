@@ -7,12 +7,13 @@ public class PlayerState : MonoBehaviour
     public static PlayerState Instance { get; set; }
 
     // ---------- Player Health ---------- //
-    public float currentHealth;
-    public float maxHealth;
+    public int currentHealth;
+    public int maxHealth;
+    public int maxRegularHealth;
 
     // ---------- Player Calories ---------- //
-    public float currentCalories;
-    public float maxCalories;
+    public int currentCalories;
+    public int maxCalories;
 
     float distanceTravelled = 0;
     Vector3 lastPosition;
@@ -21,8 +22,8 @@ public class PlayerState : MonoBehaviour
 
 
     // ---------- Player Hydration ---------- //
-    public float currentHydrationPercentage;
-    public float maxHydrationPercentage;
+    public int currentHydrationPercentage;
+    public int maxHydrationPercentage;
 
     public bool isHydrationActive = true;
 
@@ -85,17 +86,31 @@ public class PlayerState : MonoBehaviour
         }
     }
 
-    public void setHealth(float newHealth)
+    void UpdateStats()
+    {
+        // Update stats of weaponEquipment
+        if (EquipSystem.Instance.weaponSlot)
+        {
+            setStrength(EquipSystem.Instance.weaponSlot.GetComponent<InventoryItem>().strength);
+            setAgility(EquipSystem.Instance.weaponSlot.GetComponent<InventoryItem>().agility);
+            setLuckily(EquipSystem.Instance.weaponSlot.GetComponent<InventoryItem>().luckily);
+            setWeaponDamage(EquipSystem.Instance.weaponSlot.GetComponent<InventoryItem>().damage);
+        }
+
+        maxHealth = maxRegularHealth + strength * 2;
+    }
+
+    public void setHealth(int newHealth)
     {
         currentHealth = newHealth;
     }
 
-    public void setCalories(float newCalories)
+    public void setCalories(int newCalories)
     {
         currentCalories = newCalories;
     }
 
-    public void setHydration(float newHydration)
+    public void setHydration(int newHydration)
     {
         currentHydrationPercentage = newHydration;
     }
@@ -124,4 +139,8 @@ public class PlayerState : MonoBehaviour
     {
         return damageRegular + weaponDamage;
     }
+
+    // public int GetDamage(int typeWeapon) {
+
+    // }
 }

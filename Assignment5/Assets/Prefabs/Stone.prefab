@@ -78,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   ItemName: Stone
+  minCount: 5
+  maxCount: 10
 --- !u!65 &6464778447183736886
 BoxCollider:
   m_ObjectHideFlags: 0

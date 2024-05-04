@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f4439fa59e0be64692c4c774572e46f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f917a663248b5bb669cd1edfa9bb5b51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -106,7 +106,13 @@ MonoBehaviour:
   thisName: Stick
   thisDescription: A dry stick
   thisFunctionality: Used for crafting
-  sprite: {fileID: 21300000, guid: 3f4439fa59e0be64692c4c774572e46f, type: 3}
+  type: 
+  damage: 0
+  attack: 0
+  strength: 0
+  agility: 0
+  luckily: 0
+  sprite: {fileID: 21300000, guid: f917a663248b5bb669cd1edfa9bb5b51, type: 3}
   isConsumable: 1
   healthEffect: 10
   caloriesEffect: 100

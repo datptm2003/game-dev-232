@@ -8,12 +8,12 @@ public class ChoppableTree : MonoBehaviour
     public bool playerInRange;
     public bool canBeChopped;
 
-    public float treeMaxHealth;
-    public float treeHealth;
+    public int treeMaxHealth;
+    public int treeHealth;
 
     public Animator animator;
 
-    public float caloriesSpentChoppingWood = 20;
+    public int caloriesSpentChoppingWood = 20;
 
     // Start is called before the first frame update
     void Start()

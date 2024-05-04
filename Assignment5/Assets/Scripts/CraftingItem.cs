@@ -18,7 +18,9 @@ public class CraftingItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     private Text craftItemInfoUI_ItemLuckily;
     private Text craftItemInfoUI_ItemLuckily2;
     private Text craftItemInfoUI_ItemRequirement1;
+    private Image craftItemInfoUI_ItemRequirement1Image;
     private Text craftItemInfoUI_ItemRequirement2;
+    private Image craftItemInfoUI_ItemRequirement2Image;
     private Image craftItemInfoUI_ItemImage;
     // private Button craftBTN;
 
@@ -51,7 +53,10 @@ public class CraftingItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         craftItemInfoUI_ItemLuckily = craftItemInfoUI.transform.Find("ItemLuckily").GetComponent<Text>();
 
         craftItemInfoUI_ItemRequirement1 = craftItemInfoUI.transform.Find("ItemRequirement1").GetComponent<Text>();
+        craftItemInfoUI_ItemRequirement1Image = craftItemInfoUI.transform.Find("ItemReq1BG").transform.Find("Image").GetComponent<Image>();
+
         craftItemInfoUI_ItemRequirement2 = craftItemInfoUI.transform.Find("ItemRequirement2").GetComponent<Text>();
+        craftItemInfoUI_ItemRequirement2Image = craftItemInfoUI.transform.Find("ItemReq2BG").transform.Find("Image").GetComponent<Image>();
         craftItemInfoUI_ItemImage = craftItemInfoUI.transform.Find("ItemImage").GetComponent<Image>();
         // craftBTN = craftItemInfoUI.transform.Find("CraftBTN").GetComponent<Button>();
         // craftBTN.onClick.AddListener(delegate { CraftAnyItem(); });
@@ -60,24 +65,31 @@ public class CraftingItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void OnPointerDown(PointerEventData eventData)
     {
         CraftingController.Instance.craftingItemNameSelected = itemName;
+        CraftingController.Instance.craftingItemSelected = this;
 
-        int stone_count = 0;
-        int stick_count = 0;
+        // int stone_count = 0;
+        // int stick_count = 0;
 
-        inventoryItemList = InventorySystem.Instance.itemList;
+        // inventoryItemList = InventorySystem.Instance.itemList;
 
-        foreach (string itemName in inventoryItemList)
-        {
-            switch (itemName)
-            {
-                case "Stone":
-                    stone_count += 1;
-                    break;
-                case "Stick":
-                    stick_count += 1;
-                    break;
-            }
-        }
+        // foreach (string itemName in inventoryItemList)
+        // {
+        //     switch (itemName)
+        //     {
+        //         case "Stone":
+        //             stone_count += 1;
+        //             break;
+        //         case "Stick":
+        //             stick_count += 1;
+        //             break;
+        //     }
+        // }
+        // int stone_count = getCountOfItem(InventorySystem.Instance.slotList, "Stone");
+        // int stick_count = getCountOfItem(InventorySystem.Instance.slotList, "Stick");
+
+        // print("stone_count = " + stone_count);
+        // print("stick_count = " + stick_count);
+
 
         craftItemInfoUI.SetActive(true);
         craftItemInfoUI_ItemName.text = itemName;
@@ -90,17 +102,20 @@ public class CraftingItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         craftItemInfoUI_ItemRequirement2.text = req2Amount;
         craftItemInfoUI_ItemImage.sprite = sprite;
 
-        if (stone_count >= int.Parse(req1Amount) && stick_count >= int.Parse(req2Amount))
-        {
-            print("Open");
-            // craftBTN.gameObject.SetActive(true);
-            CraftingController.Instance.isReadyToCraft = true;
-        }
-        else
-        {
-            // craftBTN.gameObject.SetActive(false);
-            CraftingController.Instance.isReadyToCraft = false;
-        }
+        craftItemInfoUI_ItemRequirement1Image.sprite = getSpriteByName(req1);
+        craftItemInfoUI_ItemRequirement2Image.sprite = getSpriteByName(req2);
+
+        // if (stone_count >= int.Parse(req1Amount) && stick_count >= int.Parse(req2Amount))
+        // {
+        //     print("Open");
+        //     // craftBTN.gameObject.SetActive(true);
+        //     CraftingController.Instance.isReadyToCraft = true;
+        // }
+        // else
+        // {
+        //     // craftBTN.gameObject.SetActive(false);
+        //     CraftingController.Instance.isReadyToCraft = false;
+        // }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -108,10 +123,21 @@ public class CraftingItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         // craftItemInfoUI.SetActive(false);
     }
 
+    Sprite getSpriteByName(string name)
+    {
+        if (name == "Stone") return CraftingController.Instance.Stone;
+        else if (name == "Iron") return CraftingController.Instance.Iron;
+        else if (name == "Steel") return CraftingController.Instance.Steel;
+        else if (name == "Stick") return CraftingController.Instance.Stick;
+        else if (name == "Wood") return CraftingController.Instance.Wood;
+        else if (name == "Leather") return CraftingController.Instance.Leather;
+        return null;
+    }
+
     void CraftAnyItem()
     {
         // Add item into inventory
-        InventorySystem.Instance.AddToInventory(itemName.Replace(" ", ""));
+        InventorySystem.Instance.AddToInventory(itemName.Replace(" ", ""), 1);
 
         // Remove resources from inventory
         if (numOfRequirements == 1)

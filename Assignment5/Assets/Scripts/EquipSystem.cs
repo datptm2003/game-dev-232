@@ -28,6 +28,7 @@ public class EquipSystem : MonoBehaviour
     public GameObject selectedItem;
 
     public GameObject toolHolder;
+    public GameObject SubToolHolder;
 
     public GameObject selectedItemModel;
 
@@ -160,9 +161,10 @@ public class EquipSystem : MonoBehaviour
         string selectedItemName = selectedItem.name.Replace("(Clone)", "");
 
         InventoryItem item = selectedItem.transform.GetComponent<InventoryItem>();
-
+        string typeWeapon = "NoWeapon";
         if (item.isEquipable)
         {
+            typeWeapon = item.type;
             // Display weapon model
             if (item.type == "Sword")
             {
@@ -171,13 +173,22 @@ public class EquipSystem : MonoBehaviour
             }
             else if (item.type == "Axe")
             {
-                selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                    new Vector3(-0.624f, 0.118f, 0f), Quaternion.Euler(180f, 0f, 90f));
+                print(selectedItemName);
+                if (selectedItemName == "Axe")
+                {
+                    selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                        new Vector3(-0.624f, 0.118f, 0f), Quaternion.Euler(180f, 0f, 90f));
+                }
+                else
+                {
+                    selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
+                        new Vector3(-0.332f, 0.143f, 0f), Quaternion.Euler(0, -90f, -90f));
+                }
             }
             else if (item.type == "Bow")
             {
                 selectedItemModel = Instantiate(Resources.Load<GameObject>(selectedItemName + "_Model"),
-                    new Vector3(0.42f, -0.22f, 0.66f), Quaternion.Euler(-6f, -18f, -23f));
+                    new Vector3(0f, 0.134f, 0f), Quaternion.Euler(0f, 0f, 90f));
             }
             else if (item.type == "Hammer")
             {
@@ -193,8 +204,15 @@ public class EquipSystem : MonoBehaviour
                 EquipItem(selectedItem.gameObject, "WeaponEquipSlot");
         }
 
-
-        selectedItemModel.transform.SetParent(toolHolder.transform, false);
+        Fighter.Instance.typeWeapon = typeWeapon;
+        if (typeWeapon == "Bow")
+        {
+            selectedItemModel.transform.SetParent(SubToolHolder.transform, false);
+        }
+        else
+        {
+            selectedItemModel.transform.SetParent(toolHolder.transform, false);
+        }
     }
 
     void UpdateStats(int damage, int strength, int agility, int luckily)
@@ -235,8 +253,17 @@ public class EquipSystem : MonoBehaviour
         // Find next free slot
         GameObject availableSlot = FindNextEmptySlot();
 
+        if (availableSlot)
+        {
+            itemToEquip.transform.SetParent(availableSlot.transform, false);
+        }
+        else
+        {
+            Destroy(quickSlotsList[0].transform.GetChild(0).gameObject);
+            itemToEquip.transform.SetParent(quickSlotsList[0].transform, false);
+        }
+
         // Set transform of our object
-        itemToEquip.transform.SetParent(availableSlot.transform, false);
 
         // // Getting clean name
         // string cleanName = itemToEquip.name.Replace("(Clone)", "");
@@ -256,7 +283,7 @@ public class EquipSystem : MonoBehaviour
                 return slot;
             }
         }
-        return new GameObject();
+        return null;
     }
 
     public bool CheckIfFull()
@@ -306,19 +333,49 @@ public class EquipSystem : MonoBehaviour
     public void EquipItem(GameObject itemToEquip, string tag)
     {
         GameObject availableSlot = FindNextEmptySlot(tag);
-        if (availableSlot)
+        print(availableSlot.transform.childCount);
+        if (availableSlot.transform.childCount > 0)
         {
-            itemToEquip.transform.SetParent(availableSlot.transform, false);
-            InventorySystem.Instance.ReCalculateList();
+            Destroy(availableSlot.transform.GetChild(0).gameObject);
         }
+        GameObject itemCopy = Instantiate(itemToEquip);
+        itemCopy.transform.position = availableSlot.transform.position;
+        itemCopy.transform.localScale = new Vector3(1.2f, 1.2f, 0.9f);
+        itemCopy.transform.parent = availableSlot.transform;
+        // itemToEquip.transform.SetParent(availableSlot.transform, false);
+        // InventorySystem.Instance.ReCalculateList();
+        // }
     }
 
     private GameObject FindNextEmptySlot(string tag)
     {
-        if (tag == "WeaponEquipSlot" && weaponSlot.transform.childCount == 0)
+        if (tag == "WeaponEquipSlot")
         {
             return weaponSlot;
         }
         return null;
+    }
+
+    public void EquipRightClick(GameObject item)
+    {
+        if (CheckIfFull())
+        {
+            Destroy(quickSlotsList[0].transform.GetChild(0).gameObject);
+            item.transform.SetParent(quickSlotsList[0].transform, false);
+
+            SelectQuickSlot(1);
+        }
+        else
+        {
+            // EquipSystem.Instance.AddToQuickSlots(item);
+            GameObject availableSlot = FindNextEmptySlot();
+
+            item.transform.SetParent(availableSlot.transform, false);
+
+            print(availableSlot.gameObject.name.Replace("QuickSlot", ""));
+            int number = int.Parse(availableSlot.gameObject.name.Replace("QuickSlot", ""));
+            print(number);
+            SelectQuickSlot(number);
+        }
     }
 }

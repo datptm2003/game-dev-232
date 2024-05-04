@@ -93,21 +93,60 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    public void AddToInventory(string itemName)
+    // public void AddToInventory(string itemName)
+    // {
+    //     whatSlotToEquip = FindNextEmptySlot();
+
+    //     itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+    //     itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+
+    //     itemList.Add(itemName);
+
+    //     Sprite sprite = itemToAdd.GetComponent<Image>().sprite;
+
+    //     TriggerPickupPopUp(itemName, sprite);
+
+    //     ReCalculateList();
+    //     // CraftingSystem.Instance.RefreshNeededItems();
+    // }
+
+    public void AddToInventory(string itemName, int count)
     {
-        whatSlotToEquip = FindNextEmptySlot();
+        whatSlotToEquip = FindItemSlot(itemName);
+        Sprite sprite;
 
-        itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
-        itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+        if (isEquipment(itemName))
+        {
+            itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+            itemToAdd.transform.SetParent(whatSlotToEquip.transform);
 
-        itemList.Add(itemName);
+            sprite = itemToAdd.GetComponent<Image>().sprite;
+        }
+        else if (whatSlotToEquip.transform.childCount > 0)
+        {
+            Text numHolder = whatSlotToEquip.transform.GetChild(1).transform.GetChild(1).GetComponent<Text>();
 
-        Sprite sprite = itemToAdd.GetComponent<Image>().sprite;
+            numHolder.text = (int.Parse(numHolder.text) + count).ToString();
+
+            sprite = whatSlotToEquip.transform.GetChild(0).GetComponent<Image>().sprite;
+        }
+        else
+        {
+            itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+            itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+
+            GameObject numHolderGO = Instantiate(Resources.Load<GameObject>("numHolder"), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+            numHolderGO.transform.SetParent(whatSlotToEquip.transform);
+
+            Text numHolder = whatSlotToEquip.transform.GetChild(1).transform.GetChild(1).GetComponent<Text>();
+
+            numHolder.text = count.ToString();
+            sprite = itemToAdd.GetComponent<Image>().sprite;
+        }
 
         TriggerPickupPopUp(itemName, sprite);
 
         ReCalculateList();
-        // CraftingSystem.Instance.RefreshNeededItems();
     }
 
     void TriggerPickupPopUp(string itemName, Sprite itemSprite)
@@ -136,7 +175,7 @@ public class InventorySystem : MonoBehaviour
                 return slot;
             }
         }
-        return new GameObject();
+        return null;
     }
 
     public bool CheckIfFull()
@@ -198,5 +237,87 @@ public class InventorySystem : MonoBehaviour
                 itemList.Add(result);
             }
         }
+    }
+
+    bool isEquipment(string itemName)
+    {
+        if (itemName == "Axe" || itemName == "Bow" || itemName == "Hammer"
+            || itemName == "MoonSwordFire" || itemName == "MoonSwordIce" || itemName == "MoonSwordLight")
+            return true;
+        return false;
+    }
+
+    private GameObject FindItemSlot(string itemName)
+    {
+        foreach (GameObject slot in slotList)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                if (isEquipment(itemName) == false && slot.transform.GetChild(0).name.Replace("(Clone)", "") == itemName)
+                    return slot;
+            }
+            else
+            {
+                return slot;
+            }
+        }
+
+        return null;
+    }
+
+    public void DecreaseCountOfItem(string nameToRemove, int amountToRemove)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if (slotList[i].transform.childCount > 0)
+            {
+                if (slotList[i].transform.GetChild(0).name.Replace("(Clone)", "") == nameToRemove && amountToRemove != 0)
+                {
+                    // slotList[i].transform.GetChild(1)
+                    Text numHolder = slotList[i].transform.GetChild(1).transform.GetChild(1).GetComponent<Text>();
+
+                    if (int.Parse(numHolder.text) == amountToRemove)
+                    {
+                        DestroyImmediate(slotList[i].transform.GetChild(1).gameObject);
+                        DestroyImmediate(slotList[i].transform.GetChild(0).gameObject);
+                    }
+                    else
+                    {
+                        numHolder.text = (int.Parse(numHolder.text) - amountToRemove).ToString();
+                    }
+                }
+            }
+        }
+    }
+
+    public void RemoveEquipment(string nameToRemove)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if (slotList[i].transform.childCount > 0)
+            {
+                if (slotList[i].transform.GetChild(0).name.Replace("(Clone)", "") == nameToRemove)
+                {
+                    DestroyImmediate(slotList[i].transform.GetChild(0).gameObject);
+                }
+            }
+        }
+    }
+
+    public int getCountOfItem(List<GameObject> slotList, string itemName)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if (slotList[i].transform.childCount > 1)
+            {
+                if (slotList[i].transform.GetChild(0).name.Replace("(Clone)", "") == itemName)
+                {
+                    int count = int.Parse(slotList[i].transform.GetChild(1).GetComponent<Text>().text);
+                    print(itemName + " " + count);
+                    return count;
+                }
+            }
+        }
+        return 0;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour
 {
+    public static Fighter Instance { get; set; }
     Animator animator;
 
     public float cooldownTime = 0.8f;
@@ -11,12 +12,24 @@ public class Fighter : MonoBehaviour
     public static int noOfClicks = 0;
     float lastClickedTime = 0;
     float maxComboDelay = 1;
+    public string typeWeapon;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
@@ -34,6 +47,22 @@ public class Fighter : MonoBehaviour
         {
             animator.SetBool("hit3", false);
         }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch1"))
+        {
+            animator.SetBool("punch1", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch2"))
+        {
+            animator.SetBool("punch2", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("kick1"))
+        {
+            animator.SetBool("kick1", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("bow_hit"))
+        {
+            animator.SetBool("bow_hit", false);
+        }
 
         if (Time.time - lastClickedTime > maxComboDelay)
         {
@@ -43,13 +72,29 @@ public class Fighter : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                OnClick();
+                // OnClick();
+                if (typeWeapon == "NoWeapon")
+                {
+                    Punch();
+                }
+                else if (typeWeapon == "Bow")
+                {
+                    BowFire();
+                }
+                else
+                {
+                    OnClick();
+                }
             }
             else if (Input.GetKeyDown(KeyCode.F))
             {
                 ChopTree();
                 Exploit();
             }
+            // else if (Input.GetKeyDown(KeyCode.J))
+            // {
+            //     BowFire();
+            // }
         }
     }
 
@@ -137,6 +182,53 @@ public class Fighter : MonoBehaviour
         animator.SetBool("hit_stone", false);
     }
 
+    void BowFire()
+    {
+        StartCoroutine(FireHit());
+    }
+
+    IEnumerator FireHit()
+    {
+        resetAnimator();
+
+        animator.SetBool("bow_hit", true);
+        yield return new WaitForSeconds(0.35f);
+
+        Weapon.Instance.FireWeapon();
+        animator.SetBool("bow_hit", false);
+    }
+
+    void Punch()
+    {
+        lastClickedTime = Time.time;
+        noOfClicks++;
+
+        if (noOfClicks == 1)
+        {
+            animator.SetBool("punch1", true);
+        }
+        noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
+
+        if (noOfClicks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch1"))
+        {
+            animator.SetBool("punch1", false);
+            animator.SetBool("punch2", true);
+        }
+
+        if (noOfClicks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch2"))
+        {
+            animator.SetBool("punch2", false);
+            animator.SetBool("kick1", true);
+        }
+
+        GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+
+        if (selectedMonster != null)
+        {
+            StartCoroutine(ClickHit(selectedMonster));
+        }
+    }
+
     void resetAnimator()
     {
         animator.SetBool("hit1", false);
@@ -144,18 +236,32 @@ public class Fighter : MonoBehaviour
         animator.SetBool("hit3", false);
         animator.SetBool("hit_tree", false);
         animator.SetBool("hit_stone", false);
+        animator.SetBool("bow_hit", false);
     }
 
 
-    public void GetHit()
+    public int HitDamage(string typeObject)
     {
-        GameObject selectedTree = SelectionManager.Instance.selectedTree;
-
-        if (selectedTree != null)
+        if (typeObject == "Stone")
         {
-            selectedTree.GetComponent<ChoppableTree>().GetHit();
+            if (typeWeapon == "Hammer")
+            {
+                return PlayerState.Instance.weaponDamage;
+            }
+            else if (typeWeapon == "Bow")
+            {
+                return 0;
+            }
+            else if (typeWeapon == "NoWeapon")
+            {
+                return PlayerState.Instance.damageRegular;
+            }
+            else
+            {
+                // return PlayerState.Instance.weaponDamage * 0.2;
+            }
         }
 
-
+        return 0;
     }
 }

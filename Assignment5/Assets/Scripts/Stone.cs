@@ -44,25 +44,24 @@ public class Stone : MonoBehaviour
         // animator.SetBool("Idle", false);
         // animator.SetBool("Death", true);
 
-        StartCoroutine(DestroyMonster(name));
+        StartCoroutine(DestroyStone(name));
     }
 
-    IEnumerator DestroyMonster(string name)
+    IEnumerator DestroyStone(string name)
     {
         yield return new WaitForSeconds(1f);
 
-        // Vector3 pos = transform.position;
+        Vector3 pos = transform.position;
         // print(pos);
 
-        string monsterModelName = name + "_Model";
-        print(monsterModelName);
+        string stoneModelName = name + "_Model";
 
         // GameObject 
         Destroy(gameObject);
         SelectionManager.Instance.chopHolder.gameObject.SetActive(false);
 
-        // GameObject brokenTree = Instantiate(Resources.Load<GameObject>(monsterModelName),
-        //     pos, Quaternion.Euler(0, 0, 0));
+        GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Stone_Model"),
+            pos, Quaternion.Euler(0, 0, 0));
     }
 
     private void OnTriggerEnter(Collider other)

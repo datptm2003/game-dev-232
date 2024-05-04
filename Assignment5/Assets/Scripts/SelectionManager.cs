@@ -134,27 +134,27 @@ public class SelectionManager : MonoBehaviour
                 }
             }
 
-            ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
+            // ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
 
-            if (choppableTree && choppableTree.playerInRange)
-            {
-                choppableTree.canBeChopped = true;
-                selectedTree = choppableTree.gameObject;
-                chopHolder.gameObject.SetActive(true);
+            // if (choppableTree && choppableTree.playerInRange)
+            // {
+            //     choppableTree.canBeChopped = true;
+            //     selectedTree = choppableTree.gameObject;
+            //     chopHolder.gameObject.SetActive(true);
 
-                keyInteractionImage.sprite = f;
-                keyInteractionText.text = "Chop";
-                checkInteractableKey = true;
-            }
-            else
-            {
-                if (selectedTree != null)
-                {
-                    selectedTree.gameObject.GetComponent<ChoppableTree>().canBeChopped = false;
-                    selectedTree = null;
-                    chopHolder.gameObject.SetActive(false);
-                }
-            }
+            //     keyInteractionImage.sprite = f;
+            //     keyInteractionText.text = "Chop";
+            //     checkInteractableKey = true;
+            // }
+            // else
+            // {
+            //     if (selectedTree != null)
+            //     {
+            //         selectedTree.gameObject.GetComponent<ChoppableTree>().canBeChopped = false;
+            //         selectedTree = null;
+            //         chopHolder.gameObject.SetActive(false);
+            //     }
+            // }
 
             // if (interactable)
             if (interactable && interactable.playerInRange)

@@ -6,6 +6,9 @@ public class InteractableObject : MonoBehaviour
 {
     public bool playerInRange;
     public string ItemName;
+    public int minCount;
+    public int maxCount;
+    public int count;
 
     public string GetItemName()
     {
@@ -19,7 +22,8 @@ public class InteractableObject : MonoBehaviour
         {
             if (!InventorySystem.Instance.CheckIfFull())
             {
-                InventorySystem.Instance.AddToInventory(ItemName);
+                count = count == 0 ? Random.Range(minCount, maxCount) : count;
+                InventorySystem.Instance.AddToInventory(ItemName, count);
                 Destroy(gameObject);
             }
             else

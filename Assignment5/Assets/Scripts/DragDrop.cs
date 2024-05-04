@@ -11,6 +11,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     private CanvasGroup canvasGroup;
 
     public static GameObject itemBeingDragged;
+    public static GameObject numHolderOfItemBeingDragged;
     Vector3 startPosition;
     Transform startParent;
 
@@ -35,11 +36,25 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             canvasGroup.blocksRaycasts = false;
         }
 
-
         startPosition = transform.position;
         startParent = transform.parent;
+
         transform.SetParent(transform.root);
         itemBeingDragged = gameObject;
+
+        List<GameObject> slotList = InventorySystem.Instance.slotList;
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if (slotList[i] != null && slotList[i].transform != null && slotList[i].transform.childCount > 0)
+            {
+                if (slotList[i].transform.GetChild(0).name == "numHolder(Clone)")
+                {
+                    print("Here1");
+                    numHolderOfItemBeingDragged = slotList[i].transform.GetChild(0).gameObject;
+                    break;
+                }
+            }
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
