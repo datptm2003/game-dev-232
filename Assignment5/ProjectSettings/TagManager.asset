@@ -15,6 +15,8 @@ TagManager:
   - ArmorEquipSlot
   - WeaponEquipSlot
   - Stone
+  - Tree
+  - MarketSlot
   layers:
   - Default
   - TransparentFX

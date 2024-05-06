@@ -20,6 +20,7 @@ public class SelectionManager : MonoBehaviour
 
     public Sprite z;
     public Sprite f;
+    public Sprite e;
     public Sprite mouse;
 
     [Header("Icon")]
@@ -134,27 +135,14 @@ public class SelectionManager : MonoBehaviour
                 }
             }
 
-            // ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
+            Market market = selectionTransform.GetComponent<Market>();
 
-            // if (choppableTree && choppableTree.playerInRange)
-            // {
-            //     choppableTree.canBeChopped = true;
-            //     selectedTree = choppableTree.gameObject;
-            //     chopHolder.gameObject.SetActive(true);
-
-            //     keyInteractionImage.sprite = f;
-            //     keyInteractionText.text = "Chop";
-            //     checkInteractableKey = true;
-            // }
-            // else
-            // {
-            //     if (selectedTree != null)
-            //     {
-            //         selectedTree.gameObject.GetComponent<ChoppableTree>().canBeChopped = false;
-            //         selectedTree = null;
-            //         chopHolder.gameObject.SetActive(false);
-            //     }
-            // }
+            if (market && market.playerInRange)
+            {
+                keyInteractionImage.sprite = e;
+                keyInteractionText.text = "Open";
+                checkInteractableKey = true;
+            }
 
             // if (interactable)
             if (interactable && interactable.playerInRange)

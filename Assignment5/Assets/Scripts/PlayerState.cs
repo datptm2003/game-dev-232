@@ -6,6 +6,13 @@ public class PlayerState : MonoBehaviour
 {
     public static PlayerState Instance { get; set; }
 
+    float distanceTravelled = 0;
+    Vector3 lastPosition;
+
+    public GameObject playerBody;
+    public int money;
+
+    [Header("Related to health")]
     // ---------- Player Health ---------- //
     public int currentHealth;
     public int maxHealth;
@@ -15,11 +22,6 @@ public class PlayerState : MonoBehaviour
     public int currentCalories;
     public int maxCalories;
 
-    float distanceTravelled = 0;
-    Vector3 lastPosition;
-
-    public GameObject playerBody;
-
 
     // ---------- Player Hydration ---------- //
     public int currentHydrationPercentage;
@@ -28,12 +30,14 @@ public class PlayerState : MonoBehaviour
     public bool isHydrationActive = true;
 
     // Player Stats
+    [Header("Player Stats")]
     public int strength;
     public int defense;
     public int agility;
     public int luckily;
     public int weaponDamage;
     public int damageRegular;
+
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class PlayerState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maxHealth = maxRegularHealth;
         currentHealth = maxHealth;
         currentCalories = maxCalories;
         currentHydrationPercentage = maxHydrationPercentage;

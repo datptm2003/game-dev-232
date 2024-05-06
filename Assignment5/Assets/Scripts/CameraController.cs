@@ -34,20 +34,26 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        invertXVal = (invertX) ? -1 : 1;
-        invertYVal = (invertY) ? -1 : 1;
+        if (InventorySystem.Instance.isOpen == false &&
+            CraftingController.Instance.isOpen == false &&
+            Market.Instance.isOpen == false
+        )
+        {
+            invertXVal = (invertX) ? -1 : 1;
+            invertYVal = (invertY) ? -1 : 1;
 
-        rotationX += Input.GetAxis("Camera Y") * invertYVal * rotationSpeed;
-        rotationX = Mathf.Clamp(rotationX, minVerticalAngle, maxVerticalAngle);
+            rotationX += Input.GetAxis("Camera Y") * invertYVal * rotationSpeed;
+            rotationX = Mathf.Clamp(rotationX, minVerticalAngle, maxVerticalAngle);
 
-        rotationY -= Input.GetAxis("Camera X") * invertXVal * rotationSpeed;
+            rotationY -= Input.GetAxis("Camera X") * invertXVal * rotationSpeed;
 
-        var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
+            var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
 
-        var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
+            var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
 
-        transform.position = focusPosition - targetRotation * new Vector3(x, y, z);
-        transform.rotation = targetRotation;
+            transform.position = focusPosition - targetRotation * new Vector3(x, y, z);
+            transform.rotation = targetRotation;
+        }
     }
 
     public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);

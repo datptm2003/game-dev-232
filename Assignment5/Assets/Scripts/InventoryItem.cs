@@ -155,7 +155,8 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             if (isConsumable && itemPendingConsumptions == gameObject)
             {
-                DestroyImmediate(gameObject);
+                // DestroyImmediate(gameObject);
+                InventorySystem.Instance.DecreaseCountOfItem(thisName, 1);
                 InventorySystem.Instance.ReCalculateList();
                 // CraftingSystem.Instance.RefreshNeededItems();
             }

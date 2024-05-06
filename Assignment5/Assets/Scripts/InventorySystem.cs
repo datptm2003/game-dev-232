@@ -304,17 +304,23 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    public int getCountOfItem(List<GameObject> slotList, string itemName)
+    public int getCountOfItem(string itemName)
     {
         for (int i = 0; i < slotList.Count; i++)
         {
-            if (slotList[i].transform.childCount > 1)
+            // if (slotList[i] != null && slotList[i].transform.childCount > 1)
+            if (slotList[i] != null && slotList[i].transform != null && slotList[i].transform.childCount > 1)
             {
                 if (slotList[i].transform.GetChild(0).name.Replace("(Clone)", "") == itemName)
                 {
-                    int count = int.Parse(slotList[i].transform.GetChild(1).GetComponent<Text>().text);
-                    print(itemName + " " + count);
-                    return count;
+                    Transform childTransform = slotList[i].transform.GetChild(1).transform.GetChild(1);
+                    if (childTransform != null)
+                    {
+                        int count = int.Parse(childTransform.GetComponent<Text>().text);
+                        // print(itemName + " " + count);
+                        return count;
+
+                    }
                 }
             }
         }
