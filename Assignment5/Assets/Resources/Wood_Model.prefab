@@ -209,8 +209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   ItemName: Wood
-  minCount: 30
-  maxCount: 60
+  minCount: 3
+  maxCount: 6
   count: 0
 --- !u!65 &371641371607436395
 BoxCollider:

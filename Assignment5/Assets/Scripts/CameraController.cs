@@ -36,7 +36,9 @@ public class CameraController : MonoBehaviour
     {
         if (InventorySystem.Instance.isOpen == false &&
             CraftingController.Instance.isOpen == false &&
-            Market.Instance.isOpen == false
+            Market.Instance.isOpen == false &&
+            QuestController.Instance.isOpen == false &&
+            NPC.Instance.isOpen == false
         )
         {
             invertXVal = (invertX) ? -1 : 1;

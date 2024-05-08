@@ -17,6 +17,7 @@ public class QuestController : MonoBehaviour
     public List<GameObject> questSlotList = new List<GameObject>();
 
     public GameObject questDetailArea;
+    public bool isOpenQuestDetailArea;
     public GameObject questOfferUI;
 
     public Button acceptBtn;
@@ -48,6 +49,7 @@ public class QuestController : MonoBehaviour
     {
         isOpen = false;
         questSlotSelecting = false;
+        isOpenQuestDetailArea = false;
         // isFull = false;
 
         foreach (Transform child in questBoardUI.transform.GetComponentsInChildren<Transform>())
@@ -58,7 +60,7 @@ public class QuestController : MonoBehaviour
             }
         }
 
-        standardQuestList.Add(new Quest(0, "Quest 1", "Hahaha", "Stick x 1, Stone x 5", false));
+        standardQuestList.Add(new Quest(0, "BIG BOSS", "Hello, welcome to the Big Boss mission.This is a very difficult and dramatic task.Prepare yourself to face it.You will head to the Kerning region and find the monster called Big Boss. Your mission is to defeat it.Please note that Big Boss is extremely fierce, so be careful.", "Stick x 1, Stone x 5", false));
         standardQuestList.Add(new Quest(1, "Quest 2", "Hahahahahahaaha", "Stick x 2, Stone x 10", false));
 
         acceptBtn = questOfferUI.transform.Find("AcceptBtn").GetComponent<Button>();
@@ -137,15 +139,23 @@ public class QuestController : MonoBehaviour
     {
         questList.Add(new Quest(quest.id, quest.title, quest.description, quest.reward, true));
         questOfferUI.SetActive(false);
+        NPC.Instance.isOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        SelectionManager.Instance.EnableSelection();
+        SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
     }
 
     public void RejectQuest(Quest quest)
     {
         questOfferUI.SetActive(false);
+        NPC.Instance.isOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        SelectionManager.Instance.EnableSelection();
+        SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
     }
 
     public void AddQuest(Quest quest)

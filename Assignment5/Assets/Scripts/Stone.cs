@@ -60,8 +60,24 @@ public class Stone : MonoBehaviour
         Destroy(gameObject);
         SelectionManager.Instance.chopHolder.gameObject.SetActive(false);
 
-        GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Stone_Model"),
+        int x = Random.Range(1, 1000);
+
+        if (x < 5)
+        {
+            GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Steel_Model"),
             pos, Quaternion.Euler(0, 0, 0));
+        }
+        else if (x > 900)
+        {
+            GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Iron_Model"),
+            pos, Quaternion.Euler(0, 0, 0));
+        }
+        else
+        {
+            GameObject brokenTree = Instantiate(Resources.Load<GameObject>("Stone_Model"),
+            pos, Quaternion.Euler(0, 0, 0));
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)

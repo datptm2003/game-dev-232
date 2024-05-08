@@ -103,6 +103,15 @@ public class Monster : MonoBehaviour
             GameObject leather = Instantiate(Resources.Load<GameObject>("Leather_Model"),
                 new Vector3(pos.x + 3, pos.y, pos.z), Quaternion.Euler(0, 0, 90));
         }
+        else if (monsterModelName == "Rabbit_Model")
+        {
+            int x = Random.Range(1, 10);
+            if (x < 3)
+            {
+                GameObject leather = Instantiate(Resources.Load<GameObject>("Leather_Model"),
+                new Vector3(pos.x, pos.y, pos.z), Quaternion.Euler(0, 0, 90));
+            }
+        }
 
 
         SelectionManager.Instance.monsterHealthBar.gameObject.SetActive(false);

@@ -242,7 +242,8 @@ public class InventorySystem : MonoBehaviour
     bool isEquipment(string itemName)
     {
         if (itemName == "Axe" || itemName == "Bow" || itemName == "Hammer"
-            || itemName == "MoonSwordFire" || itemName == "MoonSwordIce" || itemName == "MoonSwordLight")
+            || itemName == "MoonSwordFire" || itemName == "MoonSwordIce" || itemName == "MoonSwordLight"
+            || itemName == "AxeDS" || itemName == "HammerDS" || itemName == "SwordDS")
             return true;
         return false;
     }

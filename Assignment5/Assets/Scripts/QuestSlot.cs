@@ -21,16 +21,19 @@ public class QuestSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         questSlotUI = QuestController.Instance.questSlotList[index];
         // Debug.Log(QuestController.Instance.questSlotList.Count);
         // Debug.Log(questSlotUI);
-        
+
         // questTitleUI = questSlotUI.GetComponentInChildren<Text>();
 
-        if (index < QuestController.Instance.questList.Count) {
+        if (index < QuestController.Instance.questList.Count)
+        {
             quest = QuestController.Instance.questList[index];
-        } else {
+        }
+        else
+        {
             quest = null;
         }
-            
-        
+
+
         isSelected = false;
     }
 
@@ -46,16 +49,20 @@ public class QuestSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         //     gameObject.GetComponent<DragDrop>().enabled = true;
         // }
         // Debug.Log(QuestController.Instance.questList.Count);
-        if (index < QuestController.Instance.questList.Count) {
+        if (index < QuestController.Instance.questList.Count)
+        {
             quest = QuestController.Instance.questList[index];
-        } else {
+        }
+        else
+        {
             quest = null;
         }
     }
 
     // Triggered when the mouse enters into the area of the item that has this script
-    
-    public void OnPointerEnter(PointerEventData eventData) {
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
         if (quest == null) return;
         // Image bg = questSlotUI.GetComponentInChildren<Image>();
         // if (bg.color.a == 0) return;
@@ -63,7 +70,8 @@ public class QuestSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         QuestController.Instance.questSlotSelecting = true;
     }
 
-    public void OnPointerExit(PointerEventData eventData) {
+    public void OnPointerExit(PointerEventData eventData)
+    {
         // if (quest == null) return;
         // Image bg = questSlotUI.GetComponentInChildren<Image>();
         // if (bg.color.a == 0) return;
@@ -75,11 +83,18 @@ public class QuestSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         // Left Mouse Button Click on
         if (quest == null) return;
-        if (eventData.button == PointerEventData.InputButton.Left) {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
             GameObject questDetail = QuestController.Instance.questDetailArea;
             questDetail.transform.Find("QuestTitle").GetComponent<Text>().text = quest.title;
             questDetail.transform.Find("Description").GetComponent<Text>().text = quest.description;
             questDetail.transform.Find("Reward").GetComponent<Text>().text = quest.reward;
+
+            if (QuestController.Instance.isOpenQuestDetailArea == false)
+            {
+                QuestController.Instance.isOpenQuestDetailArea = true;
+                questDetail.SetActive(true);
+            }
         }
 
     }
@@ -88,6 +103,6 @@ public class QuestSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         // Left Mouse Button Click on
         if (quest == null) return;
-        
+
     }
 }
