@@ -35,7 +35,10 @@ public class SelectionManager : MonoBehaviour
 
     public GameObject selectedMonster;
     public GameObject selectedStone;
+    public GameObject selectedNPC;
     public GameObject monsterHealthBar;
+
+    private bool tmpPlayerInRange;
 
     private void Start()
     {
@@ -79,7 +82,7 @@ public class SelectionManager : MonoBehaviour
 
                 keyInteractionImage.sprite = mouse;
                 keyInteractionText.text = "Kill";
-                checkInteractableKey = true;
+                keyInteractionText.text = "Kill";
             }
             else
             {
@@ -144,6 +147,14 @@ public class SelectionManager : MonoBehaviour
                 checkInteractableKey = true;
             }
 
+            NPC nonPlayer = selectionTransform.GetComponent<NPC>();
+            if (nonPlayer && nonPlayer.playerInRange)
+            {
+                keyInteractionImage.sprite = e;
+                keyInteractionText.text = "Interact";
+                checkInteractableKey = true;
+            }
+
             // if (interactable)
             if (interactable && interactable.playerInRange)
             {
@@ -181,6 +192,44 @@ public class SelectionManager : MonoBehaviour
                 handIsVisible = false;
             }
             key_Interaction_Info_UI.SetActive(checkInteractableKey);
+
+            // NPC nonPlayer = selectionTransform.GetComponent<NPC>();
+
+            // // Debug.Log(nonPlayer);
+            // if (nonPlayer && nonPlayer.playerInRange)
+            // {
+            //     // Debug.Log("NPC");
+            //     tmpPlayerInRange = true;
+            //     selectedNPC = nonPlayer.gameObject;
+
+            //     interaction_text.text = nonPlayer.GetComponent<NPC>().npcName;
+            //     interaction_Info_UI.SetActive(true);
+
+            // }
+            // else if (!tmpPlayerInRange)
+            // {
+            //     if (selectedNPC != null)
+            //     {
+            //         selectedNPC = null;
+            //     }
+            //     interaction_Info_UI.SetActive(false);
+            //     QuestController.Instance.questOfferUI.SetActive(false);
+            //     Cursor.lockState = CursorLockMode.Locked;
+            //     Cursor.visible = false;
+
+            //     QuestController.Instance.currentActiveQuest = null;
+            //     tmpPlayerInRange = false;
+            //     // interaction_text.text = "";
+            //     // interaction_Info_UI.SetActive(false);
+            // }
+            // else
+            // {
+            //     if (selectedNPC != null)
+            //     {
+            //         selectedNPC = null;
+
+            //     }
+            // }
         }
         else
         {
@@ -198,7 +247,7 @@ public class SelectionManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        monster.TakeDamage(damage);
+        monster.TakeDamage(damage, this.transform.gameObject);
     }
 
     public void EnableSelection()

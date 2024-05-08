@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Fighter : MonoBehaviour
 {
@@ -91,10 +92,6 @@ public class Fighter : MonoBehaviour
                 ChopTree();
                 Exploit();
             }
-            // else if (Input.GetKeyDown(KeyCode.J))
-            // {
-            //     BowFire();
-            // }
         }
     }
 
@@ -122,19 +119,30 @@ public class Fighter : MonoBehaviour
         }
 
         GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+        // GameObject selectedNPC = SelectionManager.Instance.selectedNPC;
 
         if (selectedMonster != null)
         {
-            StartCoroutine(ClickHit(selectedMonster));
+            GameObject player = this.transform.gameObject;
+            StartCoroutine(ClickHit(selectedMonster, player));
         }
+
+        // if (selectedNPC != null)
+        // {
+        //     Debug.Log("Here");
+        //     GameObject player = this.transform.gameObject;
+        //     interactNPC(selectedNPC, player);
+        // }
     }
 
-    IEnumerator ClickHit(GameObject selectedMonster)
+    IEnumerator ClickHit(GameObject selectedMonster, GameObject player)
     {
         yield return new WaitForSeconds(1f);
 
-        selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+        selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage(), player);
     }
+
+
 
     void ChopTree()
     {
@@ -178,7 +186,7 @@ public class Fighter : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage);
+        selectedStone.GetComponent<Stone>().TakeDamage(PlayerState.Instance.weaponDamage, transform.gameObject);
         animator.SetBool("hit_stone", false);
     }
 
@@ -225,7 +233,7 @@ public class Fighter : MonoBehaviour
 
         if (selectedMonster != null)
         {
-            StartCoroutine(ClickHit(selectedMonster));
+            StartCoroutine(ClickHit(selectedMonster, this.transform.gameObject));
         }
     }
 

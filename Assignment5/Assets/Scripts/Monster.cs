@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using static AI_Movement;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Monster : MonoBehaviour
@@ -19,6 +20,8 @@ public class Monster : MonoBehaviour
     public Vector3 previousPosition;
     public int attackDamage;
 
+    public AI_Movement movement;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +29,27 @@ public class Monster : MonoBehaviour
         // animator = transform.parent.transform.parent.GetComponent<Animator>();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject player)
     {
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
             IsDead();
+        }
+        else
+        {
+            // Debug.Log(AI_Movement.Instance);
+            switch (monsterName)
+            {
+                case "Rabbit":
+                    movement.MoveAway(player, 12);
+                    break;
+                case "Bear":
+                    movement.MoveToward(player, attackDamage, 6);
+                    break;
+            }
+
         }
     }
 
@@ -53,7 +70,14 @@ public class Monster : MonoBehaviour
         // AI_Movement.Instance.walkCounter = 0;
         // AI_Movement.Instance.waitCounter = 8;
 
-
+        if (movement.type == "Bear")
+        {
+            if (QuestController.Instance.CheckExistQuest(0))
+            {
+                Quest quest = QuestController.Instance.GetQuest(0);
+                quest.state = 1;
+            }
+        }
 
         StartCoroutine(DestroyMonster(name));
     }

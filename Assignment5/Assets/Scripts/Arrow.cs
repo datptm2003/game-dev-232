@@ -15,7 +15,7 @@ public class Arrow : MonoBehaviour
         if (collision.gameObject.CompareTag("Monster"))
         {
             print("hit " + collision.gameObject.name + " ! ");
-            collision.gameObject.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage());
+            collision.gameObject.GetComponent<Monster>().TakeDamage(EquipSystem.Instance.GetWeaponDamage(), this.transform.gameObject);
         }
     }
 

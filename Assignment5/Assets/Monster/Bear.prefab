@@ -608,7 +608,8 @@ MonoBehaviour:
   currentHealth: 0
   animator: {fileID: 9028676881031162142}
   previousPosition: {x: 0, y: 0, z: 0}
-  attackDamage: 0
+  attackDamage: 20
+  movement: {fileID: 1801967079953484422}
 --- !u!65 &3193076271652028674
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -648,6 +649,9 @@ MonoBehaviour:
   waitCounter: 0
   isWalking: 0
   isAttacking: 0
+  attackDamage: 0
+  curPlayer: {fileID: 0}
+  type: Bear
 --- !u!1 &3017509730002042362
 GameObject:
   m_ObjectHideFlags: 0
