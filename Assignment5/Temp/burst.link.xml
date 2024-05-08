@@ -1,0 +1,116 @@
+<linker>
+ <assembly fullname="Unity.Burst">
+  <type fullname="Unity.Burst.LowLevel.BurstCompilerService">
+   <method name="GetOrCreateSharedMemory"/>
+  </type>
+  <type fullname="Unity.Burst.LowLevel.BurstCompilerService">
+   <method name="RuntimeLog"/>
+  </type>
+ </assembly>
+ <assembly fullname="Unity.Collections">
+  <type fullname="Unity.Collections.AllocatorManager.SharedStatics.TableEntry">
+   <method name=".cctor"/>
+  </type>
+  <type fullname="Unity.Collections.LowLevel.Unsafe.UnsafeUtility">
+   <method name="Malloc"/>
+  </type>
+  <type fullname="Unity.Collections.LowLevel.Unsafe.UnsafeUtility">
+   <method name="Free"/>
+  </type>
+ </assembly>
+ <assembly fullname="Unity.Networking.Transport">
+  <type fullname="Unity.Networking.Transport.TLS.ManagedSecureFunctions">
+   <method name=".cctor"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_get_state"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_read_data"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_get_role"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_init"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_destroy"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_send_data"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_init_config"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_create"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_handshake"/>
+  </type>
+  <type fullname="Unity.TLS.LowLevel.Binding">
+   <method name="unitytls_client_get_handshake_state"/>
+  </type>
+ </assembly>
+ <assembly fullname="Unity.RenderPipelines.HighDefinition.Runtime">
+  <type fullname="UnityEngine.Rendering.HighDefinition.DecalSystem.UpdateJob">
+   <method name=".cctor"/>
+  </type>
+ </assembly>
+ <assembly fullname="Unity.RenderPipelines.Universal.Runtime">
+  <type fullname="UnityEngine.Rendering.Universal.DecalUpdateCachedSystem.UpdateTransformsJob">
+   <method name=".cctor"/>
+  </type>
+ </assembly>
+ <assembly fullname="UnityEngine.CoreModule">
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_ProcessRecv_Injected"/>
+  </type>
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_DequeueRecv_Injected"/>
+  </type>
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_ScheduleRecv_Injected"/>
+  </type>
+  <type fullname="Unity.Collections.LowLevel.Unsafe.UnsafeUtility">
+   <method name="MallocTracked"/>
+  </type>
+  <type fullname="Unity.Collections.LowLevel.Unsafe.UnsafeUtility">
+   <method name="FreeTracked"/>
+  </type>
+  <type fullname="Unity.Jobs.LowLevel.Unsafe.JobsUtility">
+   <method name="GetWorkStealingRange"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccessArray">
+   <method name="GetSortedToUserIndex"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccessArray">
+   <method name="GetSortedTransformAccess"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccess">
+   <method name="GetPosition"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccess">
+   <method name="GetRotation"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccess">
+   <method name="GetLocalScale"/>
+  </type>
+  <type fullname="UnityEngine.Jobs.TransformAccess">
+   <method name="GetLocalToWorldMatrix"/>
+  </type>
+  <type fullname="UnityEngine.Matrix4x4">
+   <method name="GetLossyScale_Injected"/>
+  </type>
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_ProcessSend_Injected"/>
+  </type>
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_DequeueSend_Injected"/>
+  </type>
+  <type fullname="Unity.Baselib.LowLevel.Binding">
+   <method name="Baselib_RegisteredNetwork_Socket_UDP_ScheduleSend_Injected"/>
+  </type>
+ </assembly>
+</linker>
