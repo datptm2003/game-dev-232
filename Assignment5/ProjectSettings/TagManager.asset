@@ -15,6 +15,7 @@ TagManager:
   - ArmorEquipSlot
   - WeaponEquipSlot
   - Stone
+  - QuestSlot
   layers:
   - Default
   - TransparentFX

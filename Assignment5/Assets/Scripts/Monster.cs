@@ -20,6 +20,8 @@ public class Monster : MonoBehaviour
     public Vector3 previousPosition;
     public int attackDamage;
 
+    public AI_Movement movement;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,9 +38,26 @@ public class Monster : MonoBehaviour
             IsDead();
         } else {
             // Debug.Log(AI_Movement.Instance);
-            AI_Movement.Instance.MoveToward(player,6);
+            switch(monsterName) {
+                case "Rabbit":
+                    movement.MoveAway(player,12);
+                    break;
+                case "Bear":
+                    movement.MoveToward(player,attackDamage,6);
+                    break;
+            }
+            
         }
     }
+
+    // public void Attack(GameObject player) {
+    //     double curX = transform.position.x;
+    //     double curZ = transform.position.z;
+    //     double playerX = player.transform.position.x;
+    //     double playerZ = player.transform.position.z;
+
+
+    // }
 
     void IsDead()
     {
@@ -57,7 +76,12 @@ public class Monster : MonoBehaviour
         // AI_Movement.Instance.walkCounter = 0;
         // AI_Movement.Instance.waitCounter = 8;
 
-
+        if (movement.type == "Bear") {
+            if (QuestController.Instance.CheckExistQuest(0)) {
+                Quest quest = QuestController.Instance.GetQuest(0);
+                quest.state = 1;
+            }
+        }
 
         StartCoroutine(DestroyMonster(name));
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Fighter : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class Fighter : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-
+        // Debug.Log(QuestBoard.Instance);
+        
     }
 
     // Update is called once per frame
@@ -77,6 +79,8 @@ public class Fighter : MonoBehaviour
         }
 
         GameObject selectedMonster = SelectionManager.Instance.selectedMonster;
+        GameObject selectedNPC = SelectionManager.Instance.selectedNPC;
+        // Debug.Log("AAAAA");
 
         if (selectedMonster != null)
         {
@@ -84,6 +88,13 @@ public class Fighter : MonoBehaviour
             // Debug.Log(playerPosition);
             // Debug.Log("AAAAABCCCC");
             StartCoroutine(ClickHit(selectedMonster, player));
+        }
+
+        if (selectedNPC != null)
+        {
+            GameObject player = this.transform.gameObject;
+            interactNPC(selectedNPC, player);
+
         }
     }
 
@@ -93,6 +104,37 @@ public class Fighter : MonoBehaviour
 
         selectedMonster.GetComponent<Monster>().TakeDamage(PlayerState.Instance.GetDamage(),player);
     }
+
+    void interactNPC(GameObject selectedNPC, GameObject player) {
+        // Debug.Log("NPC Interaction");
+        GameObject questOfferUI = QuestController.Instance.questOfferUI;
+        int questId = selectedNPC.GetComponent<NPC>().questId;
+        Quest currentActiveQuest = QuestController.Instance.standardQuestList[questId];
+        QuestController.Instance.currentActiveQuest = currentActiveQuest;
+
+        Quest questInList = QuestController.Instance.GetQuest(currentActiveQuest.id);
+
+        if (!QuestController.Instance.CheckExistQuest(currentActiveQuest.id) || questInList.state == 0) {
+            questOfferUI.transform.Find("Title").GetComponent<Text>().text = currentActiveQuest.title;
+            questOfferUI.transform.Find("Description").GetComponent<Text>().text = currentActiveQuest.description;
+            questOfferUI.transform.Find("Reward").GetComponent<Text>().text = currentActiveQuest.reward;
+
+            questOfferUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        } else if (questInList.state == 1) {
+            foreach (KeyValuePair<string, int> item in questInList.rewardDict) {
+                for (int i = 0; i < item.Value; ++i) {
+                    InventorySystem.Instance.AddToInventory(item.Key);
+                }
+                
+            }
+        }
+
+        
+    }
+
+
 
     void ChopTree()
     {

@@ -13,6 +13,7 @@ public class SelectionManager : MonoBehaviour
     [Header("Interaction UI")]
     public GameObject interaction_Info_UI;
     public GameObject key_Interaction_Info_UI;
+    // public GameObject questOfferUI;
 
     Text interaction_text;
     Text keyInteractionText;
@@ -34,7 +35,10 @@ public class SelectionManager : MonoBehaviour
 
     public GameObject selectedMonster;
     public GameObject selectedStone;
+    public GameObject selectedNPC;
     public GameObject monsterHealthBar;
+
+    private bool tmpPlayerInRange;
 
     private void Start()
     {
@@ -193,6 +197,46 @@ public class SelectionManager : MonoBehaviour
                 handIcon.gameObject.SetActive(false);
 
                 handIsVisible = false;
+            }
+
+            NPC nonPlayer = selectionTransform.GetComponent<NPC>();
+            
+            // Debug.Log(nonPlayer);
+            if (nonPlayer && nonPlayer.playerInRange) {
+                // Debug.Log("NPC");
+                tmpPlayerInRange = true;
+                selectedNPC = nonPlayer.gameObject;
+
+                interaction_text.text = nonPlayer.GetComponent<NPC>().name;
+                interaction_Info_UI.SetActive(true);
+
+            } else if (!tmpPlayerInRange) {
+                if (selectedNPC != null)
+                {
+                    selectedNPC = null;
+                }
+                interaction_Info_UI.SetActive(false);
+                QuestController.Instance.questOfferUI.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+
+                QuestController.Instance.currentActiveQuest = null;
+                tmpPlayerInRange = false;
+                // interaction_text.text = "";
+                // interaction_Info_UI.SetActive(false);
+            } else {
+                if (selectedNPC != null)
+                {
+                    selectedNPC = null;
+
+                }
+                // tmpPlayerInRange = false;
+                // if (!tmpPlayerInRange) {
+                //     QuestController.Instance.questOfferUI.SetActive(false);
+                //     // Cursor.lockState = CursorLockMode.Locked;
+                //     // Cursor.visible = false;
+                // }
+                
             }
         }
         else

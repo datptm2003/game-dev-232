@@ -437,10 +437,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5008204554140024364}
   - component: {fileID: 4675016936609900872}
-  - component: {fileID: 3561753862210133851}
   - component: {fileID: 87786502927815452}
   - component: {fileID: 2704279626973894610}
   - component: {fileID: 1556511351690279311}
+  - component: {fileID: 3561753862210133851}
   m_Layer: 0
   m_Name: Rabbit 1
   m_TagString: Monster
@@ -487,24 +487,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3561753862210133851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5178140483124567720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aad0ec72ef65bd47f9f5a226673fb91d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 4675016936609900872}
-  moveSpeed: 0.2
-  walkCounter: 0
-  waitCounter: 0
-  isWalking: 0
-  isAttacking: 0
 --- !u!65 &87786502927815452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -568,6 +550,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 2, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3561753862210133851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178140483124567720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad0ec72ef65bd47f9f5a226673fb91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4675016936609900872}
+  moveSpeed: 0.2
+  walkCounter: 0
+  waitCounter: 0
+  isWalking: 0
+  isAttacking: 0
+  curPlayer: {fileID: 0}
+  type: 
 --- !u!1 &5187423074020267687
 GameObject:
   m_ObjectHideFlags: 0

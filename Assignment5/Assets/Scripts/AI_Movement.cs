@@ -6,7 +6,7 @@ using static System.Math;
 
 public class AI_Movement : MonoBehaviour
 {
-    public static AI_Movement Instance { get; set; }
+    // public static AI_Movement Instance { get; set; }
     public Animator animator;
 
     public float moveSpeed = 2f;
@@ -25,8 +25,11 @@ public class AI_Movement : MonoBehaviour
 
     public bool isAttacking;
 
+    public int attackDamage;
+
     public GameObject curPlayer;
 
+    public string type;
 
 
     // Start is called before the first frame update
@@ -55,6 +58,7 @@ public class AI_Movement : MonoBehaviour
             animator.SetTrigger("WalkForward");
             animator.SetBool("WalkForward", true);
             animator.SetBool("Idle", false);
+            // animator.ResetTrigger("Attack1");
 
             walkCounter -= Time.deltaTime;
 
@@ -125,7 +129,17 @@ public class AI_Movement : MonoBehaviour
             // Debug.Log(chaseTime);
             if (waitCounter <= 0 && chaseTime > 0) {
                 // Debug.Log(chaseTime);
-                MoveToward(curPlayer,chaseTime-1);
+                switch (type) {
+                    case "Bear":
+                        MoveToward(curPlayer,attackDamage,chaseTime-1);
+                        // Attack();
+                        break;
+                    case "Rabbit":
+                        MoveAway(curPlayer,chaseTime-1);
+                        break;
+                }
+
+                
             }
             else if (waitCounter <= 0 && chaseTime == 0)
             {
@@ -136,14 +150,16 @@ public class AI_Movement : MonoBehaviour
 
     public void ChooseDirection()
     {
-        WalkDirection = Random.Range(0, 100) / 100;
+        WalkDirection = Random.Range(0, 7);
 
         isWalking = true;
         walkCounter = walkTime;
     }
 
-    public void MoveToward(GameObject player, int objChaseTime) {
+    public void MoveToward(GameObject player, int attackDmg, int objChaseTime) {
+        if (player == null) return;
         curPlayer = player;
+        attackDamage = attackDmg;
 
         double curX = transform.position.x;
         double curZ = transform.position.z;
@@ -152,10 +168,10 @@ public class AI_Movement : MonoBehaviour
         double[,] disUnit = {{0,1},{1,0},{-1,0},{0,-1},{Sqrt(2)/2,Sqrt(2)/2},{-Sqrt(2)/2,Sqrt(2)/2},{Sqrt(2)/2,-Sqrt(2)/2},{-Sqrt(2)/2,-Sqrt(2)/2}}; // Need to be modified
         
         
-        double minDis = Abs((playerX - (curX + disUnit[0,0]*moveSpeed))*(playerX - (curX + disUnit[0,0]*moveSpeed)) - (playerZ - (curZ + disUnit[0,1]*moveSpeed))*(playerZ - (curZ + disUnit[0,1]*moveSpeed)));
+        double minDis = Sqrt((playerX - (curX + disUnit[0,0]*moveSpeed))*(playerX - (curX + disUnit[0,0]*moveSpeed)) + (playerZ - (curZ + disUnit[0,1]*moveSpeed))*(playerZ - (curZ + disUnit[0,1]*moveSpeed)));
 
         for (int i = 0; i < 8; i++) {
-            double curDis = Abs((playerX - (curX + disUnit[i,0]*moveSpeed))*(playerX - (curX + disUnit[i,0]*moveSpeed)) - (playerZ - (curZ + disUnit[i,1]*moveSpeed))*(playerZ - (curZ + disUnit[i,1]*moveSpeed)));
+            double curDis = Sqrt((playerX - (curX + disUnit[i,0]*moveSpeed))*(playerX - (curX + disUnit[i,0]*moveSpeed)) + (playerZ - (curZ + disUnit[i,1]*moveSpeed))*(playerZ - (curZ + disUnit[i,1]*moveSpeed)));
             if (curDis <= minDis) {
                 WalkDirection = i;
                 minDis = curDis;    
@@ -165,17 +181,64 @@ public class AI_Movement : MonoBehaviour
         isWalking = true;
         walkCounter = walkTime / 3;
         chaseTime = objChaseTime;
+
+        Attack(player,attackDmg);
     }
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
+    public void MoveAway(GameObject player, int objChaseTime) {
+        if (player == null) return;
+        curPlayer = player;
+
+        double curX = transform.position.x;
+        double curZ = transform.position.z;
+        double playerX = player.transform.position.x;
+        double playerZ = player.transform.position.z;
+        double[,] disUnit = {{0,1},{1,0},{-1,0},{0,-1},{Sqrt(2)/2,Sqrt(2)/2},{-Sqrt(2)/2,Sqrt(2)/2},{Sqrt(2)/2,-Sqrt(2)/2},{-Sqrt(2)/2,-Sqrt(2)/2}}; // Need to be modified
+        
+        
+        double maxDis = Sqrt((playerX - (curX + disUnit[0,0]*moveSpeed))*(playerX - (curX + disUnit[0,0]*moveSpeed)) + (playerZ - (curZ + disUnit[0,1]*moveSpeed))*(playerZ - (curZ + disUnit[0,1]*moveSpeed)));
+
+        for (int i = 0; i < 8; i++) {
+            double curDis = Sqrt((playerX - (curX + disUnit[i,0]*moveSpeed))*(playerX - (curX + disUnit[i,0]*moveSpeed)) + (playerZ - (curZ + disUnit[i,1]*moveSpeed))*(playerZ - (curZ + disUnit[i,1]*moveSpeed)));
+            if (curDis >= maxDis) {
+                WalkDirection = i;
+                maxDis = curDis;    
+            }
         }
-        else
-        {
-            Instance = this;
+
+        isWalking = true;
+        walkCounter = walkTime / 3;
+        chaseTime = objChaseTime;
+
+        
+    }
+    
+    public void Attack(GameObject player, int monsterDmg) {
+        if (player == null) return;
+        Debug.Log(PlayerState.Instance.currentHealth);
+        double curX = transform.position.x;
+        double curZ = transform.position.z;
+        double playerX = player.transform.position.x;
+        double playerZ = player.transform.position.z;
+
+        if (Sqrt((playerX - curX)*(playerX - curX) + (playerZ - curZ)*(playerZ - curZ)) < 5)  {
+            animator.SetTrigger("Attack1");
+            // animator.SetBool("Attack1", true);
+            animator.SetBool("Idle", false);
+            animator.SetBool("WalkForward", false);
+            PlayerState.Instance.currentHealth -= monsterDmg;
         }
     }
+
+    // private void Awake()
+    // {
+    //     if (Instance != null && Instance != this)
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    //     else
+    //     {
+    //         Instance = this;
+    //     }
+    // }
 }

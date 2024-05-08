@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\npc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\npc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\questslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\questslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\ai_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +35,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SelectionManager.cs",
-              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SelectionManager.cs",
-              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SelectionManager.cs",
-              "ViewState": "AQIAAG8AAAAAAAAAAAAuwNUAAAAjAAAA",
+              "Title": "NPC.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\NPC.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\NPC.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\NPC.cs",
+              "RelativeToolTip": "Assets\\Scripts\\NPC.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T15:06:41.397Z",
+              "WhenOpened": "2024-05-05T08:10:46.658Z",
               "EditorCaption": ""
             },
             {
@@ -40,15 +52,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "QuestSlot.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\QuestSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\QuestSlot.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\QuestSlot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\QuestSlot.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T02:09:53.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AI_Movement.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\AI_Movement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AI_Movement.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\AI_Movement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AI_Movement.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-04T10:21:15.039Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SelectionManager.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SelectionManager.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SelectionManager.cs",
+              "ViewState": "AQIAAG8AAAAAAAAAAAAuwNUAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T15:06:41.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Monster.cs",
               "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Monster.cs",
               "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
               "RelativeToolTip": "Assets\\Scripts\\Monster.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAwwD8AAAArAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAwwD8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T14:52:59.999Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-01T14:52:59.999Z"
             }
           ]
         }
