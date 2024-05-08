@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+// public class PlayerController : MonoBehaviour
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
@@ -26,7 +27,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        cameraController = Camera.main.GetComponent<CameraController>();
+        // cameraController = Camera.main.GetComponent<CameraController>();
+        cameraController = transform.Find("MainCamera").GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
     }
