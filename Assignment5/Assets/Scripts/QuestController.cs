@@ -123,6 +123,22 @@ public class QuestController : MonoBehaviour {
     
     public void AcceptQuest(Quest quest) {
         questList.Add(new Quest(quest.id,quest.title,quest.description,quest.reward,true));
+        if (quest.id == 1) {
+            GameObject cargoObj = new GameObject();
+            foreach(GameObject monsterObj in MonsterList.Instance.listMonster) {
+                Monster monster = monsterObj.GetComponent<Monster>();
+                if (monster.movement.type == "Cargo") {
+                    cargoObj = monsterObj;
+                }
+            }
+            foreach(GameObject monsterObj in MonsterList.Instance.listMonster) {
+                Monster monster = monsterObj.GetComponent<Monster>();
+                if (monster.movement.type == "Wolf") {
+                    monster.TakeDamage(monster.attackDamage,cargoObj);
+                }
+            }
+            
+        }
         questOfferUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

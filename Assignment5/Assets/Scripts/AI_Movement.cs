@@ -29,6 +29,8 @@ public class AI_Movement : MonoBehaviour
 
     public GameObject curPlayer;
 
+    public GameObject curCargo;
+
     public string type;
 
 
@@ -137,6 +139,12 @@ public class AI_Movement : MonoBehaviour
                     case "Rabbit":
                         MoveAway(curPlayer,chaseTime-1);
                         break;
+                    case "Cargo":
+                        MovePath(chaseTime-1);
+                        break;
+                    case "Wolf":
+                        MoveToward(curCargo,attackDamage,chaseTime-1);
+                        break;
                 }
 
                 
@@ -207,9 +215,23 @@ public class AI_Movement : MonoBehaviour
         }
 
         isWalking = true;
-        walkCounter = walkTime / 3;
+        
         chaseTime = objChaseTime;
 
+        
+    }
+
+    public void MovePath(int objChaseTime) {
+        int[] dir = {0,4,5};
+        WalkDirection = dir[Random.Range(0,2)];
+
+        isWalking = true;
+        walkCounter = walkTime;
+
+        if (objChaseTime == 0 && QuestController.Instance.CheckExistQuest(1)) {
+            Quest quest = QuestController.Instance.GetQuest(1);
+            quest.state = 1;
+        }
         
     }
     

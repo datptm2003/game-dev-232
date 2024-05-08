@@ -45,6 +45,12 @@ public class Monster : MonoBehaviour
                 case "Bear":
                     movement.MoveToward(player,attackDamage,6);
                     break;
+                case "Cargo":
+                    movement.MovePath(200);
+                    break;
+                case "Wolf":
+                    movement.MoveToward(player,attackDamage,230);
+                    break;
             }
             
         }
