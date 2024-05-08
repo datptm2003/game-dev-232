@@ -2,88 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.VisualScripting;
+using TMPro;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float jumpStrength = 8f; // Jump strength variable
-    [SerializeField] float rotationSpeed = 500f;
-    [SerializeField] float gravityMultiplier = 3f; // Added gravity multiplier
+    // Start is called before the first frame update
+    [SerializeField] private Transform spawnedObjectPrefab;
+    
 
-    [Header("Ground Check Settings")]
-    [SerializeField] float groundCheckRadius = 0.2f;
-    [SerializeField] Vector3 groundCheckOffset;
-    [SerializeField] LayerMask groundLayer;
+    private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData {
+        _int = 56,
+        _bool = true
+    }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    bool isGrounded;
-
-    float ySpeed;
-    Quaternion targetRotation;
-
-    CameraController cameraController;
-    Animator animator;
-    CharacterController characterController;
-
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
-        cameraController = Camera.main.GetComponent<CameraController>();
-        animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
+        base.OnNetworkSpawn();
     }
 
-    void GroundCheck()
-    {
-        isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    public struct MyCustomData : INetworkSerializable {
+        public int _int;
+        public bool _bool;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref _int);
+            serializer.SerializeValue(ref _bool);
+
+        }
     }
 
-    private void onDrawGizmosSeletected()
-    {
-        Gizmos.color = new Color(0, 1, 0, 0.5f);
-        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
-    }git
 
-    private void Update() {
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
         if (!IsOwner) return;
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
 
-        float moveAmount = Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v));
+        if(Input.GetKeyDown(KeyCode.T)) {
+            randomNumber.Value = new MyCustomData {
+                _int = 10,
+                _bool = false,
+            };
 
-        var moveInput = (new Vector3(h, 0, v)).normalized;
-
-        var moveDir = cameraController.PlanarRotation * moveInput;
-
-        GroundCheck();
-
-        if (isGrounded)
-        {
-            ySpeed = -0.5f;
-
-            if (Input.GetButtonDown("Jump")) // Jump input handling
-            {
-                ySpeed = jumpStrength; // Apply jump force
-            }
-        }
-        else
-        {
-            ySpeed += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
         }
 
-        var velocity = moveDir * moveSpeed;
-        velocity.y = ySpeed;
+        Vector3 moveDir = new Vector3(0, 0, 0);
 
-        characterController.Move(velocity * Time.deltaTime);
+        if (Input.GetKey(KeyCode.W)) moveDir.z = +1f;
+        if (Input.GetKey(KeyCode.S)) moveDir.z = -1f;
+        if (Input.GetKey(KeyCode.A)) moveDir.x = -1f;
+        if (Input.GetKey(KeyCode.D)) moveDir.x = +1f;
 
-        if (moveAmount > 0)
-        {
-            targetRotation = Quaternion.LookRotation(moveDir);
-        }
-
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-            rotationSpeed * Time.deltaTime);
-
-        animator.SetFloat("moveAmount", moveAmount, 0.2f, Time.deltaTime);
-
+        float moveSpeed = 3f;
+        transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
-
 }
