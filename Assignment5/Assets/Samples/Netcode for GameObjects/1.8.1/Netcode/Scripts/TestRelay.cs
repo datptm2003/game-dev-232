@@ -9,25 +9,44 @@ using UnityEngine;
 using System.Threading.Tasks;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
+
 
 public class TestRelay : MonoBehaviour
 {
+
     public static TestRelay Instance { get; private set; }
-	    
+    public InputField JoinCodeInput;
+	
+
 	private void Awake() {
         	Instance = this;
     }
 
     private void Update(){
-        if (Input.GetKeyDown(KeyCode.C)) // Press 'C' to create relay
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             CreateRelay();
         }
 
-        if (Input.GetKeyDown(KeyCode.J)) // Press 'J' to join relay (replace with your join code)
+        if (Input.GetKeyDown(KeyCode.Tab)) // Press 'Enter' to join relay (replace with your join code)
         {
-            string joinCode = "YOUR_JOIN_CODE_HERE";
-            JoinRelay(joinCode);
+            if (String.IsNullOrEmpty(JoinCodeInput.GetComponent<Text>().text))
+            {
+                Debug.LogError("Please input a join code.");
+                return;
+            }
+            try
+                {
+                    JoinRelay(JoinCodeInput.GetComponent<Text>().text);
+                }
+            catch (RelayServiceException ex)
+            {
+                Debug.LogError(ex.Message + "\n" + ex.StackTrace);
+            }
+
         }
     }
 
@@ -42,11 +61,12 @@ public class TestRelay : MonoBehaviour
          
     }
 
-    
     private async void CreateRelay() {
         try {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            // InventorySystem.Instance.currentJoinCode.GetComponent<Text>().text = joinCode;
+            CraftingController.Instance.currentJoinCode.GetComponent<Text>().text = "Room Code: " + joinCode;
 
             Debug.Log(joinCode);
 
@@ -61,9 +81,12 @@ public class TestRelay : MonoBehaviour
         }
     }
 
-    private async void JoinRelay(string joinCode) {
-        try {
-            Debug.Log("joining relay with" + joinCode);
+    private async void JoinRelay(string joinCode)
+    {
+        try
+        {
+            Debug.Log("Joining relay with code: " + joinCode);
+
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
@@ -71,10 +94,10 @@ public class TestRelay : MonoBehaviour
 
             NetworkManager.Singleton.StartClient();
         }
-        catch (RelayServiceException e) {
-            Debug.Log(e);
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to join relay: " + e.Message);
         }
-
     }
 }
 

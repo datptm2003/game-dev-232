@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRelayUTP", "SimpleRel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRelay", "SimpleRelay.csproj", "{B21DC1C5-B66E-5585-D8CA-31CDDB1ACFFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Networking.Transport.Samples.RelayPing", "Unity.Networking.Transport.Samples.RelayPing.csproj", "{1B18071F-F8E0-F6E8-A056-589384635042}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{B21DC1C5-B66E-5585-D8CA-31CDDB1ACFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B21DC1C5-B66E-5585-D8CA-31CDDB1ACFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B21DC1C5-B66E-5585-D8CA-31CDDB1ACFFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B18071F-F8E0-F6E8-A056-589384635042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B18071F-F8E0-F6E8-A056-589384635042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B18071F-F8E0-F6E8-A056-589384635042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B18071F-F8E0-F6E8-A056-589384635042}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

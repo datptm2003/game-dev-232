@@ -8,6 +8,7 @@ public class CraftingController : MonoBehaviour
 {
     [Header("CraftingItem")]
     public GameObject CraftItemInfoUI;
+    public GameObject currentJoinCode;
     public Button craftBTN;
     public bool isReadyToCraft = false;
 
@@ -25,6 +26,7 @@ public class CraftingController : MonoBehaviour
     public List<string> inventoryItemList = new List<string>();
 
     public bool isOpen;
+
 
     [Header("Materials")]
     public Sprite Stone;
