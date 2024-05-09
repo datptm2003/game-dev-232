@@ -24,6 +24,11 @@ public class CameraController : MonoBehaviour
     float invertXVal;
     float invertYVal;
 
+    private void Awake()
+    {
+        followTarget = transform.parent.transform;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
