@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8860781487337411134}
   - component: {fileID: 6706746708976101108}
   - component: {fileID: 4360598832022623922}
+  - component: {fileID: 9082051555983302735}
   - component: {fileID: 3775035854765209381}
   - component: {fileID: 1316568535551977755}
   - component: {fileID: 2610931951818924795}
@@ -109,6 +110,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2233173020850639113, guid: d67dcc53b809fa147aa9b43e7f165975, type: 3}
+--- !u!114 &9082051555983302735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049620302106314529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &3775035854765209381
 MonoBehaviour:
   m_ObjectHideFlags: 0

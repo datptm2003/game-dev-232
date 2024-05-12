@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 // using static AI_Movement;
 
 [RequireComponent(typeof(BoxCollider))]
-public class Monster : MonoBehaviour
+public class Monster : NetworkBehaviour
 {
     public string monsterName;
     public bool playerInRange;
@@ -25,9 +26,17 @@ public class Monster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
         // animator = transform.parent.transform.parent.GetComponent<Animator>();
     }
+
+    public override void OnNetworkSpawn() {
+        if (!IsServer) {
+            enabled = false;
+            return;
+        }
+        currentHealth = maxHealth;
+    }
+
 
     public void TakeDamage(int damage, GameObject player)
     {

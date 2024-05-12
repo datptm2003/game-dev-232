@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class InteractableObject : MonoBehaviour
+public class InteractableObject : NetworkBehaviour
 {
     public bool playerInRange;
     public string ItemName;
     public int minCount;
     public int maxCount;
     public int count;
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsServer)
+        {
+            enabled = false;
+            return;
+        }
+    }
 
     public string GetItemName()
     {

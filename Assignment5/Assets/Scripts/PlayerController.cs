@@ -2,10 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
 // public class PlayerController : NetworkBehaviour
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
+    public static event EventHandler OnAnyPlayerSpawned;
+    public static event EventHandler OnAnyPickedSomething;
+
+    public static void ResetStaticData() {
+        OnAnyPlayerSpawned = null;
+    }
+
+
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float jumpStrength = 8f; // Jump strength variable
     [SerializeField] float rotationSpeed = 500f;
@@ -25,6 +34,13 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     CharacterController characterController;
 
+    public override void OnNetworkSpawn() {
+        if (!IsOwner) {
+            enabled = false;
+            return;
+        }
+
+    }
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
@@ -34,7 +50,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // if (!IsOwner) return;
+        Move();
+    }
+
+    private void Move()
+    {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -45,6 +65,16 @@ public class PlayerController : MonoBehaviour
         var moveDir = cameraController.PlanarRotation * moveInput;
 
         GroundCheck();
+        
+        bool isJumpPressed = Input.GetButtonDown("Jump");
+        MoveServerRPC(ySpeed, jumpStrength, moveAmount, moveInput, moveDir, isJumpPressed);
+
+    }
+
+    [ServerRpc]
+    private void MoveServerRPC(float ySpeed, float jumpStrength, float moveAmount, Vector3 moveInput, Vector3 moveDir, bool isJumpPressed)
+    {
+        // if (!IsOwner) return;
 
         if (isGrounded)
         {
@@ -62,6 +92,9 @@ public class PlayerController : MonoBehaviour
 
         var velocity = moveDir * moveSpeed;
         velocity.y = ySpeed;
+
+        animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
 
         characterController.Move(velocity * Time.deltaTime);
 

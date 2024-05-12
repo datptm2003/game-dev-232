@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6840310341804501446}
   - component: {fileID: 946664805129208023}
   - component: {fileID: 9139681365378184655}
+  - component: {fileID: -3949618378568637531}
   - component: {fileID: 3301773141455749731}
   - component: {fileID: 8225347649876638813}
   m_Layer: 0
@@ -126,6 +127,27 @@ MonoBehaviour:
   minCount: 0
   maxCount: 0
   count: 0
+--- !u!114 &-3949618378568637531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038778612604438547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 39118346
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!65 &3301773141455749731
 BoxCollider:
   m_ObjectHideFlags: 0
