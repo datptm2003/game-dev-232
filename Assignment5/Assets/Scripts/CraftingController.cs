@@ -36,14 +36,8 @@ public class CraftingController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        Instance = this;
+        
     }
 
     public GameObject GetCraftingItemInfoUI()

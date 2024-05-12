@@ -12,6 +12,10 @@ public class MarketSystem : MonoBehaviour
     public static MarketSystem Instance { get; set; }
 
     // Start is called before the first frame update
+    public void Awake() {
+        Instance = this;
+    }
+    
     void Start()
     {
         isOpen = true;
