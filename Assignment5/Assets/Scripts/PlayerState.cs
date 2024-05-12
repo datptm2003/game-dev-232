@@ -36,6 +36,7 @@ public class PlayerState : MonoBehaviour
     public int agility;
     public int luckily;
     public int weaponDamage;
+    public string typeWeapon;
     public int damageRegular;
 
 

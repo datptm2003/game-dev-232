@@ -1,25 +1,29 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\",
+  "WorkspaceRootPath": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|c:\\users\\tueph\\game-dev-232\\assignment5\\assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selectionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|f:\\study material\\hk232\\lap trinh game\\assignment5\\game-dev-232\\assignment5\\assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\stone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\stone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\monster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\assets\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -35,23 +39,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "SelectionManager.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SelectionManager.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\SelectionManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SelectionManager.cs",
+              "ViewState": "AQIAAIMAAAAAAAAAAAAuwLYAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T12:39:20.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "RelayManager.cs",
-              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\RelayManager.cs",
-              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\RelayManager.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAYwC0AAAAxAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAzwC0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-12T09:46:39.021Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
               "ViewState": "AQIAAC4AAAAAAAAAAAAswEEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -59,11 +80,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Stone.cs",
-              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Stone.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Stone.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stone.cs",
-              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Stone.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Stone.cs",
               "RelativeToolTip": "Assets\\Scripts\\Stone.cs",
               "ViewState": "AQIAABMAAAAAAAAAAAAgwCwAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -71,11 +92,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Monster.cs",
-              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Monster.cs",
-              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
               "RelativeToolTip": "Assets\\Scripts\\Monster.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -83,11 +104,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "InteractableObject.cs",
-              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\InteractableObject.cs",
+              "DocumentMoniker": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\InteractableObject.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\InteractableObject.cs",
-              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\InteractableObject.cs",
+              "ToolTip": "F:\\STUDY MATERIAL\\HK232\\LAP TRINH GAME\\Assignment5\\game-dev-232\\Assignment5\\Assets\\Scripts\\InteractableObject.cs",
               "RelativeToolTip": "Assets\\Scripts\\InteractableObject.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAQwA8AAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

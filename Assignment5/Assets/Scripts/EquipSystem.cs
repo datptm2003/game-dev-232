@@ -200,7 +200,7 @@ public class EquipSystem : MonoBehaviour
                 EquipItem(selectedItem.gameObject, "WeaponEquipSlot");
         }
 
-        Fighter.Instance.typeWeapon = typeWeapon;
+        PlayerState.Instance.typeWeapon = typeWeapon;
         if (typeWeapon == "Bow")
         {
             selectedItemModel.transform.SetParent(SubToolHolder.transform, false);
