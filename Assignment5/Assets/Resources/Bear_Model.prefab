@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2933358301424938888}
   - component: {fileID: 2093856986980698283}
   - component: {fileID: 8956574823588305271}
+  - component: {fileID: 1372119284763850201}
   - component: {fileID: 8623158892056523293}
   - component: {fileID: 4016151976375705808}
   - component: {fileID: 49876036123438252}
@@ -109,6 +110,27 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8043290368375689054, guid: 47ad9e7f432fd6a44baba710fb880013, type: 3}
+--- !u!114 &1372119284763850201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3774397484767405534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 248772990
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &8623158892056523293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +147,7 @@ MonoBehaviour:
   ItemName: BearMeat
   minCount: 4
   maxCount: 7
+  count: 0
 --- !u!65 &4016151976375705808
 BoxCollider:
   m_ObjectHideFlags: 0
