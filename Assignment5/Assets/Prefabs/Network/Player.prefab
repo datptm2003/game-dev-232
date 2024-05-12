@@ -2163,7 +2163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2126014160
+  GlobalObjectIdHash: 1621034266
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -21896,7 +21896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2024488462
+  GlobalObjectIdHash: 1621034266
   InScenePlacedSourceGlobalObjectIdHash: 665227135
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -40098,7 +40098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2698286141
+  GlobalObjectIdHash: 1621034266
   InScenePlacedSourceGlobalObjectIdHash: 665227135
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -40119,6 +40119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbccae52bfb8badefa34660383e65dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldownTime: 0.8
+  typeWeapon: NoWeapon
   moveSpeed: 5
   jumpStrength: 8
   rotationSpeed: 500
@@ -40128,8 +40130,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  cooldownTime: 0.8
-  typeWeapon: 
 --- !u!95 &5153751200238158687
 Animator:
   serializedVersion: 5
@@ -46365,6 +46365,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7771019812095543826}
     - target: {fileID: 7092464656725282976, guid: aac3798f768d39c16bb00d12155537c4, type: 3}
+      propertyPath: pickupName
+      value: 
+      objectReference: {fileID: 8212389905108539711}
+    - target: {fileID: 7092464656725282976, guid: aac3798f768d39c16bb00d12155537c4, type: 3}
+      propertyPath: pickupAlert
+      value: 
+      objectReference: {fileID: 7248907057625732167}
+    - target: {fileID: 7092464656725282976, guid: aac3798f768d39c16bb00d12155537c4, type: 3}
+      propertyPath: pickupImage
+      value: 
+      objectReference: {fileID: 8032993192828198001}
+    - target: {fileID: 7092464656725282976, guid: aac3798f768d39c16bb00d12155537c4, type: 3}
       propertyPath: inventoryScreenUI
       value: 
       objectReference: {fileID: 2672728550924534791}
@@ -48746,6 +48758,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7703234184125520016, guid: 62f0489814dbb8a3ca52672470886fcf, type: 3}
   m_PrefabInstance: {fileID: 6638310830000137276}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7248907057625732167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4087383998871105659, guid: 62f0489814dbb8a3ca52672470886fcf, type: 3}
+  m_PrefabInstance: {fileID: 6638310830000137276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7738359412929037539 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3982352387932610783, guid: 62f0489814dbb8a3ca52672470886fcf, type: 3}
@@ -48760,6 +48777,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8032993192828198001 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3700525374802671693, guid: 62f0489814dbb8a3ca52672470886fcf, type: 3}
+  m_PrefabInstance: {fileID: 6638310830000137276}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8212389905108539711 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3303462468574444803, guid: 62f0489814dbb8a3ca52672470886fcf, type: 3}
+  m_PrefabInstance: {fileID: 6638310830000137276}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8424102182661856094 stripped

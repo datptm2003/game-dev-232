@@ -20,19 +20,18 @@ public class RelayManager : MonoBehaviour
 
     private async void Start()
     {
-       await UnityServices.InitializeAsync();
+        await UnityServices.InitializeAsync();
 
-       await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    public async void StartRelay ()
+    public async void StartRelay()
     {
         string joinCode = await StartHostWithRelay();
         joinCodeText.text = joinCode;
     }
 
-    public async void JoinRelay ()
+    public async void JoinRelay()
     {
         await StartClientWithRelay(joinCodeInputField.text);
     }
@@ -51,9 +50,9 @@ public class RelayManager : MonoBehaviour
 
     private async Task<bool> StartClientWithRelay(string joinCode)
     {
-        
+
         JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-        
+
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
         return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();
