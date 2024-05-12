@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|c:\\users\\tueph\\game-dev-232\\assignment5\\assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|c:\\users\\tueph\\game-dev-232\\assignment5\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\network\\lobbymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\lobbymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\relaymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6EC92BC9-6A2A-4C10-0F26-977CE9BD1A94}|Assembly-CSharp.csproj|C:\\Users\\tueph\\game-dev-232\\Assignment5\\assets\\scripts\\stone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,36 +34,48 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "LobbyManager.cs",
+              "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\LobbyManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\LobbyManager.cs",
+              "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\LobbyManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Network\\LobbyManager.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAxwA0AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T12:58:43.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "RelayManager.cs",
               "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\RelayManager.cs",
               "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Network\\RelayManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\RelayManager.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAYwC0AAAAxAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAzwC0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T09:46:39.021Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-12T09:46:39.021Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
               "ToolTip": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AQIAAC4AAAAAAAAAAAAswEEAAAAAAAAA",
+              "ViewState": "AQIAAOEAAAAAAAAAAAAswPQAAABZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T02:26:02.02Z"
+              "WhenOpened": "2024-05-12T02:26:02.02Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Stone.cs",
               "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Stone.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stone.cs",
@@ -71,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Monster.cs",
               "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\Monster.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Monster.cs",
@@ -83,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "InteractableObject.cs",
               "DocumentMoniker": "C:\\Users\\tueph\\game-dev-232\\Assignment5\\Assets\\Scripts\\InteractableObject.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\InteractableObject.cs",
